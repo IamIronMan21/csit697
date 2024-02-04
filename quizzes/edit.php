@@ -132,6 +132,12 @@ $questions = $stmt->fetchAll();
     <div class="my-3">
       <h1 class="text-lg font-bold"><?= $course["name"] ?></h1>
       <h1><?= $quiz["name"] ?></h1>
+      <div class="flex">
+        <h1>
+          code:
+        </h1>
+        <button type="button" onclick="copyTextToClipboard(<?= $quiz['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $quiz["code"] ?></button>
+      </div>
     </div>
 
     <div class="border">
