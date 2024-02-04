@@ -9,14 +9,16 @@ $dbh = connect_to_database();
 if (isset($_POST["submit-btn"])) {
   $code = $_POST["quiz-code"];
 
-  $sql = "SELECT * FROM quizzes WHERE code = ? LIMIT 1";
+  $sql = "SELECT id FROM quizzes WHERE code = ? LIMIT 1";
   $stmt = $dbh->prepare($sql);
   $stmt->execute([$code]);
 
   if ($stmt->rowCount() > 0) {
-    echo "found quiz using code";
+    $_SESSION["quiz_id"] = $stmt->fetchColumn();
+    header("Location: ./session/index.php");
+    exit;
   } else {
-    $error_message = "cannot find quiz";
+    $error_message = "Unable to find quiz with given code. Please try again.";
   }
 }
 
