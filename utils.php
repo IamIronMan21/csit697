@@ -70,7 +70,7 @@ function generate_quiz_code()
 {
   $pin = "";
   for ($i = 0; $i < 5; $i++) {
-    $pin .= strval(rand(0, 9));
+    $pin .= strval(rand(1, 9));
   }
   return $pin;
 }
