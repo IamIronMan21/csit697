@@ -193,7 +193,7 @@ $questions = $stmt->fetchAll();
     </table> -->
 
     <?php foreach ($questions as $index => $q) : ?>
-      <div class="border mt-5">
+      <!-- <div class="border mt-5">
         <p>#<?= $index + 1 ?></p>
         <div><?= $q["question"] ?></div>
         <ul>
@@ -204,8 +204,40 @@ $questions = $stmt->fetchAll();
           <?php endforeach; ?>
         </ul>
         <div class="text-green-700">answer: <?= $q["answer"] ?></div>
-      </div>
+      </div> -->
     <?php endforeach ?>
+
+    <?php foreach ($questions as $index => $row) : ?>
+      <div class="border mx-auto w-1/2 rounded-lg my-10 px-4 py-2 border-slate-300">
+        <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+        <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
+        <div class="mt-6 space-y-2">
+          <?php $h = uniqid("", true); ?>
+          <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+            <div class="flex items-center gap-x-3">
+              <input id="<?= htmlspecialchars($choice) ?>" name="<?= $h ?>" type="radio">
+              <label for="<?= htmlspecialchars($choice) ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+            </div>
+          <?php endforeach ?>
+          <div class="text-green-700">answer: <?= $row["answer"] ?></div>
+        </div>
+
+        <!-- <div class="mt-6 space-y-6">
+            <div class="flex items-center gap-x-3">
+              <input id="push-everything" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+              <label for="push-everything" class="block text-sm font-medium leading-6 text-gray-900">Everything</label>
+            </div>
+            <div class="flex items-center gap-x-3">
+              <input id="push-email" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+              <label for="push-email" class="block text-sm font-medium leading-6 text-gray-900">Same as email</label>
+            </div>
+            <div class="flex items-center gap-x-3">
+              <input id="push-nothing" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+              <label for="push-nothing" class="block text-sm font-medium leading-6 text-gray-900">No push notifications</label>
+            </div>
+          </div> -->
+      </div>
+    <?php endforeach; ?>
 
     <script>
       function copyTextToClipboard(textToCopy, element) {
