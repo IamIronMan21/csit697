@@ -52,22 +52,29 @@ $stmt->execute([$quiz_id]);
 $questions = $stmt->fetchAll();
 
 $sql = <<<EOD
-SELECT q.id as id, q.content AS question_content, GROUP_CONCAT(c.content SEPARATOR '|') AS choices
+SELECT q.id AS id,
+       q.content AS question,
+       GROUP_CONCAT(c.content SEPARATOR '|') AS choices,
+       a.content AS answer
 FROM questions q
 JOIN choices c ON q.id = c.question_id
-GROUP BY q.id, q.content;
+LEFT JOIN answers a ON q.id = a.question_id
+WHERE q.quiz_id = $quiz_id
+GROUP BY q.id, q.content, a.content;
+
 EOD;
 $stmt = $dbh->prepare($sql);
-$stmt->execute([]);
+$stmt->execute();
 
-foreach ($stmt->fetchAll() as $row) {
-  echo $row["id"] . " " . $row["question_content"] . $row["choices"] . "<br>";
-  echo $row["choices"];
-  echo "<br>";
-}
+// foreach ($stmt->fetchAll() as $row) {
+//   echo $row["id"] . " " . $row["question"] . $row["choices"] . "<br>";
+//   echo $row["choices"];
+//   echo "<br>";
+// }
 
-$choices = explode("|", $row["choices"]);
-var_dump($choices);
+// $choices = explode("|", $row["choices"]);
+
+$questions = $stmt->fetchAll();
 
 ?>
 
@@ -156,7 +163,7 @@ var_dump($choices);
       </form>
     </div>
 
-    <table class="w-full border">
+    <!-- <table class="w-full border">
       <thead>
         <tr>
           <td>#</td>
@@ -183,7 +190,22 @@ var_dump($choices);
           </tr>
         <?php endforeach ?>
       </tbody>
-    </table>
+    </table> -->
+
+    <?php foreach ($questions as $index => $q) : ?>
+      <div class="border mt-5">
+        <p>#<?= $index + 1 ?></p>
+        <div><?= $q["question"] ?></div>
+        <ul>
+          <?php foreach (explode("|", $q["choices"]) as $c) : ?>
+            <li>
+              - <?= $c; ?>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+        <div class="text-green-700">answer: <?= $q["answer"] ?></div>
+      </div>
+    <?php endforeach ?>
 
     <script>
       function copyTextToClipboard(textToCopy, element) {
