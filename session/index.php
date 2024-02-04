@@ -57,31 +57,16 @@ $questions = $stmt->fetchAll();
     <form method="post">
       <h1 class="my-4">Quiz</h1>
 
-      <!-- <?php foreach ($questions as $index => $q) : ?>
-        <div class="border mt-5">
-          <p>#<?= $index + 1 ?></p>
-          <div><?= $q["question"] ?></div>
-          <ul>
-            <?php foreach (explode("|", $q["choices"]) as $c) : ?>
-              <li>
-                - <?= $c; ?>
-              </li>
-            <?php endforeach; ?>
-          </ul>
-          <div class="text-green-700">answer: <?= $q["answer"] ?></div>
-        </div>
-      <?php endforeach ?> -->
-
       <?php foreach ($questions as $index => $row) : ?>
         <div class="border rounded-lg my-10 px-4 py-2 border-slate-300">
           <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
           <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
           <div class="mt-6 space-y-2">
-            <?php $h = uniqid("", true); ?>
+            <?php $h = uniqid(); ?>
             <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
               <div class="flex items-center gap-x-3">
-                <input id="<?= htmlspecialchars($choice) ?>" name="<?= $h ?>" type="radio">
-                <label for="<?= htmlspecialchars($choice) ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                <input id="<?= $choice ?>" name="<?= $h ?>" type="radio">
+                <label for="<?= $choice ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
               </div>
             <?php endforeach ?>
           </div>
@@ -104,7 +89,7 @@ $questions = $stmt->fetchAll();
       <?php endforeach; ?>
 
 
-      <button name="submit">submit</button>
+      <button name="submit" class="mb-14">submit</button>
     </form>
 
   </div>
