@@ -29,13 +29,7 @@ if (isset($_POST["new-mc-question"])) {
   exit;
 }
 
-//
-$sql = "SELECT * FROM quizzes WHERE id = ? LIMIT 1";
-$stmt = $dbh->prepare($sql);
-$stmt->execute([$quiz_id]);
-
-$quiz = $stmt->fetch();
-
+$quiz = get_quiz($quiz_id);
 $course_id = $quiz["course_id"];
 
 $sql = "SELECT * FROM courses WHERE id = ? LIMIT 1";
@@ -169,50 +163,6 @@ $questions = $stmt->fetchAll();
       </form>
     </div>
 
-    <!-- <table class="w-full border">
-      <thead>
-        <tr>
-          <td>#</td>
-          <td>Question</td>
-          <td>Type</td>
-          <td>Choice #1</td>
-          <td>Choice #2</td>
-          <td>Choice #3</td>
-          <td>Choice #4</td>
-          <td>Answer</td>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($questions as $index => $q) : ?>
-          <tr>
-            <td><?= $index + 1 ?></td>
-            <td><?= $q["content"] ?></td>
-            <td><?= $q["type"] ?></td>
-            <td>.</td>
-            <td>.</td>
-            <td>.</td>
-            <td>.</td>
-            <td>.</td>
-          </tr>
-        <?php endforeach ?>
-      </tbody>
-    </table> -->
-
-    <?php foreach ($questions as $index => $q) : ?>
-      <!-- <div class="border mt-5">
-        <p>#<?= $index + 1 ?></p>
-        <div><?= $q["question"] ?></div>
-        <ul>
-          <?php foreach (explode("|", $q["choices"]) as $c) : ?>
-            <li>
-              - <?= $c; ?>
-            </li>
-          <?php endforeach; ?>
-        </ul>
-        <div class="text-green-700">answer: <?= $q["answer"] ?></div>
-      </div> -->
-    <?php endforeach ?>
-
     <?php foreach ($questions as $index => $row) : ?>
       <div class="border mx-auto w-1/2 rounded-lg my-10 px-4 py-2 border-slate-300">
         <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
@@ -248,7 +198,7 @@ $questions = $stmt->fetchAll();
     <script>
       function copyTextToClipboard(textToCopy, element) {
         // Create a temporary input element
-        let tempInput = document.createElement('input');
+        let tempInput = document.createElement("input");
 
         // Set the value of the temporary input element to the provided text
         tempInput.value = textToCopy;
@@ -261,13 +211,13 @@ $questions = $stmt->fetchAll();
         tempInput.setSelectionRange(0, 99999); // For mobile devices
 
         // Copy the selected text to the clipboard
-        document.execCommand('copy');
+        document.execCommand("copy");
 
         // Remove the temporary input element from the document
         document.body.removeChild(tempInput);
 
         // Display a temporary "Copied!" message in the element
-        element.textContent = 'Copied!';
+        element.textContent = "Copied!";
 
         // Reset the message after a short delay (e.g., 2 seconds)
         setTimeout(function() {
