@@ -16,6 +16,14 @@ function connect_to_database()
   return $dbh;
 }
 
+function prepare_and_execute($sql, $params = [])
+{
+  $dbh = connect_to_database();
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute($params);
+  return $stmt;
+}
+
 function execute_query($sql, $params = [])
 {
   $dbh = connect_to_database();
