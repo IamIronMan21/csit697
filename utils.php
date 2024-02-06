@@ -46,31 +46,10 @@ function get_courses_for_tutor($tutor_id)
   return $stmt->fetchAll();
 }
 
-function get_course($course_id)
-{
-  $sql = "SELECT * FROM courses WHERE id = ? LIMIT 1";
-  $stmt = execute_query($sql, [$course_id]);
-  return $stmt->fetch();
-}
-
-function get_quizzes_for_course($course_id)
-{
-  $sql = "SELECT * FROM quizzes WHERE course_id = ?";
-  $stmt = execute_query($sql, [$course_id]);
-  return $stmt->fetchAll();
-}
-
 function get_quiz($quiz_id)
 {
   $sql = "SELECT * FROM quizzes WHERE id = ? LIMIT 1";
   $stmt = execute_query($sql, [$quiz_id]);
-  return $stmt->fetch();
-}
-
-function create_question($content, $quiz_id)
-{
-  $sql = "INSERT INTO questions (content, quiz_id) VALUES (?, ?)";
-  $stmt = execute_query($sql, [$content, $quiz_id]);
   return $stmt->fetch();
 }
 
