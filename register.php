@@ -4,19 +4,23 @@ require "./utils.php";
 
 session_start();
 
-$dbh = connect_to_database();
+if (isset($_POST["submit-button"])) {
 
-if (isset($_POST["submit"])) {
   $name = $_POST["name"];
   $email = $_POST["email"];
   $password = password_hash($_POST["password"], PASSWORD_ARGON2I);
 
-  $sql = "INSERT INTO tutors (name, email, password) VALUES (?, ?, ?)";
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute([$name, $email, $password]);
+  $sql = "SELECT 1 FROM tutors WHERE email = ?";
+  $stmt = prepare_and_execute($sql, [$email]);
 
-  header("Location: ./login.php");
-  exit;
+  if ($stmt->rowCount() == 0) {
+    $sql = "INSERT INTO tutors (name, email, password) VALUES (?, ?, ?)";
+    $stmt = prepare_and_execute($sql, [$name, $email, $password]);
+    header("Location: ./login.php");
+    exit;
+  } else {
+    $error_message = "Sorry! That email is already taken. Please choose another one.";
+  }
 }
 
 ?>
@@ -46,6 +50,10 @@ if (isset($_POST["submit"])) {
   <div class="w-1/2 mx-auto bg-white min-h-screen px-8">
     <h1 class="my-4">Register</h1>
 
+    <?php if (isset($error_message)) : ?>
+      <p class="text-red-500"><?= $error_message ?></p>
+    <?php endif; ?>
+
     <form method="post" class="mb-4">
       <label for="name">Name</label>
       <input class="border border-slate-400" type="text" name="name" required><br>
@@ -56,7 +64,7 @@ if (isset($_POST["submit"])) {
       <label for="password">Password</label>
       <input class="border border-slate-400" type="password" name="password" required><br>
 
-      <input class="border bg-slate-200" name="submit" type="submit" value="Submit">
+      <input class="border bg-slate-200" name="submit-button" type="submit" value="Submit">
     </form>
 
     <a href="./" class="text-blue-500 underline">Back</a>
