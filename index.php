@@ -4,14 +4,11 @@ require "./utils.php";
 
 session_start();
 
-$dbh = connect_to_database();
-
-if (isset($_POST["submit-btn"])) {
-  $code = $_POST["quiz-code"];
+if (isset($_POST["submit-button"])) {
+  $quiz_code = $_POST["quiz-code"];
 
   $sql = "SELECT id FROM quizzes WHERE code = ? LIMIT 1";
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute([$code]);
+  $stmt = prepare_and_execute($sql, [$quiz_code]);
 
   if ($stmt->rowCount() > 0) {
     $_SESSION["quiz_id"] = $stmt->fetchColumn();
@@ -55,7 +52,7 @@ if (isset($_POST["submit-btn"])) {
 
     <form method="post" class="mb-4">
       <input class="border border-slate-400" type="text" name="quiz-code" placeholder="Quiz code" required>
-      <button class="border bg-slate-200" name="submit-btn" type="submit">Submit</button>
+      <button class="border bg-slate-200" name="submit-button" type="submit">Submit</button>
     </form>
 
     <a class="text-blue-500 underline" href="./login.php">Login</a>
