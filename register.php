@@ -10,7 +10,7 @@ if (isset($_POST["submit-button"])) {
   $email = $_POST["email"];
   $password = password_hash($_POST["password"], PASSWORD_ARGON2I);
 
-  $sql = "SELECT 1 FROM tutors WHERE email = ?";
+  $sql = "SELECT 1 FROM tutors WHERE email = ? LIMIT 1";
   $stmt = prepare_and_execute($sql, [$email]);
 
   if ($stmt->rowCount() == 0) {
