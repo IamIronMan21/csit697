@@ -4,15 +4,12 @@ require "./utils.php";
 
 session_start();
 
-$dbh = connect_to_database();
-
-if (isset($_POST["login"])) {
+if (isset($_POST["submit-button"])) {
   $email = $_POST["email"];
   $password = $_POST["password"];
 
-  $sql = "SELECT * FROM tutors WHERE email = ?";
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute([$email]);
+  $sql = "SELECT id, password FROM tutors WHERE email = ?";
+  $stmt = prepare_and_execute($sql, [$email]);
 
   $tutor = $stmt->fetch();
 
@@ -62,7 +59,7 @@ if (isset($_POST["login"])) {
 
       <input class="border border-slate-400" type="password" name="password" placeholder="Password" required>
 
-      <input class="border bg-slate-200" type="submit" name="login" value="Submit">
+      <input class="border bg-slate-200" type="submit" name="submit-button" value="Submit">
     </form>
 
     <a href="./" class="text-blue-500 underline">Back</a>
