@@ -32,25 +32,11 @@ function execute_query($sql, $params = [])
   return $stmt;
 }
 
-function get_tutor($tutor_id)
-{
-  $sql = "SELECT * FROM tutors WHERE id = ?";
-  $stmt = execute_query($sql, [$tutor_id]);
-  return $stmt->fetch();
-}
-
 function get_courses_for_tutor($tutor_id)
 {
   $sql = "SELECT * FROM courses WHERE tutor_id = ?";
   $stmt = execute_query($sql, [$tutor_id]);
   return $stmt->fetchAll();
-}
-
-function get_quiz($quiz_id)
-{
-  $sql = "SELECT * FROM quizzes WHERE id = ? LIMIT 1";
-  $stmt = execute_query($sql, [$quiz_id]);
-  return $stmt->fetch();
 }
 
 function generate_quiz_code()
