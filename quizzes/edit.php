@@ -29,7 +29,10 @@ if (isset($_POST["new-mc-question"])) {
   exit;
 }
 
-$quiz = get_quiz($quiz_id);
+$sql = "SELECT * FROM quizzes WHERE id = ? LIMIT 1";
+$stmt = prepare_and_execute($sql, [$quiz_id]);
+$quiz = $stmt->fetch($quiz_id);
+
 $course_id = $quiz["course_id"];
 
 $sql = "SELECT * FROM courses WHERE id = ? LIMIT 1";
