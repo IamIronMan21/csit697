@@ -4,7 +4,9 @@ require "../utils.php";
 
 session_start();
 
-$tutor = get_tutor($_SESSION["tutor_id"]);
+$sql = "SELECT * FROM tutors WHERE id = ?";
+$stmt = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
+$tutor = $stmt->fetch();
 
 ?>
 
