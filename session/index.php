@@ -4,11 +4,9 @@ require "../utils.php";
 
 session_start();
 
-$dbh = connect_to_database();
-
 $quiz_id = $_SESSION["quiz_id"];
 
-// echo $_SESSION["quiz_id"] . "<br>";
+$dbh = connect_to_database();
 
 if (isset($_POST["submit"])) {
   echo "submitted";
@@ -28,7 +26,8 @@ EOD;
 $stmt = $dbh->prepare($sql);
 $stmt->execute();
 
-$questions = $stmt->fetchAll();
+$rows = $stmt->fetchAll();
+
 ?>
 
 <!doctype html>
@@ -57,7 +56,7 @@ $questions = $stmt->fetchAll();
     <form method="post">
       <h1 class="my-4">Quiz</h1>
 
-      <?php foreach ($questions as $index => $row) : ?>
+      <?php foreach ($rows as $index => $row) : ?>
         <div class="border rounded-lg my-10 px-4 py-2 border-slate-300">
           <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
           <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
