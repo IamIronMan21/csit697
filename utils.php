@@ -24,18 +24,10 @@ function prepare_and_execute($sql, $params = [])
   return $stmt;
 }
 
-function execute_query($sql, $params = [])
-{
-  $dbh = connect_to_database();
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute($params);
-  return $stmt;
-}
-
 function get_courses_for_tutor($tutor_id)
 {
   $sql = "SELECT * FROM courses WHERE tutor_id = ?";
-  $stmt = execute_query($sql, [$tutor_id]);
+  $stmt = prepare_and_execute($sql, [$tutor_id]);
   return $stmt->fetchAll();
 }
 
