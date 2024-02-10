@@ -125,7 +125,7 @@ $questions = $stmt->fetchAll();
   <div class="mx-auto bg-white border-slate-500 min-h-screen px-12 pt-3">
 
     <div class="flex w-full">
-      <div class="border-r w-[15%] pr-6 mr-12 border-slate-400">
+      <div class="border-r w-[15%] pr-6 mr-10 border-slate-400">
         <a href="./index.php">‹ back</a>
       </div>
       <div class="w-full">
@@ -171,7 +171,7 @@ $questions = $stmt->fetchAll();
         </div>
 
         <?php foreach ($questions as $index => $row) : ?>
-          <div class="border mx-auto w-1/2 rounded-lg my-10 px-4 py-2 border-slate-300">
+          <div class="border mx-auto w-3/5 rounded-lg my-10 px-4 py-2 border-slate-300">
             <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
             <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
             <div class="mt-6 space-y-2">
@@ -201,6 +201,9 @@ $questions = $stmt->fetchAll();
           </div> -->
           </div>
         <?php endforeach; ?>
+      </div>
+      <div class="border-l w-[15%] pl-6 ml-10 border-slate-400">
+
       </div>
     </div>
 
