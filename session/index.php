@@ -10,6 +10,7 @@ $dbh = connect_to_database();
 
 if (isset($_POST["submit"])) {
   echo "submitted";
+  // test
 }
 
 $sql = <<<EOD
