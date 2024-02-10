@@ -124,64 +124,68 @@ $questions = $stmt->fetchAll();
 
   <div class="mx-auto bg-white border-slate-500 min-h-screen px-12 pt-3">
 
-    <a href="./index.php">back</a>
-
-    <div class="my-3">
-      <h1 class="text-lg font-bold"><?= $course["name"] ?></h1>
-      <h1><?= $quiz["name"] ?></h1>
-      <div class="flex">
-        <h1>
-          code:
-        </h1>
-        <button type="button" onclick="copyTextToClipboard(<?= $quiz['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $quiz["code"] ?></button>
+    <div class="flex w-full">
+      <div class="border-r w-[15%] pr-6 mr-12 border-slate-400">
+        <a href="./index.php">‹ back</a>
       </div>
-    </div>
+      <div class="w-full">
 
-    <div class="border">
-      <p>Add multiple choice question</p>
-      <form method="post" class="p-2">
-        <input class="border w-1/2 block" type="text" name="question" placeholder="question" required>
-        <div class="flex">
-          <span>1</span>
-          <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 1" required>
-        </div>
-        <div class="flex">
-          <span>2</span>
-          <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 2" required>
-        </div>
-        <div class="flex">
-          <span>3</span>
-          <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 3" required>
-        </div>
-        <div class="flex">
-          <span>4</span>
-          <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 4" required>
-        </div>
-        <div class="flex">
-          <span>correct answer</span>
-          <input type="number" class="border" name="correct-choice-number" min="1" max="4" placeholder="1-4" required>
+        <div class="my-3">
+          <h1 class="text-lg font-bold"><?= $course["name"] ?></h1>
+          <h1><?= $quiz["name"] ?></h1>
+          <div class="flex">
+            <h1>
+              code:
+            </h1>
+            <button type="button" onclick="copyTextToClipboard(<?= $quiz['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $quiz["code"] ?></button>
+          </div>
         </div>
 
-        <input type="submit" name="new-mc-question" value="Submit">
-      </form>
-    </div>
-
-    <?php foreach ($questions as $index => $row) : ?>
-      <div class="border mx-auto w-1/2 rounded-lg my-10 px-4 py-2 border-slate-300">
-        <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
-        <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
-        <div class="mt-6 space-y-2">
-          <?php $h = uniqid("", true); ?>
-          <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
-            <div class="flex items-center gap-x-3">
-              <input id="<?= htmlspecialchars($choice) ?>" name="<?= $h ?>" type="radio">
-              <label for="<?= htmlspecialchars($choice) ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+        <div class="border">
+          <p>Add multiple choice question</p>
+          <form method="post" class="p-2">
+            <input class="border w-1/2 block" type="text" name="question" placeholder="question" required>
+            <div class="flex">
+              <span>1</span>
+              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 1" required>
             </div>
-          <?php endforeach ?>
-          <div class="text-green-700">answer: <?= $row["answer"] ?></div>
+            <div class="flex">
+              <span>2</span>
+              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 2" required>
+            </div>
+            <div class="flex">
+              <span>3</span>
+              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 3" required>
+            </div>
+            <div class="flex">
+              <span>4</span>
+              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 4" required>
+            </div>
+            <div class="flex">
+              <span>correct answer</span>
+              <input type="number" class="border" name="correct-choice-number" min="1" max="4" placeholder="1-4" required>
+            </div>
+
+            <input type="submit" name="new-mc-question" value="Submit">
+          </form>
         </div>
 
-        <!-- <div class="mt-6 space-y-6">
+        <?php foreach ($questions as $index => $row) : ?>
+          <div class="border mx-auto w-1/2 rounded-lg my-10 px-4 py-2 border-slate-300">
+            <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+            <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
+            <div class="mt-6 space-y-2">
+              <?php $h = uniqid("", true); ?>
+              <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+                <div class="flex items-center gap-x-3">
+                  <input id="<?= htmlspecialchars($choice) ?>" name="<?= $h ?>" type="radio">
+                  <label for="<?= htmlspecialchars($choice) ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                </div>
+              <?php endforeach ?>
+              <div class="text-green-700">answer: <?= $row["answer"] ?></div>
+            </div>
+
+            <!-- <div class="mt-6 space-y-6">
             <div class="flex items-center gap-x-3">
               <input id="push-everything" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
               <label for="push-everything" class="block text-sm font-medium leading-6 text-gray-900">Everything</label>
@@ -195,8 +199,11 @@ $questions = $stmt->fetchAll();
               <label for="push-nothing" class="block text-sm font-medium leading-6 text-gray-900">No push notifications</label>
             </div>
           </div> -->
+          </div>
+        <?php endforeach; ?>
       </div>
-    <?php endforeach; ?>
+    </div>
+
 
     <script>
       function copyTextToClipboard(textToCopy, element) {
