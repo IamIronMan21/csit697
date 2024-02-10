@@ -31,7 +31,7 @@ if (isset($_POST["new-mc-question"])) {
 
 $sql = "SELECT * FROM quizzes WHERE id = ? LIMIT 1";
 $stmt = prepare_and_execute($sql, [$quiz_id]);
-$quiz = $stmt->fetch($quiz_id);
+$quiz = $stmt->fetch();
 
 $course_id = $quiz["course_id"];
 
