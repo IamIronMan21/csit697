@@ -141,34 +141,87 @@ $questions = $stmt->fetchAll();
           </div>
         </div>
 
-        <div class="border">
-          <p>Add multiple choice question</p>
-          <form method="post" class="p-2">
-            <input class="border w-1/2 block" type="text" name="question" placeholder="question" required>
-            <div class="flex">
-              <span>1</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 1" required>
-            </div>
-            <div class="flex">
-              <span>2</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 2" required>
-            </div>
-            <div class="flex">
-              <span>3</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 3" required>
-            </div>
-            <div class="flex">
-              <span>4</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 4" required>
-            </div>
-            <div class="flex">
-              <span>correct answer</span>
-              <input type="number" class="border" name="correct-choice-number" min="1" max="4" placeholder="1-4" required>
-            </div>
+<div class="border">
+    <p>Add multiple choice question</p>
+    <form method="post" class="p-2">
+        <input class="border w-1/2 block" type="text" name="question" placeholder="question" required>
 
-            <input type="submit" name="new-mc-question" value="Submit">
-          </form>
+        <!-- Choices for Multiple Choice Question -->
+        <div class="flex">
+            <span>1</span>
+            <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 1" required>
         </div>
+        <div class="flex">
+            <span>2</span>
+            <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 2" required>
+        </div>
+        <div class="flex">
+            <span>3</span>
+            <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 3" required>
+        </div>
+        <div class="flex">
+            <span>4</span>
+            <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 4" required>
+        </div>
+        <div class="flex">
+            <span>correct answer</span>
+            <input type="number" class="border" name="correct-choice-number" min="1" max="4" placeholder="1-4" required>
+        </div>
+
+        <input type="submit" name="new-mc-question" value="Submit">
+    </form>
+</div>
+
+<!-- Add True/False question -->
+<div class="border">
+    <p>Add True/False question</p>
+    <form method="post" class="p-2">
+        <input class="border w-1/2 block" type="text" name="question" placeholder="True/False question" required>
+
+        <!-- True/False Options -->
+        <div class="flex items-center gap-x-3">
+            <input id="true-option" name="true_false_option" type="radio" value="True" required>
+            <label for="true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
+        </div>
+        <div class="flex items-center gap-x-3">
+            <input id="false-option" name="true_false_option" type="radio" value="False" required>
+            <label for="false-option" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+        </div>
+
+        <input type="submit" name="new-tf-question" value="Submit">
+    </form>
+</div>
+
+<!-- Add Open-Ended question -->
+<div class="border">
+    <p>Add Open-Ended question</p>
+    <form method="post" class="p-2">
+        <input class="border w-1/2 block" type="text" name="question" placeholder="Open-Ended question" required>
+
+        <!-- Open-Ended Textarea with word count limit and counter -->
+        <textarea class="border block w-1/2" name="open_ended_answer" placeholder="Student's answer" required oninput="updateWordCount(this)" maxlength="300"></textarea>
+        <div id="wordCount" class="text-sm text-gray-500">Word count: 0/300</div>
+
+        <input type="submit" name="new-oe-question" value="Submit">
+    </form>
+</div>
+
+<script>
+    function updateWordCount(textarea) {
+        const wordCountDisplay = document.getElementById('wordCount');
+        const wordCount = textarea.value.trim().split(/\s+/).length;
+        wordCountDisplay.textContent = `Word count: ${wordCount}/300`;
+
+        // You can also add logic to prevent submission if the word count exceeds the limit.
+        // For example:
+        // if (wordCount > 300) {
+        //     alert('Word limit exceeded! Please limit your response to 300 words.');
+        //     textarea.value = textarea.value.split(/\s+/).slice(0, 300).join(' ');
+        // }
+    }
+</script>
+
+
 
         <?php foreach ($questions as $index => $row) : ?>
           <div class="border mx-auto w-3/5 rounded-lg my-10 px-4 py-2 border-slate-300">

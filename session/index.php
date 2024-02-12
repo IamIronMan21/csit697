@@ -12,7 +12,12 @@ $showResult = false;
 $resultMessage = '';
 $correctAnswersInfo = [];
 
+$studentName = ''; // Initialize student's name variable
+
 if (isset($_POST["submit"])) {
+    // Get student's name
+    $studentName = isset($_POST['student_name']) ? $_POST['student_name'] : '';
+
     // Get user's answers from the submitted form
     $userAnswers = [];
     foreach ($_POST as $key => $value) {
@@ -111,6 +116,12 @@ $rows = $stmt->fetchAll();
     <form method="post">
         <h1 class="my-4">Quiz</h1>
 
+        <!-- Student's Name input -->
+        <div class="mb-4">
+            <label for="student_name" class="block text-sm font-medium text-gray-900">Student's Name</label>
+            <input type="text" id="student_name" name="student_name" class="mt-1 p-2 border rounded-md w-full" value="<?= htmlspecialchars($studentName) ?>">
+        </div>
+
         <?php foreach ($rows as $index => $row) : ?>
             <div class="border rounded-lg my-10 px-4 py-2 border-slate-300">
                 <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
@@ -135,7 +146,7 @@ $rows = $stmt->fetchAll();
                 <?= $resultMessage ?>
                 <?php foreach ($correctAnswersInfo as $info) : ?>
                     <div style="margin-top: 10px;">
-                        Question #<?= $info['questionId'] ?>: Correct Answer - <?= $info['correctChoice'] ?>
+                        Question #<?= $info['questionId']-1 ?>: Correct Answer - <?= $info['correctChoice'] ?>
                     </div>
                 <?php endforeach; ?>
             </div>
