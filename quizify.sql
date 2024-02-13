@@ -39,6 +39,22 @@ CREATE TABLE `quizzes` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE `responses` (
+  `id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `score` int(11) NOT NULL,
+  `submission_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `submissions` (
+  `id` int(11) NOT NULL,
+  `submitter` varchar(255) NOT NULL,
+  `quiz_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 CREATE TABLE `tutors` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -47,6 +63,7 @@ CREATE TABLE `tutors` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
 ALTER TABLE `answers`
   ADD PRIMARY KEY (`id`);
 
@@ -62,8 +79,15 @@ ALTER TABLE `questions`
 ALTER TABLE `quizzes`
   ADD PRIMARY KEY (`id`);
 
+ALTER TABLE `responses`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `submissions`
+  ADD PRIMARY KEY (`id`);
+
 ALTER TABLE `tutors`
   ADD PRIMARY KEY (`id`);
+
 
 ALTER TABLE `answers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -80,7 +104,12 @@ ALTER TABLE `questions`
 ALTER TABLE `quizzes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `tutors`
+ALTER TABLE `responses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+ALTER TABLE `submissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `tutors`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
