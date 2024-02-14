@@ -68,16 +68,9 @@ $courses = get_courses_for_tutor($_SESSION["tutor_id"]);
 
   <div class="mx-auto bg-white border-slate-500 min-h-screen px-12 pt-3">
 
-    <form method="post">
-      <input class="border" type="text" name="course-name" placeholder="New course name">
-      <input type="submit" name="new-course-button" value="Add">
-    </form>
-
-    <hr class="mt-4">
-
     <div class="flex py-4 items-center">
       <h1 class="grow text-2xl">Courses</h1>
-      <button class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+ New course</button>
+      <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+ New course</button>
     </div>
 
     <table class="w-full border">
@@ -105,6 +98,30 @@ $courses = get_courses_for_tutor($_SESSION["tutor_id"]);
       </tbody>
     </table>
 
+    <dialog class="w-1/2 h-1/2 rounded-md backdrop:backdrop-brightness-75" id="dialog">
+      <form class="w-1/2 h-1/2 mx-auto mt-10" method="post">
+        <input class="border" type="text" name="course-name" placeholder="New course name">
+        <input type="submit" name="new-course-button" value="Add">
+        <div>
+          <button type="button" id="js-close">Close</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script>
+      const showBtn = document.getElementById("show-dialog");
+      const dialog = document.getElementById("dialog");
+      const jsCloseBtn = dialog.querySelector("#js-close");
+
+      showBtn.addEventListener("click", () => {
+        dialog.showModal();
+      });
+
+      jsCloseBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        dialog.close();
+      });
+    </script>
 </body>
 
 </html>
