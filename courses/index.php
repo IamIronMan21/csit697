@@ -99,6 +99,7 @@ $courses = get_courses_for_tutor($_SESSION["tutor_id"]);
     </table>
 
     <dialog class="w-1/2 h-1/2 rounded-md backdrop:backdrop-brightness-75" id="dialog">
+      <h1>Add a new course</h1>
       <form class="w-1/2 h-1/2 mx-auto mt-10" method="post">
         <input class="border" type="text" name="course-name" placeholder="New course name">
         <input type="submit" name="new-course-button" value="Add">
