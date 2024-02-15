@@ -31,7 +31,9 @@ $stmt = $dbh->prepare($sql);
 $stmt->execute();
 $rows = $stmt->fetchAll();
 
-$courses = get_courses_for_tutor($_SESSION["tutor_id"]);
+$sql = "SELECT * FROM courses WHERE tutor_id = ?";
+$stmt = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
+$courses = $stmt->fetchAll();
 
 ?>
 
