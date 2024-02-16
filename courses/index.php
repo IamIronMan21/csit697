@@ -102,8 +102,8 @@ $courses = $stmt->fetchAll();
       </table>
     </div>
 
-    <dialog class="w-1/2 rounded-xl backdrop:backdrop-brightness-[65%]" id="dialog">
-      <form method="post" class="w-4/5 mx-auto py-8">
+    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="dialog">
+      <form method="post" class="px-8 mx-auto pt-6 pb-8">
         <div class="space-y-10">
           <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base font-semibold leading-7 text-gray-900">New Course</h2>
@@ -113,7 +113,7 @@ $courses = $stmt->fetchAll();
               <div class="sm:col-span-4">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                 <div class="mt-2">
-                  <input name="course-name" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="">
+                  <input name="course-name" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                 </div>
               </div>
             </div>
