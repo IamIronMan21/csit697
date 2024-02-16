@@ -84,27 +84,18 @@ $courses = $stmt->fetchAll();
     </div>
   </nav>
 
-  <div class="mx-auto bg-white border-slate-500 min-h-screen px-12 pt-3">
+  <div class="mx-auto bg-white min-h-screen px-12 pt-4">
 
-    <form method="post">
 
-      <input list="courses" class="border" type="text" name="course-name" placeholder="Course name">
-      <datalist id="courses">
-        <?php foreach ($courses as $course) : ?>
-          <option value="<?= strval($course[1]) ?>"></option>
-        <?php endforeach; ?>
-      </datalist>
 
-      <input class="border" type="text" name="quiz-name" placeholder="New quiz name">
-
-      <input type="submit" name="new-quiz" value="Add">
-    </form>
-
-    <hr class="mt-4">
-
-    <div class="flex py-4 items-center">
+    <!-- <div class="flex py-4 items-center">
       <h1 class="grow text-2xl">Quizzes</h1>
       <button class="py-1 px-4 border bg-slate-100 rounded border-slate-300 hover:bg-slate-200">+ New quiz</button>
+    </div> -->
+
+    <div class="flex mb-4 items-center">
+      <h1 class="grow text-xl font-medium">Quizzes</h1>
+      <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+ New quiz</button>
     </div>
 
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
@@ -143,6 +134,41 @@ $courses = $stmt->fetchAll();
         </tbody>
       </table>
     </div>
+
+    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="dialog">
+      <form method="post" class="px-8 mx-auto pt-6 pb-8">
+
+        <input list="courses" class="border" type="text" name="course-name" placeholder="Course name">
+        <datalist id="courses">
+          <?php foreach ($courses as $course) : ?>
+            <option value="<?= strval($course[1]) ?>"></option>
+          <?php endforeach; ?>
+        </datalist>
+
+        <input class="border" type="text" name="quiz-name" placeholder="New quiz name">
+
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+          <button type="button" class="text-sm font-semibold leading-6 text-gray-900" id="js-close">Cancel</button>
+          <button type="submit" name="new-quiz" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add</button>
+        </div>
+
+      </form>
+    </dialog>
+
+    <script>
+      const showBtn = document.getElementById("show-dialog");
+      const dialog = document.getElementById("dialog");
+      const jsCloseBtn = dialog.querySelector("#js-close");
+
+      showBtn.addEventListener("click", () => {
+        dialog.showModal();
+      });
+
+      jsCloseBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        dialog.close();
+      });
+    </script>
 
     <script>
       function copyTextToClipboard(textToCopy, element) {
