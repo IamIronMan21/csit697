@@ -107,36 +107,42 @@ $courses = $stmt->fetchAll();
       <button class="py-1 px-4 border bg-slate-100 rounded border-slate-300 hover:bg-slate-200">+ New quiz</button>
     </div>
 
-    <table class="w-full border mb-12">
-      <thead>
-        <th>#</th>
-        <th>Quiz</th>
-        <th>Course</th>
-        <th>Code</th>
-        <th>Date Created</th>
-        <th></th>
-      </thead>
-      <tbody>
-        <?php foreach ($rows as $index => $row) : ?>
-          <tr class="text-center h-[45px] border-t">
-            <td><?= $index + 1 ?> </td>
-            <td><?= $row["quiz_name"] ?></td>
-            <td><?= $row["course_name"] ?></td>
-            <td class="w-[10vw]">
-              <span>
-                <button type="button" onclick="copyTextToClipboard(<?= $row['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $row["code"] ?></button>
-              </span>
-            </td>
-            <td><?= $row["created_at"] ?></td>
-            <td class="text-blue-500 underline">
-              <a href="./edit.php?quiz_id=<?= $row["id"] ?>">
-                Edit
-              </a>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+    <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
+      <table class="w-full">
+        <thead class="border-b border-slate-500 h-[35px] text-[15px]">
+          <th class="font-semibold">#</th>
+          <th class="font-semibold text-left">Quiz</th>
+          <th class="font-semibold text-left">Course</th>
+          <th class="font-semibold text-left">Code</th>
+          <th class="font-semibold text-left">Date Created</th>
+          <th class="font-semibold"></th>
+          <th class="font-semibold"></th>
+        </thead>
+        <tbody class="divide-y divide-slate-300">
+          <?php foreach ($rows as $index => $row) : ?>
+            <tr class="h-[40px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
+              <td><?= $index + 1 ?> </td>
+              <td><?= $row["quiz_name"] ?></td>
+              <td><?= $row["course_name"] ?></td>
+              <td class="w-[8vw]">
+                <span>
+                  <button type="button" onclick="copyTextToClipboard(<?= $row['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $row["code"] ?></button>
+                </span>
+              </td>
+              <td><?= $row["created_at"] ?></td>
+              <td class="text-blue-500 underline">
+                <a href="./edit.php?quiz_id=<?= $row["id"] ?>">
+                  Edit
+                </a>
+              </td>
+              <td>
+                Delete
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
 
     <script>
       function copyTextToClipboard(textToCopy, element) {
