@@ -75,7 +75,7 @@ $courses = $stmt->fetchAll();
       <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+ New course</button>
     </div>
 
-    <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10">
+    <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
           <th class="font-semibold pl-1">#</th>
