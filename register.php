@@ -53,7 +53,7 @@ if (isset($_POST["submit-button"])) {
 
   <div class="w-[447.5px] mx-auto bg-white min pt-5 pb-10 px-8 border border-slate-300 rounded-lg">
     <h1 class="font-['Literata'] text-2xl my-4 text-center">Quizify</h1>
-    <p class="text-center text-xl font-semibold">Register</p>
+    <p class="text-center text-xl font-semibold">Sign up</p>
 
     <?php if (isset($error_message)) : ?>
       <p class="text-red-500"><?= $error_message ?></p>
@@ -84,13 +84,14 @@ if (isset($_POST["submit-button"])) {
 
 
 
-      <div class="my-10 flex">
-
-        <a href="./" class="text-blue-500 underline">Back</a>
-        <input class="border bg-slate-200" type="submit" name="submit-button" value="Submit">
+      <div class="my-8 flex items-center">
+        <input type="submit" name="submit-button" value="Submit" class="rounded-md w-full bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
       </div>
-      <div class="my-10">
-        Already have an account? <a href="./login.php" class="text-indigo-600 underline">Sign in</a>
+      <div class="text-center">
+        <div class="my-5">
+          Already have an account? <a href="./login.php" class="text-indigo-600 underline">Sign in</a>
+        </div>
+        <a href="./index.php" class="text-blue-500 underline">Back</a>
       </div>
     </form>
   </div>
