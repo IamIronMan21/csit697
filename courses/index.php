@@ -93,10 +93,10 @@ $courses = $stmt->fetchAll();
                 <?= (new DateTime($course["created_at"]))->format('m/d/Y') ?>
               </td>
               <td>
-                <a href="./edit.php?course_id=<?= $course["id"] ?>" class="text-indigo-600 hover:underline">Edit</a>
+                <a href="./edit.php?course_id=<?= $course["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
               </td>
               <td>
-                <a href="#" class="text-indigo-600 hover:underline">Delete</a>
+                <a href="#" class="text-indigo-600 underline hover:text-indigo-500">Delete</a>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -109,7 +109,7 @@ $courses = $stmt->fetchAll();
         <div class="space-y-10">
           <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base font-semibold leading-7 text-gray-900">New Course</h2>
-            <p class="mt-1 text-sm leading-6 text-gray-600">Add a new course here.</p>
+            <p class="mt-1 text-sm leading-6 text-gray-600">Create a new course here.</p>
 
             <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div class="sm:col-span-4">
