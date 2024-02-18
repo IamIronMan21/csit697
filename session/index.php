@@ -104,54 +104,54 @@ $rows = $stmt->fetchAll();
 
 <body class="min-h-screen">
 
-<header class="px-8 py-5 bg-gray-800">
-    <div class="flex items-center">
-        <div class="grow">
-            &nbsp;
-        </div>
-    </div>
-</header>
-
-<div class="w-1/2 mx-auto bg-white min-h-screen px-8">
-    <form method="post">
-        <h1 class="my-4">Quiz</h1>
-
-        <!-- Student's Name input -->
-        <div class="mb-4">
-            <label for="student_name" class="block text-sm font-medium text-gray-900">Student's Name</label>
-            <input type="text" id="student_name" name="student_name" class="mt-1 p-2 border rounded-md w-full" value="<?= htmlspecialchars($studentName) ?>">
-        </div>
-
-        <?php foreach ($rows as $index => $row) : ?>
-            <div class="border rounded-lg my-10 px-4 py-2 border-slate-300">
-                <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
-                <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
-                <div class="mt-6 space-y-2">
-                    <?php $h = 'question_' . $row['id']; ?>
-                    <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
-                        <div class="flex items-center gap-x-3">
-                            <input id="<?= $h . '_' . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>">
-                            <label for="<?= $h . '_' . $index ?>"
-                                   class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
-                        </div>
-                    <?php endforeach ?>
-                </div>
+    <header class="px-8 py-5 bg-gray-800">
+        <div class="flex items-center">
+            <div class="grow">
+                &nbsp;
             </div>
-        <?php endforeach; ?>
+        </div>
+    </header>
 
-        <button name="submit" class="mb-14">Submit</button>
+    <div class="w-1/2 mx-auto bg-white min-h-screen px-8">
+        <form method="post">
+            <h1 class="my-4">Quiz</h1>
 
-        <?php if ($showResult) : ?>
-            <div style="margin-top: 20px;">
-                <?= $resultMessage ?>
-                <?php foreach ($correctAnswersInfo as $info) : ?>
-                    <div style="margin-top: 10px;">
+            <!-- Student's Name input -->
+            <div class="mb-4">
+                <label for="student_name" class="block text-sm font-medium text-gray-900">Student's Name</label>
+                <input type="text" id="student_name" name="student_name" class="mt-1 p-2 border rounded-md w-full" value="<?= htmlspecialchars($studentName) ?>">
+            </div>
+
+            <?php foreach ($rows as $index => $row) : ?>
+                <div class="border rounded-lg my-10 px-4 py-2 border-slate-300">
+                    <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+                    <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
+                    <div class="mt-6 space-y-2">
+                        <?php $h = 'question_' . $row['id']; ?>
+                        <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+                            <div class="flex items-center gap-x-3">
+                                <input id="<?= $h . '_' . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>">
+                                <label for="<?= $h . '_' . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                            </div>
+                        <?php endforeach ?>
                     </div>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-    </form>
-</div>
-                            Question #<?= $info['questionId'] ?>: Correct Answer - <?= $info['correctChoice'] ?>
+                </div>
+            <?php endforeach; ?>
+
+            <button name="submit" class="mb-14">Submit</button>
+
+            <?php if ($showResult) : ?>
+                <div style="margin-top: 20px;">
+                    <?= $resultMessage ?>
+                    <?php foreach ($correctAnswersInfo as $info) : ?>
+                        <div style="margin-top: 10px;">
+                            Question #<?= $info['questionId'] - 1 ?>: Correct Answer - <?= $info['correctChoice'] ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </form>
+    </div>
 </body>
+
 </html>
