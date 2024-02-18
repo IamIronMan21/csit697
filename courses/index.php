@@ -78,7 +78,7 @@ $courses = $stmt->fetchAll();
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
-          <th class="font-semibold pl-1">#</th>
+          <th class="font-semibold w-[3vw] pl-1">#</th>
           <th class="font-semibold text-left pl-12">Name</th>
           <th class="font-semibold text-left">Date Created</th>
           <th class="font-semibold"></th>
@@ -86,10 +86,12 @@ $courses = $stmt->fetchAll();
         </thead>
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($courses as $index => $course) : ?>
-            <tr class="h-[40px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
+            <tr class="h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
               <td class="text-center font-medium pl-1"><?= $index + 1 ?> </td>
               <td class="pl-12"><?= $course["name"] ?></td>
-              <td class="text-gray-500"><?= $course["created_at"] ?></td>
+              <td class="text-gray-500">
+                <?= (new DateTime($course["created_at"]))->format('m/d/Y') ?>
+              </td>
               <td>
                 <a href="./edit.php?course_id=<?= $course["id"] ?>" class="text-indigo-600 hover:underline">Edit</a>
               </td>
