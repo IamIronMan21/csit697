@@ -101,9 +101,9 @@ $courses = $stmt->fetchAll();
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
-          <th class="font-semibold">#</th>
-          <th class="font-semibold text-left">Quiz</th>
-          <th class="font-semibold text-left">Course</th>
+          <th class="font-semibold w-[3vw] pl-1">#</th>
+          <th class="font-semibold text-left w-[25vw] pl-4">Quiz</th>
+          <th class="font-semibold text-left w-[30vw]">Course</th>
           <th class="font-semibold text-left">Code</th>
           <th class="font-semibold text-left">Date Created</th>
           <th class="font-semibold"></th>
@@ -111,16 +111,18 @@ $courses = $stmt->fetchAll();
         </thead>
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($rows as $index => $row) : ?>
-            <tr class="h-[40px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
-              <td><?= $index + 1 ?> </td>
-              <td><?= $row["quiz_name"] ?></td>
+            <tr class="h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
+              <td class="text-center font-medium pl-1"><?= $index + 1 ?> </td>
+              <td class="pl-4"><?= $row["quiz_name"] ?></td>
               <td><?= $row["course_name"] ?></td>
               <td class="w-[8vw]">
                 <span>
                   <button type="button" onclick="copyTextToClipboard(<?= $row['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $row["code"] ?></button>
                 </span>
               </td>
-              <td><?= $row["created_at"] ?></td>
+              <td>
+                <?= (new DateTime($row["created_at"]))->format('m/d/Y') ?>
+              </td>
               <td class="text-blue-500 underline">
                 <a href="./edit.php?quiz_id=<?= $row["id"] ?>">
                   Edit
@@ -137,21 +139,40 @@ $courses = $stmt->fetchAll();
 
     <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="dialog">
       <form method="post" class="px-8 mx-auto pt-6 pb-8">
+        <div class="space-y-10">
+          <div class="border-b border-gray-900/10 pb-12">
+            <h2 class="text-base font-semibold leading-7 text-gray-900">New Quiz</h2>
+            <p class="mt-1 text-sm leading-6 text-gray-600">Create a new quiz here.</p>
 
-        <input list="courses" class="border" type="text" name="course-name" placeholder="Course name">
-        <datalist id="courses">
-          <?php foreach ($courses as $course) : ?>
-            <option value="<?= strval($course[1]) ?>"></option>
-          <?php endforeach; ?>
-        </datalist>
+            <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div class="sm:col-span-4">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Course</label>
+                <div class="mt-2">
+                  <input list="courses" type="text" name="course-name" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
 
-        <input class="border" type="text" name="quiz-name" placeholder="New quiz name">
+                  <datalist id="courses">
+                    <?php foreach ($courses as $course) : ?>
+                      <option value="<?= strval($course[1]) ?>"></option>
+                    <?php endforeach; ?>
+                  </datalist>
+                </div>
+              </div>
+            </div>
 
-        <div class="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" class="text-sm font-semibold leading-6 text-gray-900" id="js-close">Cancel</button>
-          <button type="submit" name="new-quiz" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add</button>
-        </div>
+            <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div class="sm:col-span-4">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Quiz Name</label>
+                <div class="mt-2">
+                  <input name="quiz-name" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div class="mt-6 flex items-center justify-end gap-x-6">
+            <button type="button" class="text-sm font-semibold leading-6 text-gray-900" id="js-close">Cancel</button>
+            <button type="submit" name="new-quiz" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add</button>
+          </div>
       </form>
     </dialog>
 
