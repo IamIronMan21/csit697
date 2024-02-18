@@ -60,14 +60,27 @@ if (isset($_POST["submit-button"])) {
     <?php endif; ?>
 
     <form method="post" class="mb-4">
-      <label for="name">Name</label>
-      <input class="border border-slate-400" type="text" name="name" required><br>
+      <div>
+        <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+        <div class="mt-2">
+          <input id="name" name="name" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        </div>
+      </div>
 
-      <label for="email">Email</label>
-      <input class="border border-slate-400" type="text" name="email" required><br>
 
-      <label for="password">Password</label>
-      <input class="border border-slate-400" type="password" name="password" required><br>
+      <div>
+        <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+        <div class="mt-2">
+          <input id="email" name="email" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        </div>
+      </div>
+
+      <div>
+        <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+        <div class="mt-2">
+          <input id="password" name="password" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        </div>
+      </div>
 
 
 
