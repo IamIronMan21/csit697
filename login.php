@@ -80,14 +80,12 @@ if (isset($_POST["submit-button"])) {
 
       <!-- <input class="border border-slate-400" type="password" name="password" placeholder="Password" required> -->
 
-      <div class="my-10">
-        Need an account? <a href="./register.php" class="text-indigo-600 underline">Register here</a>
-      </div>
-
-      <div class="my-10">
-
+      <div class="my-10 flex">
         <a href="./" class="text-blue-500 underline">Back</a>
         <input class="border bg-slate-200" type="submit" name="submit-button" value="Submit">
+      </div>
+      <div class="my-10">
+        Don't have an account? <a href="./register.php" class="text-indigo-600 underline">Sign up</a>
       </div>
     </form>
 
