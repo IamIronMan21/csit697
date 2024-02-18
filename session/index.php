@@ -146,12 +146,12 @@ $rows = $stmt->fetchAll();
                 <?= $resultMessage ?>
                 <?php foreach ($correctAnswersInfo as $info) : ?>
                     <div style="margin-top: 10px;">
-                        Question #<?= $info['questionId']-1 ?>: Correct Answer - <?= $info['correctChoice'] ?>
                     </div>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
     </form>
 </div>
+                            Question #<?= $info['questionId'] ?>: Correct Answer - <?= $info['correctChoice'] ?>
 </body>
 </html>
