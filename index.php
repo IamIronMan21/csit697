@@ -37,28 +37,17 @@ if (isset($_POST["submit-button"])) {
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen bg-gray-00">
-
-  <header class="px-8 py-2.5 bg-gray-00">
-    <div class="flex items-center">
-      <div class="grow">
-        &nbsp;
-      </div>
-    </div>
-  </header>
-
-  <div class="w-[447.5px] mx-auto bg-white min pt-5 pb-10 px-8 border border-slate-300 rounded-lg text-center">
-    <h1 class="font-['Literata'] text-2xl my-4 text-center">Quizify</h1>
+<body>
+  <div class="w-[447.5px] mx-auto bg-white pt-5 pb-10 px-8 border border-slate-300 rounded-lg text-center mt-11">
+    <h1 class="font-['Literata'] text-2xl my-4 text-center mb-5">Quizify</h1>
 
     <?php if (isset($error_message)) : ?>
       <p class="text-red-500"><?= $error_message ?></p>
     <?php endif; ?>
 
     <form method="post" class="mb-4">
-      <input type="text" name="quiz-code" placeholder="Quiz code" required class="mb-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-      <div>
-        <button name="submit-button" type="submit" class="rounded-md w-full bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Enter</button>
-      </div>
+      <input type="text" name="quiz-code" placeholder="Quiz code" required class="mb-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+      <button name="submit-button" type="submit" class="rounded-md w-full bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Enter</button>
     </form>
 
     <a class="text-blue-500 underline" href="./login.php">Sign in as tutor</a>
