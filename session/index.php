@@ -66,6 +66,9 @@ if (isset($_POST["submit"])) {
     }
   }
 
+  $sql = "INSERT INTO submissions (submitter, quiz_id) VALUES (?, ?)";
+  prepare_and_execute($sql, [$_POST["submitter"], $quiz_id]);
+
   $showResult = true;
 }
 
