@@ -102,34 +102,34 @@ $courses = $stmt->fetchAll();
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
           <th class="font-semibold w-[3vw] pl-1">#</th>
-          <th class="font-semibold text-left w-[25vw] pl-4">Quiz</th>
-          <th class="font-semibold text-left w-[30vw]">Course</th>
-          <th class="font-semibold text-left">Code</th>
-          <th class="font-semibold text-left">Date Created</th>
-          <th class="font-semibold"></th>
-          <th class="font-semibold"></th>
+          <th class="font-semibold text-left w-[27vw] pl-12">Quiz</th>
+          <th class="font-semibold text-left w-[25vw]">Course</th>
+          <th class="font-semibold text-center w-[8vw]">Code</th>
+          <th class="font-semibold text-left w-[12vw] pl-5">Date Created</th>
+          <th class="font-semibold w-[6vw]"></th>
+          <th class="font-semibold]"></th>
         </thead>
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($rows as $index => $row) : ?>
             <tr class="h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
               <td class="text-center font-medium pl-1"><?= $index + 1 ?> </td>
-              <td class="pl-4"><?= $row["quiz_name"] ?></td>
+              <td class="pl-12"><?= $row["quiz_name"] ?></td>
               <td><?= $row["course_name"] ?></td>
-              <td class="w-[8vw]">
+              <td class="text-center">
                 <span>
                   <button type="button" onclick="copyTextToClipboard(<?= $row['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $row["code"] ?></button>
                 </span>
               </td>
-              <td>
+              <td class="text-gray-500 pl-5">
                 <?= (new DateTime($row["created_at"]))->format('m/d/Y') ?>
               </td>
               <td class="text-blue-500 underline">
-                <a href="./edit.php?quiz_id=<?= $row["id"] ?>">
+                <a href="./edit.php?quiz_id=<?= $row["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">
                   Edit
                 </a>
               </td>
               <td>
-                Delete
+                <a href="#" class="text-indigo-600 underline hover:text-indigo-500">Delete</a>
               </td>
             </tr>
           <?php endforeach; ?>
