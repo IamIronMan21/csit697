@@ -130,7 +130,7 @@ $rows = $stmt->fetchAll();
             <?php $h = 'question_' . $row['id']; ?>
             <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
               <div class="flex items-center gap-x-3">
-                <input id="<?= $h . '_' . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>">
+                <input id="<?= $h . '_' . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required>
                 <label for="<?= $h . '_' . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
               </div>
             <?php endforeach ?>
