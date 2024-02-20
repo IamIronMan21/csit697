@@ -6,6 +6,18 @@ session_start();
 
 $dbh = connect_to_database();
 
+$sql = <<<EOD
+SELECT C.name as course_name, Q.name as quiz_name, S.submitter, S.created_at
+FROM tutors T, courses C, quizzes Q, submissions S
+WHERE (
+  C.tutor_id = {$_SESSION["tutor_id"]} AND
+  C.id = Q.course_id AND
+  Q.id = S.quiz_id
+)
+EOD;
+$stmt  = prepare_and_execute($sql, []);
+$submissions = $stmt->fetchAll();
+
 ?>
 
 <!doctype html>
@@ -55,14 +67,46 @@ $dbh = connect_to_database();
     </div>
   </nav>
 
-
   <div class="mx-auto bg-white min-h-screen px-12 pt-4">
     <div class="flex mb-4 items-center">
       <h1 class="grow text-xl font-medium">Submissions</h1>
       <div class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm invisible">+</div>
     </div>
 
+    <!-- <?= var_dump($submissions) ?> -->
 
+    <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
+      <table class="w-full">
+        <thead class="border-b border-slate-500 h-[35px] text-[15px]">
+          <th class="font-semibold w-[3vw] pl-1">#</th>
+          <th class="font-semibold text-left w-[27vw] pl-12">Submitter</th>
+          <th class="font-semibold text-left">Quiz</th>
+          <th class="font-semibold text-left">Course</th>
+          <th class="font-semibold text-left w-[13vw]">Date Submitted</th>
+          <th class="font-semibold"></th>
+          <th class="font-semibold"></th>
+        </thead>
+        <tbody class="divide-y divide-slate-300">
+          <?php foreach ($submissions as $index => $submission) : ?>
+            <tr class="h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
+              <td class="text-center font-medium pl-1"><?= $index + 1 ?> </td>
+              <td class="pl-12"><?= $submission["submitter"] ?></td>
+              <td class=""><?= $submission["course_name"] ?></td>
+              <td class=""><?= $submission["quiz_name"] ?></td>
+              <td class="text-gray-500">
+                <?= (new DateTime($submission["created_at"]))->format('m/d/Y') ?>
+              </td>
+              <td>
+                <a href="#" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
+              </td>
+              <td>
+                <a href="#" class="text-indigo-600 underline hover:text-indigo-500">Delete</a>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
 
   </div>
 
