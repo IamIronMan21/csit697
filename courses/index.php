@@ -79,10 +79,10 @@ $courses = $stmt->fetchAll();
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
           <th class="font-semibold w-[3vw] pl-1">#</th>
-          <th class="font-semibold text-left pl-12">Name</th>
-          <th class="font-semibold text-left">Date Created</th>
-          <th class="font-semibold"></th>
-          <th class="font-semibold"></th>
+          <th class="font-semibold text-left pl-12 w-[50vw]">Name</th>
+          <th class="font-semibold text-left w-[17.5vw]">Date Created</th>
+          <th class="font-semibold w-[10vw]"></th>
+          <th class="font-semibold w-[]"></th>
         </thead>
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($courses as $index => $course) : ?>
