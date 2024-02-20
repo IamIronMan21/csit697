@@ -103,9 +103,9 @@ $courses = $stmt->fetchAll();
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
           <th class="font-semibold w-[3vw] pl-1">#</th>
           <th class="font-semibold text-left w-[27vw] pl-12">Quiz</th>
-          <th class="font-semibold text-left w-[25vw]">Course</th>
-          <th class="font-semibold text-center w-[8vw]">Code</th>
-          <th class="font-semibold text-left w-[12vw] pl-5">Date Created</th>
+          <th class="font-semibold text-left w-[21vw]">Course</th>
+          <th class="font-semibold text-center w-[11vw]">Code</th>
+          <th class="font-semibold text-left w-[13vw] pl-5">Date Created</th>
           <th class="font-semibold w-[6vw]"></th>
           <th class="font-semibold]"></th>
         </thead>
