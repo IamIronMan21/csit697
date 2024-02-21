@@ -4,18 +4,16 @@ require "../utils.php";
 
 session_start();
 
-$dbh = connect_to_database();
-
 $sql = <<<EOD
 SELECT C.name as course_name, Q.name as quiz_name, S.submitter, S.created_at
-FROM tutors T, courses C, quizzes Q, submissions S
+FROM courses C, quizzes Q, submissions S
 WHERE (
-  C.tutor_id = {$_SESSION["tutor_id"]} AND
+  C.tutor_id = ? AND
   C.id = Q.course_id AND
   Q.id = S.quiz_id
-)
+);
 EOD;
-$stmt  = prepare_and_execute($sql, []);
+$stmt  = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
 $submissions = $stmt->fetchAll();
 
 ?>
@@ -73,7 +71,8 @@ $submissions = $stmt->fetchAll();
       <div class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm invisible">+</div>
     </div>
 
-    <!-- <?= var_dump($submissions) ?> -->
+    <?php // var_dump($submissions)
+    ?>
 
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
       <table class="w-full">
