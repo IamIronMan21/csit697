@@ -5,7 +5,7 @@ require "../utils.php";
 session_start();
 
 $sql = <<<EOD
-SELECT C.name as course_name, Q.name as quiz_name, S.submitter, S.created_at
+SELECT S.id, C.name as course_name, Q.name as quiz_name, S.submitter, S.created_at
 FROM courses C, quizzes Q, submissions S
 WHERE (
   C.tutor_id = ? AND
@@ -96,7 +96,7 @@ $submissions = $stmt->fetchAll();
                 <?= (new DateTime($submission["created_at"]))->format('m/d/Y') ?>
               </td>
               <td>
-                <a href="#" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
+                <a href="<?= "./edit.php?=" . $submission["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
               </td>
               <td>
                 <a href="#" class="text-indigo-600 underline hover:text-indigo-500">Delete</a>
