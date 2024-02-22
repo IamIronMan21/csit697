@@ -5,6 +5,7 @@ require "./utils.php";
 session_start();
 
 if (isset($_POST["submit-button"])) {
+
   $email = $_POST["email"];
   $password = $_POST["password"];
 
@@ -43,13 +44,20 @@ if (isset($_POST["submit-button"])) {
 <body>
   <div class="w-[447.5px] mx-auto bg-white pt-5 pb-10 px-8 border border-slate-300 rounded-lg text-center mt-11">
     <h1 class="font-['Literata'] text-2xl my-4 text-center">Quizify</h1>
-    <p class="text-center text-xl font-semibold">Sign in</p>
+    <p class="text-center text-xl font-semibold mb-4">Sign in</p>
+
+    <?php if (isset($error_message)) : ?>
+      <div class="text-left bg-red-50 rounded-lg py-2 px-3 border border-red-600 mb-4 pb-3.5">
+        <h1 class="text-red-800 font-medium mb-0.5">
+          Error
+        </h1>
+        <p class="text-red-700 text-sm">
+          <?= $error_message ?>
+        </p>
+      </div>
+    <?php endif; ?>
 
     <form method="post" class="mb-4">
-
-      <?php if (isset($error_message)) : ?>
-        <p class="text-red-500"><?= $error_message ?></p>
-      <?php endif; ?>
 
       <div class="mt-3">
         <div class="flex items-center justify-between">
