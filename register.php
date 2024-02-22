@@ -15,7 +15,7 @@ if (isset($_POST["submit-button"])) {
 
   if ($stmt->rowCount() == 0) {
     $sql = "INSERT INTO tutors (name, email, password) VALUES (?, ?, ?)";
-    $stmt = prepare_and_execute($sql, [$name, $email, $password]);
+    prepare_and_execute($sql, [$name, $email, $password]);
     header("Location: ./login.php");
     exit;
   } else {
