@@ -11,7 +11,7 @@ if (isset($_POST["save-button"])) {
   prepare_and_execute($sql, [$_POST["new-name"], $_GET["course_id"]]);
 
   $_SESSION["success_message"] = "New course name has been saved.";
-  header("Location: ./edit.php?course_id={$course["id"]}");
+  header("Location: ./edit.php?course_id=$course_id");
   exit;
 }
 
