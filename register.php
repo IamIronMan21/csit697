@@ -51,7 +51,7 @@ if (isset($_POST["submit-button"])) {
     <?php endif; ?>
 
     <form method="post" class="mb-4">
-      <div>
+      <div class="mt-3">
         <div class="flex items-center justify-between">
           <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
         </div>
@@ -60,8 +60,7 @@ if (isset($_POST["submit-button"])) {
         </div>
       </div>
 
-
-      <div>
+      <div class="mt-3">
         <div class="flex items-center justify-between">
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
         </div>
@@ -70,7 +69,7 @@ if (isset($_POST["submit-button"])) {
         </div>
       </div>
 
-      <div>
+      <div class="mt-3">
         <div class="flex items-center justify-between">
           <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
         </div>
@@ -88,10 +87,10 @@ if (isset($_POST["submit-button"])) {
       <hr class="w-4/5 mx-auto">
 
       <div class="text-center">
-        <div class="my-5">
-          Already have an account? <a href="./login.php" class="text-indigo-600 underline">Sign in</a>
+        <div class="my-5 text-slate-500">
+          Already have an account? <a href="./login.php" class="text-indigo-600 hover:text-indigo-500">Sign in</a>
         </div>
-        <a href="./index.php" class="text-blue-500 underline">Back</a>
+        <a href="./index.php" class="text-gray-900 hover:text-gray-700">‹ Back</a>
       </div>
     </form>
   </div>
