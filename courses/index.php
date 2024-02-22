@@ -4,12 +4,19 @@ require "../utils.php";
 
 session_start();
 
-$dbh = connect_to_database();
-
 if (isset($_POST["new-course-button"])) {
+  $course_name = $_POST["course-name"];
+
+  $sql = "SELECT 1 FROM courses WHERE name = ? LIMIT 1";
+  $stmt = prepare_and_execute($sql, [$course_name]);
+  if ($stmt->rowCount() == 1) {
+    $_SESSION["error_message"] = "Course entered already exists.";
+    header("Location: .");
+    exit;
+  }
+
   $sql = "INSERT INTO courses (name, tutor_id) VALUES (?, ?)";
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute([$_POST["course-name"], $_SESSION["tutor_id"]]);
+  prepare_and_execute($sql, [$course_name, $_SESSION["tutor_id"]]);
 
   $_SESSION["success_message"] = "The new course has been added.";
   header("Location: .");
@@ -70,6 +77,18 @@ $courses = $stmt->fetchAll();
   </nav>
 
   <div class="mx-auto bg-white min-h-screen px-12 pt-4">
+
+    <?php if (isset($_SESSION["error_message"])) : ?>
+      <div class="text-left bg-red-50 rounded-lg py-2 px-3 border border-red-600 mb-4 pb-3.5">
+        <h1 class="text-red-800 font-medium mb-0.5">
+          Error
+        </h1>
+        <p class="text-red-700 text-sm">
+          <?= $_SESSION["error_message"] ?>
+        </p>
+      </div>
+      <?php unset($_SESSION["error_message"]) ?>
+    <?php endif; ?>
 
     <?php if (isset($_SESSION["success_message"])) : ?>
       <div class="bg-green-50 rounded-lg py-2 px-3 border border-green-600 mb-4 pb-3.5">
