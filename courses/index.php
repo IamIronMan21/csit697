@@ -11,6 +11,7 @@ if (isset($_POST["new-course-button"])) {
   $stmt = $dbh->prepare($sql);
   $stmt->execute([$_POST["course-name"], $_SESSION["tutor_id"]]);
 
+  $_SESSION["success_message"] = "The new course has been added.";
   header("Location: .");
   exit;
 }
@@ -69,6 +70,18 @@ $courses = $stmt->fetchAll();
   </nav>
 
   <div class="mx-auto bg-white min-h-screen px-12 pt-4">
+
+    <?php if (isset($_SESSION["success_message"])) : ?>
+      <div class="bg-green-50 rounded-lg py-2 px-3 border border-green-600 mb-4 pb-3.5">
+        <h1 class="text-green-800 font-medium mb-0.5">
+          Success
+        </h1>
+        <p class="text-green-700 text-sm">
+          <?= $_SESSION["success_message"] ?>
+        </p>
+      </div>
+      <?php unset($_SESSION["success_message"]) ?>
+    <?php endif; ?>
 
     <div class="flex mb-4 items-center">
       <h1 class="grow text-xl font-medium">Courses</h1>
