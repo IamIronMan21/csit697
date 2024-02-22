@@ -15,7 +15,7 @@ if (isset($_POST["submit-button"])) {
     header("Location: ./session/index.php");
     exit;
   } else {
-    $error_message = "Unable to find quiz with given code. Please try again.";
+    $error_message = "Invalid quiz code. Please try again.";
   }
 }
 
@@ -42,15 +42,22 @@ if (isset($_POST["submit-button"])) {
     <h1 class="font-['Literata'] text-2xl my-4 text-center mb-5">Quizify</h1>
 
     <?php if (isset($error_message)) : ?>
-      <p class="text-red-500"><?= $error_message ?></p>
+      <div class="text-left bg-red-50 rounded-lg py-2 px-3 border border-red-600 mb-4 pb-3.5">
+        <h1 class="text-red-800 font-medium mb-0.5">
+          Error
+        </h1>
+        <p class="text-red-700 text-sm">
+          <?= $error_message ?>
+        </p>
+      </div>
     <?php endif; ?>
 
     <form method="post" class="mb-4">
-      <input type="text" name="quiz-code" placeholder="Quiz code" required class="mb-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+      <input type="text" name="quiz-code" placeholder="Quiz code" required class="px-2.5 mb-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
       <button name="submit-button" type="submit" class="rounded-md w-full bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Enter</button>
     </form>
 
-    <a class="text-blue-500 underline" href="./login.php">Sign in as tutor</a>
+    <a class="text-indigo-600 hover:text-indigo-500" href="./login.php">Sign in as tutor ›</a>
   </div>
 </body>
 
