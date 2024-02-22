@@ -77,19 +77,19 @@ $submissions = $stmt->fetchAll();
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
-          <th class="font-semibold w-[3vw] pl-1">#</th>
-          <th class="font-semibold text-left w-[27vw] pl-12">Submitter</th>
-          <th class="font-semibold text-left">Quiz</th>
-          <th class="font-semibold text-left">Course</th>
-          <th class="font-semibold text-left w-[13vw]">Date Submitted</th>
-          <th class="font-semibold"></th>
-          <th class="font-semibold"></th>
+          <th class="font-semibold w-[4%] pl-1">#</th>
+          <th class="font-semibold text-left w-[30%] pl-8">Submitter</th>
+          <th class="font-semibold text-left w-[16%]">Quiz</th>
+          <th class="font-semibold text-left w-[19%]">Course</th>
+          <th class="font-semibold text-left w-[19%]">Date Submitted</th>
+          <th class="font-semibold w-[6%]"></th>
+          <th class="font-semibold w-[6%]"></th>
         </thead>
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($submissions as $index => $submission) : ?>
             <tr class="h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
               <td class="text-center font-medium pl-1"><?= $index + 1 ?> </td>
-              <td class="pl-12"><?= $submission["submitter"] ?></td>
+              <td class="pl-8"><?= $submission["submitter"] ?></td>
               <td class=""><?= $submission["course_name"] ?></td>
               <td class=""><?= $submission["quiz_name"] ?></td>
               <td class="text-gray-500">
