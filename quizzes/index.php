@@ -86,13 +86,6 @@ $courses = $stmt->fetchAll();
 
   <div class="mx-auto bg-white min-h-screen px-12 pt-4">
 
-
-
-    <!-- <div class="flex py-4 items-center">
-      <h1 class="grow text-2xl">Quizzes</h1>
-      <button class="py-1 px-4 border bg-slate-100 rounded border-slate-300 hover:bg-slate-200">+ New quiz</button>
-    </div> -->
-
     <div class="flex mb-4 items-center">
       <h1 class="grow text-xl font-medium">Quizzes</h1>
       <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+ New quiz</button>
@@ -101,26 +94,26 @@ $courses = $stmt->fetchAll();
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
-          <th class="font-semibold w-[3vw] pl-1">#</th>
-          <th class="font-semibold text-left w-[27vw] pl-12">Quiz</th>
-          <th class="font-semibold text-left w-[21vw]">Course</th>
-          <th class="font-semibold text-center w-[11vw]">Code</th>
-          <th class="font-semibold text-left w-[13vw] pl-5">Date Created</th>
-          <th class="font-semibold w-[6vw]"></th>
-          <th class="font-semibold]"></th>
+          <th class="font-semibold w-[4%] pl-1">#</th>
+          <th class="font-semibold text-left w-[30%] pl-8">Quiz</th>
+          <th class="font-semibold text-left w-[21%]">Course</th>
+          <th class="font-semibold text-left w-[17%]">Code</th>
+          <th class="font-semibold text-left w-[15%]">Date Created</th>
+          <th class="font-semibold w-[6%]"></th>
+          <th class="font-semibold w-[6%]"></th>
         </thead>
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($rows as $index => $row) : ?>
             <tr class="h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
               <td class="text-center font-medium pl-1"><?= $index + 1 ?> </td>
-              <td class="pl-12"><?= $row["quiz_name"] ?></td>
+              <td class="pl-8"><?= $row["quiz_name"] ?></td>
               <td><?= $row["course_name"] ?></td>
-              <td class="text-center">
+              <td class="">
                 <span>
                   <button type="button" onclick="copyTextToClipboard(<?= $row['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $row["code"] ?></button>
                 </span>
               </td>
-              <td class="text-gray-500 pl-5">
+              <td class="text-gray-500">
                 <?= (new DateTime($row["created_at"]))->format('m/d/Y') ?>
               </td>
               <td class="text-blue-500 underline">
