@@ -4,27 +4,20 @@ require "../utils.php";
 
 session_start();
 
-$dbh = connect_to_database();
-
 $course_id = $_GET["course_id"];
-
-$sql = "SELECT * FROM courses WHERE id = $course_id";
-$stmt = $dbh->prepare($sql);
-$stmt->execute();
-
-$course = $stmt->fetch();
 
 if (isset($_POST["save-button"])) {
   $sql = "UPDATE courses SET name = ? WHERE id = ?";
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute([$_POST["new-name"], $_GET["course_id"]]);
+  prepare_and_execute($sql, [$_POST["new-name"], $_GET["course_id"]]);
 
-  $stmt->fetch();
-
-  $_SESSION["success_message"] = "saved new course name";
+  $_SESSION["success_message"] = "New course name has been saved.";
   header("Location: ./edit.php?course_id={$course["id"]}");
   exit;
 }
+
+$sql = "SELECT * FROM courses WHERE id = ?";
+$stmt = prepare_and_execute($sql, [$course_id]);
+$course = $stmt->fetch();
 
 ?>
 
@@ -75,14 +68,21 @@ if (isset($_POST["save-button"])) {
     </div>
   </nav>
 
-  <div class="mx-auto bg-white border-slate-500 min-h-screen px-12 pt-3">
+  <div class="bg-white border-slate-500 min-h-screen px-12 pt-4 w-3/5">
 
     <?php if (isset($_SESSION['success_message'])) : ?>
-      <?= $_SESSION['success_message'] ?>
+      <div class="bg-green-50 rounded-lg py-2 px-3 border border-green-600 mb-4 pb-3.5">
+        <h1 class="text-green-800 font-medium mb-0.5">
+          Success
+        </h1>
+        <p class="text-green-700 text-sm">
+          <?= $_SESSION['success_message'] ?>
+        </p>
+      </div>
       <?php unset($_SESSION['success_message']) ?>
     <?php endif; ?>
 
-    <form method="post" class="w-3/5 mt-5 m mb-14">
+    <form method="post" class="mt-5 mb-14">
 
       <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
