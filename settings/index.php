@@ -11,7 +11,7 @@ $tutor = $stmt->fetch();
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="overscroll-none">
 
 <head>
   <meta charset="utf-8">

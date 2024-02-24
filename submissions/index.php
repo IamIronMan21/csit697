@@ -19,7 +19,7 @@ $submissions = $stmt->fetchAll();
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="overscroll-none">
 
 <head>
   <meta charset="utf-8">
@@ -79,9 +79,9 @@ $submissions = $stmt->fetchAll();
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
           <th class="font-semibold w-[4%] pl-1">#</th>
           <th class="font-semibold text-left w-[30%] pl-8">Submitter</th>
-          <th class="font-semibold text-left w-[16%]">Quiz</th>
-          <th class="font-semibold text-left w-[19%]">Course</th>
-          <th class="font-semibold text-left w-[19%]">Date Submitted</th>
+          <th class="font-semibold text-left w-[21%]">Quiz</th>
+          <th class="font-semibold text-left w-[18%]">Course</th>
+          <th class="font-semibold text-left w-[15%]">Date Submitted</th>
           <th class="font-semibold w-[6%]"></th>
           <th class="font-semibold w-[6%]"></th>
         </thead>
