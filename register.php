@@ -19,7 +19,7 @@ if (isset($_POST["submit-button"])) {
     header("Location: ./login.php");
     exit;
   } else {
-    $error_message = "Sorry! That email is already taken. Please choose another one.";
+    $error_message = "That email is already taken. Please choose another one.";
   }
 }
 
@@ -44,10 +44,17 @@ if (isset($_POST["submit-button"])) {
 <body>
   <div class="w-[447.5px] mx-auto bg-white pt-5 pb-10 px-8 border border-slate-300 rounded-lg text-center mt-11">
     <h1 class="font-['Literata'] text-2xl my-4 text-center">Quizify</h1>
-    <p class="text-center text-xl font-semibold">Sign up</p>
+    <p class="text-center text-xl font-semibold mb-4">Sign up</p>
 
     <?php if (isset($error_message)) : ?>
-      <p class="text-red-500"><?= $error_message ?></p>
+      <div class="text-left bg-red-50 rounded-lg py-2 px-3 border border-red-600 mb-4 pb-3.5">
+        <h1 class="text-red-800 font-medium mb-0.5">
+          Error
+        </h1>
+        <p class="text-red-700 text-sm">
+          <?= $error_message ?>
+        </p>
+      </div>
     <?php endif; ?>
 
     <form method="post" class="mb-4">
@@ -56,7 +63,7 @@ if (isset($_POST["submit-button"])) {
           <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
         </div>
         <div class="mt-2">
-          <input id="name" name="name" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="name" name="name" type="text" required class="px-2.5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
 
@@ -65,7 +72,7 @@ if (isset($_POST["submit-button"])) {
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
         </div>
         <div class="mt-2">
-          <input id="email" name="email" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="email" name="email" type="text" required class="px-2.5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
 
@@ -74,7 +81,7 @@ if (isset($_POST["submit-button"])) {
           <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
         </div>
         <div class="mt-2">
-          <input id="password" name="password" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="password" name="password" type="password" required class="px-2.5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
 
