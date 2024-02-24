@@ -35,15 +35,11 @@ function generate_quiz_code()
 
 function get_new_quiz_code()
 {
-  $dbh = connect_to_database();
-  $code = "";
-
   while (true) {
     $code = generate_quiz_code();
 
     $sql = "SELECT * FROM quizzes WHERE code = ? LIMIT 1";
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute([$code]);
+    $stmt = prepare_and_execute($sql, [$code]);
 
     if ($stmt->rowCount() == 0) {
       return $code;
