@@ -37,9 +37,10 @@ if (isset($_POST["submit-button"])) {
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-  <div class="w-[447.5px] mx-auto bg-white pt-5 pb-10 px-8 border border-slate-300 rounded-lg text-center mt-11">
-    <h1 class="font-['Literata'] text-2xl my-4 text-center mb-5">Quizify</h1>
+<body class="bg-gray-800">
+  <div class="w-[447.5px] mx-auto bg-white pt-5 pb-4 px-8 border border-slate-300 rounded-lg text-center mt-7">
+    <h1 class="font-['Literata'] text-2xl mt-3 mb-2 text-center">Quizify</h1>
+    <p class="text-center text font- text-slate-700 mb-4">&lt;slogan&gt;</p>
 
     <?php if (isset($error_message)) : ?>
       <div class="text-left bg-red-50 rounded-lg py-2 px-3 border border-red-600 mb-4 pb-3.5">
