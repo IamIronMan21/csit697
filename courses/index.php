@@ -79,11 +79,11 @@ $courses = $stmt->fetchAll();
   <div class="mx-auto bg-white min-h-screen px-12 pt-4">
 
     <?php if (isset($_SESSION["error_message"])) : ?>
-      <div class="text-left bg-red-50 rounded-lg py-2 px-3 border border-red-600 mb-4 pb-3.5">
-        <h1 class="text-red-800 font-medium mb-0.5">
-          Error
-        </h1>
-        <p class="text-red-700 text-sm">
+      <div class="flex items-center bg-red-50 rounded-lg py-3 px-3 border border-red-600 mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#f87171" aria-hidden="true" class="w-6 h-6">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"></path>
+        </svg>
+        <p class="text-red-700 text-[14px] font-medium px-2">
           <?= $_SESSION["error_message"] ?>
         </p>
       </div>
@@ -91,12 +91,12 @@ $courses = $stmt->fetchAll();
     <?php endif; ?>
 
     <?php if (isset($_SESSION["success_message"])) : ?>
-      <div class="bg-green-50 rounded-lg py-2 px-3 border border-green-600 mb-4 pb-3.5">
-        <h1 class="text-green-800 font-medium mb-0.5">
-          Success
-        </h1>
-        <p class="text-green-700 text-sm">
-          <?= $_SESSION["success_message"] ?>
+      <div class="flex items-center bg-green-50 rounded-lg py-3 px-3 border border-green-600 mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#4ade80" aria-hidden="true" class="w-6 h-6">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
+        </svg>
+        <p class="text-green-700 text-[14px] font-medium px-2">
+          <?= $_SESSION['success_message'] ?>
         </p>
       </div>
       <?php unset($_SESSION["success_message"]) ?>
