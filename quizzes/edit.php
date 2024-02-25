@@ -122,89 +122,24 @@ $questions = $stmt->fetchAll();
     </div>
   </nav>
 
-  <div class="mx-auto bg-white border-slate-500 min-h-screen px-12 pt-3">
+  <div class="mx-auto bg-white border-slate-500 min-h-screen px-12">
 
     <div class="flex w-full">
-      <div class="border-r w-[15%] pr-6 mr-10 border-slate-400">
+      <div class="border-r w-[15%] pt-3 pr-6 mr-10 border-slate-400">
         <a href="./index.php">‹ back</a>
       </div>
-      <div class="w-full">
 
-        <div class="my-3">
+      <div class="w-2/3 pt-3">
+        <div class="border rounded-xl border-slate-400 mb-3 px-4 py-3 bg-white">
           <h1 class="text-lg font-bold"><?= $course["name"] ?></h1>
           <h1><?= $quiz["name"] ?></h1>
           <div class="flex">
-            <h1>
-              code:
-            </h1>
+            <h1>Code:</h1>
             <button type="button" onclick="copyTextToClipboard(<?= $quiz['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $quiz["code"] ?></button>
           </div>
         </div>
 
-        <div class="border">
-          <p>Add multiple choice question</p>
-          <form method="post" class="p-2">
-            <input class="border w-1/2 block" type="text" name="question" placeholder="question" required>
 
-            <!-- Choices for Multiple Choice Question -->
-            <div class="flex">
-              <span>1</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 1" required>
-            </div>
-            <div class="flex">
-              <span>2</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 2" required>
-            </div>
-            <div class="flex">
-              <span>3</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 3" required>
-            </div>
-            <div class="flex">
-              <span>4</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 4" required>
-            </div>
-            <div class="flex">
-              <span>correct answer</span>
-              <input type="number" class="border" name="correct-choice-number" min="1" max="4" placeholder="1-4" required>
-            </div>
-
-            <input type="submit" name="new-mc-question" value="Submit">
-          </form>
-        </div>
-
-        <!-- Add True/False question -->
-        <div class="border">
-          <p>Add True/False question</p>
-          <form method="post" class="p-2">
-            <input class="border w-1/2 block" type="text" name="question" placeholder="True/False question" required>
-
-            <!-- True/False Options -->
-            <div class="flex items-center gap-x-3">
-              <input id="true-option" name="true_false_option" type="radio" value="True" required>
-              <label for="true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
-            </div>
-            <div class="flex items-center gap-x-3">
-              <input id="false-option" name="true_false_option" type="radio" value="False" required>
-              <label for="false-option" class="block text-sm font-medium leading-6 text-gray-900">False</label>
-            </div>
-
-            <input type="submit" name="new-tf-question" value="Submit">
-          </form>
-        </div>
-
-        <!-- Add Open-Ended question -->
-        <div class="border">
-          <p>Add Open-Ended question</p>
-          <form method="post" class="p-2">
-            <input class="border w-1/2 block" type="text" name="question" placeholder="Open-Ended question" required>
-
-            <!-- Open-Ended Textarea with word count limit and counter -->
-            <textarea class="border block w-1/2" name="open_ended_answer" placeholder="Student's answer" required oninput="updateWordCount(this)" maxlength="300"></textarea>
-            <div id="wordCount" class="text-sm text-gray-500">Word count: 0/300</div>
-
-            <input type="submit" name="new-oe-question" value="Submit">
-          </form>
-        </div>
 
         <script>
           function updateWordCount(textarea) {
@@ -224,7 +159,7 @@ $questions = $stmt->fetchAll();
 
 
         <?php foreach ($questions as $index => $row) : ?>
-          <div class="border mx-auto w-3/5 rounded-lg my-10 px-4 py-2 border-slate-300">
+          <div class="border mx-auto w-4/5 rounded-lg my-10 px-4 py-2 border-slate-300 bg-white">
             <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
             <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
             <div class="mt-6 space-y-2">
@@ -255,12 +190,145 @@ $questions = $stmt->fetchAll();
           </div>
         <?php endforeach; ?>
       </div>
-      <div class="border-l w-[15%] pl-6 ml-10 border-slate-400">
-
+      <div class="border-l w-[20%] pl-6 ml-10 border-slate-400 pt-3">
+        <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+ New question</button>
       </div>
     </div>
 
+    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[405px]" id="dialog">
+      <div class="tab w-full flex">
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity(event, 'London')">Multiple Choice</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity(event, 'Paris')">True/False</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity(event, 'Tokyo')">Open-Ended</button>
+      </div>
+      <hr class="mb-2">
 
+      <style>
+        .tabcontent {
+          display: none;
+        }
+      </style>
+
+      <div id="London" class="tabcontent">
+        <form method="post" class="p-2">
+          <div class="h-full">
+            <input class="border w-1/2 block" type="text" name="question" placeholder="question" required>
+
+            <!-- Choices for Multiple Choice Question -->
+            <div class="flex">
+              <span>1</span>
+              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 1" required>
+            </div>
+            <div class="flex">
+              <span>2</span>
+              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 2" required>
+            </div>
+            <div class="flex">
+              <span>3</span>
+              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 3" required>
+            </div>
+            <div class="flex">
+              <span>4</span>
+              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 4" required>
+            </div>
+            <div class="flex">
+              <span>correct answer</span>
+              <input type="number" class="border" name="correct-choice-number" min="1" max="4" placeholder="1-4" required>
+            </div>
+          </div>
+          <!-- <input type="submit" name="new-mc-question" value="Submit"> -->
+          <div class="mt-6 flex items-center justify-end gap-x-6">
+            <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
+            <button type="submit" name="new-mc-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="Paris" class="tabcontent">
+        <!-- Add True/False question -->
+        <div class="">
+          <p>Add True/False question</p>
+          <form method="post" class="p-2">
+            <input class="border w-1/2 block" type="text" name="question" placeholder="True/False question" required>
+
+            <!-- True/False Options -->
+            <div class="flex items-center gap-x-3">
+              <input id="true-option" name="true_false_option" type="radio" value="True" required>
+              <label for="true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
+            </div>
+            <div class="flex items-center gap-x-3">
+              <input id="false-option" name="true_false_option" type="radio" value="False" required>
+              <label for="false-option" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+            </div>
+
+            <div class="mt-6 flex items-center justify-end gap-x-6">
+              <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
+              <button type="submit" name="new-tf-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div id="Tokyo" class="tabcontent">
+        <div class="">
+          <p>Add Open-Ended question</p>
+          <form method="post" class="p-2">
+            <input class="border w-1/2 block" type="text" name="question" placeholder="Open-Ended question" required>
+
+            <!-- Open-Ended Textarea with word count limit and counter -->
+            <textarea class="border block w-1/2" name="open_ended_answer" placeholder="Student's answer" required oninput="updateWordCount(this)" maxlength="300"></textarea>
+            <div id="wordCount" class="text-sm text-gray-500">Word count: 0/300</div>
+
+            <div class="mt-6 flex items-center justify-end gap-x-6">
+              <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
+              <button type="submit" name="new-oe-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <form method="post" class="px-8 mx-auto pt-6 pb-8">
+
+        <!-- <div class="mt-6 flex items-center justify-end gap-x-6">
+          <button type="button" class="text-sm font-semibold leading-6 text-gray-900" id="js-close">Cancel</button>
+          <button type="submit" name="new-course-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add</button>
+        </div> -->
+      </form>
+    </dialog>
+
+    <script>
+      function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+      openCity(null, 'London')
+    </script>
+
+    <script>
+      const showBtn = document.getElementById("show-dialog");
+      const dialog = document.getElementById("dialog");
+      const jsCloseBtns = document.getElementsByClassName("js-close");
+
+      showBtn.addEventListener("click", () => {
+        dialog.showModal();
+      });
+
+      for (const b of jsCloseBtns) {
+        b.addEventListener("click", (e) => {
+          e.preventDefault();
+          dialog.close();
+        });
+      }
+    </script>
     <script>
       function copyTextToClipboard(textToCopy, element) {
         // Create a temporary input element
