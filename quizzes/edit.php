@@ -125,7 +125,7 @@ $questions = $stmt->fetchAll();
   <div class="mx-auto bg-white border-slate-500 min-h-screen px-12">
 
     <div class="flex w-full">
-      <div class="border-r w-[15%] pt-3 pr-6 mr-10 border-slate-400">
+      <div class="border-r pt-3 pr-6 mr-10 border-slate-400 px-20">
         <a href="./index.php">‹ back</a>
       </div>
 
@@ -190,7 +190,7 @@ $questions = $stmt->fetchAll();
           </div>
         <?php endforeach; ?>
       </div>
-      <div class="border-l w-[20%] pl-6 ml-10 border-slate-400 pt-3">
+      <div class="border-l pl-6 ml-10 border-slate-400 pt-3">
         <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+ New question</button>
       </div>
     </div>
