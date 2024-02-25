@@ -48,7 +48,7 @@ $stmt->execute([$quiz_id]);
 
 $questions = $stmt->fetchAll();
 
-$sql = <<<EOD
+$sql = "
 SELECT q.id AS id,
        q.content AS question,
        GROUP_CONCAT(c.content SEPARATOR '|') AS choices,
@@ -56,12 +56,11 @@ SELECT q.id AS id,
 FROM questions q
 JOIN choices c ON q.id = c.question_id
 LEFT JOIN answers a ON q.id = a.question_id
-WHERE q.quiz_id = $quiz_id
+WHERE q.quiz_id = ?
 GROUP BY q.id, q.content, a.content;
-
-EOD;
+";
 $stmt = $dbh->prepare($sql);
-$stmt->execute();
+$stmt->execute([$quiz_id]);
 
 // foreach ($stmt->fetchAll() as $row) {
 //   echo $row["id"] . " " . $row["question"] . $row["choices"] . "<br>";
