@@ -123,7 +123,7 @@ $questions = $stmt->fetchAll();
 
   <div class="mx-auto bg-white border-slate-500 min-h-screen px-12">
 
-    <div class="flex w-full">
+    <div class="flex w-full min-h-screen">
       <div class="border-r pt-4 pr-6 mr-10 border-slate-400 px-20">
         <a href="./index.php">‹ back</a>
       </div>
