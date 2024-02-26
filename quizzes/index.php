@@ -16,7 +16,7 @@ if (isset($_POST["new-quiz"])) {
 
   $sql = "INSERT INTO quizzes (name, code, course_id) VALUES (?, ?, ?)";
   $stmt = $dbh->prepare($sql);
-  $success = $stmt->execute([$_POST["quiz-name"], get_new_quiz_code(), $course_id]);
+  $success = $stmt->execute([$_POST["quiz-name"], generate_quiz_code(), $course_id]);
 
   header("Location: .");
   exit;
