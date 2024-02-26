@@ -96,7 +96,7 @@ $submissions = $stmt->fetchAll();
                 <?= (new DateTime($submission["created_at"]))->format('m/d/Y') ?>
               </td>
               <td>
-                <a href="<?= "./edit.php?=" . $submission["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
+                <a href="<?= "./edit.php?submission_id=" . $submission["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
               </td>
               <td>
                 <a href="#" class="text-indigo-600 underline hover:text-indigo-500">Delete</a>
