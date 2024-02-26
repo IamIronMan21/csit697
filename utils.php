@@ -26,17 +26,11 @@ function prepare_and_execute($sql, $params = [])
 
 function generate_quiz_code()
 {
-  $pin = "";
-  for ($i = 0; $i < 5; $i++) {
-    $pin .= strval(rand(1, 9));
-  }
-  return $pin;
-}
-
-function get_new_quiz_code()
-{
   while (true) {
-    $code = generate_quiz_code();
+    $code = "";
+    for ($i = 0; $i < 5; $i++) {
+      $code .= strval(rand(1, 9));
+    }
 
     $sql = "SELECT * FROM quizzes WHERE code = ? LIMIT 1";
     $stmt = prepare_and_execute($sql, [$code]);
