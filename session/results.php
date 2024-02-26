@@ -26,7 +26,7 @@ JOIN answers a ON q.id = a.question_id
 WHERE q.quiz_id = ? AND r.submission_id = ?
 GROUP BY q.id
 ";
-$stmt = prepare_and_execute($sql, [$submission["quiz_id"], $submission["id"]]);
+$stmt = prepare_and_execute($sql, [$submission["quiz_id"], $submission_id]);
 $rows = $stmt->fetchAll();
 
 $num_correct = 0;
@@ -34,6 +34,8 @@ $num_correct = 0;
 foreach ($rows as $row) {
   if ($row["response"] == $row["answer"]) {
     $num_correct++;
+    $sql = "UPDATE responses SET score = 1 WHERE id = ? LIMIT 1";
+    prepare_and_execute($sql, [$submission_id]);
   }
 }
 
