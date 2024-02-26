@@ -18,7 +18,8 @@ SELECT
   q.content AS question,
   GROUP_CONCAT(c.content SEPARATOR '|') AS choices,
   r.content AS response,
-  a.content AS answer
+  a.content AS answer,
+  r.score AS score
 FROM questions q
 JOIN responses r ON q.id = r.question_id
 JOIN choices c ON q.id = c.question_id
@@ -109,7 +110,12 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
       <fieldset disabled="disabled">
         <?php foreach ($rows as $index => $row) : ?>
           <div class="border rounded-lg my-10 px-4 py-2 border-2 <?= ($row["response"] ==  $row["answer"]) ? "border-green-500" : "border-red-500" ?>">
-            <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+            <div class="flex">
+              <legend class="grow text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+              <div>
+                score: <?= $row["score"]; ?>
+              </div>
+            </div>
             <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
             <div class="mt-6 space-y-2">
               <?php $h = "question_" . $row["id"]; ?>
