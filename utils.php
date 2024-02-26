@@ -32,7 +32,7 @@ function generate_quiz_code()
       $code .= strval(rand(1, 9));
     }
 
-    $sql = "SELECT * FROM quizzes WHERE code = ? LIMIT 1";
+    $sql = "SELECT 1 FROM quizzes WHERE code = ? LIMIT 1";
     $stmt = prepare_and_execute($sql, [$code]);
 
     if ($stmt->rowCount() == 0) {
