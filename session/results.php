@@ -82,7 +82,7 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
     <form method="">
       <fieldset disabled="disabled">
         <?php foreach ($rows as $index => $row) : ?>
-          <div class="border rounded-lg my-10 px-4 py-2 border-slate-300 <?= ($row["response"] ==  $row["answer"]) ? "bg-green-500" : "bg-red-500" ?>">
+          <div class="border rounded-lg my-10 px-4 py-2 border-2 <?= ($row["response"] ==  $row["answer"]) ? "border-green-500" : "border-red-500" ?>">
             <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
             <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
             <div class="mt-6 space-y-2">
