@@ -16,26 +16,33 @@ $sql = "
 SELECT
   q.id AS id,
   q.content AS question,
-  choices.choices AS choices,
+  GROUP_CONCAT(c.content SEPARATOR '|') AS choices,
   r.content AS response,
   a.content AS answer
 FROM questions q
-JOIN answers a ON q.id = a.question_id
 JOIN responses r ON q.id = r.question_id
-JOIN (
-  SELECT question_id, GROUP_CONCAT(DISTINCT content ORDER BY choices.id SEPARATOR '|') AS choices
-  FROM choices
-  GROUP BY question_id
-) choices ON q.id = choices.question_id
-WHERE q.quiz_id = ?
-GROUP BY q.id;
+JOIN choices c ON q.id = c.question_id
+JOIN answers a ON q.id = a.question_id
+WHERE q.quiz_id = ? AND r.submission_id = ?
+GROUP BY q.id
 ";
-$stmt = prepare_and_execute($sql, [$submission["quiz_id"]]);
+$stmt = prepare_and_execute($sql, [$submission["quiz_id"], $submission["id"]]);
 $rows = $stmt->fetchAll();
 
-echo "<pre style='font-size: 9px;'>";
-print_r($rows);
-echo "</pre>";
+$num_correct = 0;
+
+foreach ($rows as $row) {
+  if ($row["response"] == $row["answer"]) {
+    $num_correct++;
+  }
+}
+
+$num_questions = $stmt->rowCount();
+$grade = round(($num_correct / $num_questions) * 100, 2);
+
+// echo "<pre style='font-size: 9px;'>";
+// print_r($rows);
+// echo "</pre>";
 
 ?>
 
@@ -62,7 +69,12 @@ echo "</pre>";
   </header>
 
   <div class="w-1/2 mx-auto bg-white min-h-screen px-8">
-    name: <?= $submission["submitter"] ?>
+    <div>
+      name: <?= $submission["submitter"] ?>
+    </div>
+    <div>
+      grade: <?= $grade ?>
+    </div>
     <div>
       <a href="../index.php">Return</a>
     </div>
@@ -70,7 +82,7 @@ echo "</pre>";
     <form method="">
       <fieldset disabled="disabled">
         <?php foreach ($rows as $index => $row) : ?>
-          <div class="border rounded-lg my-10 px-4 py-2 border-slate-300">
+          <div class="border rounded-lg my-10 px-4 py-2 border-slate-300 <?= ($row["response"] ==  $row["answer"]) ? "bg-green-500" : "bg-red-500" ?>">
             <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
             <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
             <div class="mt-6 space-y-2">
