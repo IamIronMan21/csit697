@@ -7,86 +7,90 @@ session_start();
 $quiz_id = $_SESSION["quiz_id"];
 
 $dbh = connect_to_database();
-
-$showResult = false;
-$resultMessage = '';
-$correctAnswersInfo = [];
+// $showResult = false;
+// $resultMessage = "";
+// $correctAnswersInfo = [];
 
 if (isset($_POST["submit"])) {
-  // Get user's answers from the submitted form
-  $userAnswers = [];
-  foreach ($_POST as $key => $value) {
-    if (strpos($key, 'question_') === 0) {
-      $questionId = substr($key, strlen('question_'));
-      $userAnswers[$questionId] = $value;
-    }
-  }
-
-  // Fetch correct answers from the database
-  $sql = "SELECT id, content AS answer FROM answers WHERE question_id IN (" . implode(",", array_keys($userAnswers)) . ")";
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute();
-  $correctAnswers = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-
-  // Calculate the grade
-  $totalQuestions = count($correctAnswers);
-  $correctCount = 0;
-  $wrongQuestions = [];
-
-  foreach ($userAnswers as $questionId => $userChoice) {
-    if (isset($correctAnswers[$questionId]) && $userChoice === $correctAnswers[$questionId]) {
-      $correctCount++;
-    } else {
-      $wrongQuestions[] = $questionId;
-    }
-  }
-
-  $grade = ($correctCount / $totalQuestions) * 100;
-
-  // Display the result with color codes
-  $resultMessage = '<div style="font-size: 18px; font-weight: bold; color: ';
-  if ($grade >= 90) {
-    $resultMessage .= 'green;">A';
-  } elseif ($grade >= 80) {
-    $resultMessage .= 'green;">B';
-  } elseif ($grade >= 70) {
-    $resultMessage .= 'yellow;">C';
-  } elseif ($grade >= 60) {
-    $resultMessage .= 'yellow;">D';
-  } else {
-    $resultMessage .= 'red;">F';
-  }
-  $resultMessage .= ' - Your Grade: ' . $grade . '%</div>';
-
-  // Display correct and incorrect answers for each question
-  foreach ($userAnswers as $questionId => $userChoice) {
-    if (in_array($questionId, $wrongQuestions)) {
-      $correctChoice = isset($correctAnswers[$questionId]) ? $correctAnswers[$questionId] : '';
-      $correctAnswersInfo[] = ['questionId' => $questionId, 'correctChoice' => $correctChoice];
-    }
-  }
+  // print_r($_POST);
 
   $sql = "INSERT INTO submissions (submitter, quiz_id) VALUES (?, ?)";
-  prepare_and_execute($sql, [$_POST["submitter"], $quiz_id]);
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute([$_POST["submitter"], $quiz_id]);
 
-  $showResult = true;
+  $submission_id = $dbh->lastInsertId();
+  // echo $submission_id . "<br>";
+
+  // Get user's answers from the submitted form
+  // $userAnswers = [];
+  // foreach ($_POST as $key => $value) {
+  //   if (strpos($key, "question_") === 0) {
+  //     $questionId = substr($key, strlen("question_"));
+  //     $userAnswers[$questionId] = $value;
+  //   }
+  // }
+
+  foreach ($_POST as $key => $value) {
+    if (strpos($key, "question_") === 0) {
+      $questionId = substr($key, strlen("question_"));
+      $sql = "INSERT INTO responses (content, score, submission_id, question_id) VALUES (?, ?, ?, ?)";
+      prepare_and_execute($sql, [$value, 0, $submission_id, $questionId]);
+    }
+  }
+
+  $_SESSION["submission_id"] = $submission_id;
+  header("Location: ./results.php");
+  exit;
+
+  // // Fetch correct answers from the database
+  // $sql = "SELECT id, content AS answer FROM answers WHERE question_id IN (" . implode(",", array_keys($userAnswers)) . ")";
+  // $stmt = $dbh->prepare($sql);
+  // $stmt->execute();
+  // $correctAnswers = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+  // // Calculate the grade
+  // $totalQuestions = count($correctAnswers);
+  // $correctCount = 0;
+  // $wrongQuestions = [];
+
+  // foreach ($userAnswers as $questionId => $userChoice) {
+  //   if (isset($correctAnswers[$questionId]) && $userChoice === $correctAnswers[$questionId]) {
+  //     $correctCount++;
+  //   } else {
+  //     $wrongQuestions[] = $questionId;
+  //   }
+  // }
+
+  // $grade = ($correctCount / $totalQuestions) * 100;
+
+  // $resultMessage = "Grade:  $grade %</div>";
+
+  // // Display correct and incorrect answers for each question
+  // foreach ($userAnswers as $questionId => $userChoice) {
+  //   if (in_array($questionId, $wrongQuestions)) {
+  //     $correctChoice = isset($correctAnswers[$questionId]) ? $correctAnswers[$questionId] : '';
+  //     $correctAnswersInfo[] = ['questionId' => $questionId, 'correctChoice' => $correctChoice];
+  //   }
+  // }
+
+  // $showResult = true;
 }
 
 $sql = "SELECT * FROM quizzes WHERE id = ? LIMIT 1";
 $stmt = prepare_and_execute($sql, [$quiz_id]);
 $quiz = $stmt->fetch();
 
-$sql = <<<EOD
+$sql = "
 SELECT q.id AS id,
 q.content AS question,
 GROUP_CONCAT(c.content SEPARATOR '|') AS choices
 FROM questions q
 JOIN choices c ON q.id = c.question_id
-WHERE q.quiz_id = $quiz_id
-GROUP BY q.id, q.content;
-EOD;
+WHERE q.quiz_id = ?
+GROUP BY q.id, q.content
+";
 $stmt = $dbh->prepare($sql);
-$stmt->execute();
+$stmt->execute([$quiz_id]);
 
 $rows = $stmt->fetchAll();
 
@@ -130,11 +134,11 @@ $rows = $stmt->fetchAll();
           <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
           <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
           <div class="mt-6 space-y-2">
-            <?php $h = 'question_' . $row['id']; ?>
+            <?php $h = "question_" . $row["id"]; ?>
             <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
               <div class="flex items-center gap-x-3">
-                <input id="<?= $h . '_' . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required>
-                <label for="<?= $h . '_' . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required>
+                <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
               </div>
             <?php endforeach ?>
           </div>
@@ -146,7 +150,7 @@ $rows = $stmt->fetchAll();
         <button name="submit" class="mb-14 rounded-md bg-indigo-600 px-8 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
       </div>
 
-      <?php if ($showResult) : ?>
+      <?php if (isset($showResult)) : ?>
         <div style="margin-top: 20px;">
           <?= $resultMessage ?>
           <?php foreach ($correctAnswersInfo as $info) : ?>
