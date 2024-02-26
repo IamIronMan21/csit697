@@ -47,7 +47,7 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="overscroll-none">
 
 <head>
   <meta charset="utf-8">
