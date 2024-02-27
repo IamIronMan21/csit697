@@ -206,8 +206,16 @@ $questions = $stmt->fetchAll();
           </div>
         <?php endforeach; ?>
       </div>
-      <div class="border-l pl-6 ml-10 border-slate-400 pt-4">
-        <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+ New question</button>
+      <div class="border-l pl-6 ml-10 border-slate-400 pt-4 flex flex-col space-y-2">
+        <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          + New question
+        </button>
+        <button class="rounded-md bg-indigo-300 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          Rename
+        </button>
+        <button class="rounded-md bg-indigo-300 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          Clone quiz
+        </button>
       </div>
     </div>
 
