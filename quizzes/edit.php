@@ -8,6 +8,16 @@ $dbh = connect_to_database();
 
 $quiz_id = $_GET["quiz_id"];
 
+if (isset($_POST["delete-question-button"])) {
+  $question_id = $_POST["delete-question-button"];
+
+  $sql = "DELETE FROM questions WHERE id = ?";
+  prepare_and_execute($sql, [$question_id]);
+
+  header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
+  exit;
+}
+
 if (isset($_POST["new-mc-question"])) {
   $sql = "INSERT INTO questions (type, content, quiz_id) VALUES (?, ?, ?)";
   $stmt = $dbh->prepare($sql);
@@ -155,17 +165,24 @@ $questions = $stmt->fetchAll();
           }
         </script>
 
-
-
         <?php foreach ($questions as $index => $row) : ?>
           <div class="border mx-auto w-4/5 rounded-lg my-10 px-4 py-2 border-slate-300 bg-white">
-            <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+            <div class="flex">
+              <div class="grow">
+                <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+              </div>
+              <div>
+                <form method="post">
+                  <button type="submit" name="delete-question-button" value="<?= $row["id"] ?>">delete</button>
+                </form>
+              </div>
+            </div>
             <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
             <div class="mt-6 space-y-2">
               <?php $h = uniqid("", true); ?>
               <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
                 <div class="flex items-center gap-x-3">
-                  <input id="<?= htmlspecialchars($choice) ?>" name="<?= $h ?>" type="radio">
+                  <input id="<?= htmlspecialchars($choice) ?>" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                   <label for="<?= htmlspecialchars($choice) ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
                 </div>
               <?php endforeach ?>
@@ -173,19 +190,19 @@ $questions = $stmt->fetchAll();
             </div>
 
             <!-- <div class="mt-6 space-y-6">
-            <div class="flex items-center gap-x-3">
-              <input id="push-everything" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-              <label for="push-everything" class="block text-sm font-medium leading-6 text-gray-900">Everything</label>
-            </div>
-            <div class="flex items-center gap-x-3">
-              <input id="push-email" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-              <label for="push-email" class="block text-sm font-medium leading-6 text-gray-900">Same as email</label>
-            </div>
-            <div class="flex items-center gap-x-3">
-              <input id="push-nothing" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-              <label for="push-nothing" class="block text-sm font-medium leading-6 text-gray-900">No push notifications</label>
-            </div>
-          </div> -->
+              <div class="flex items-center gap-x-3">
+                <input id="push-everything" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                <label for="push-everything" class="block text-sm font-medium leading-6 text-gray-900">Everything</label>
+              </div>
+              <div class="flex items-center gap-x-3">
+                <input id="push-email" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                <label for="push-email" class="block text-sm font-medium leading-6 text-gray-900">Same as email</label>
+              </div>
+              <div class="flex items-center gap-x-3">
+                <input id="push-nothing" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                <label for="push-nothing" class="block text-sm font-medium leading-6 text-gray-900">No push notifications</label>
+              </div>
+            </div> -->
           </div>
         <?php endforeach; ?>
       </div>
