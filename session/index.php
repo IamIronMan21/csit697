@@ -150,7 +150,7 @@ $rows = $stmt->fetchAll();
                   <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
                 </div>
               <?php endforeach ?>
-            <?php elseif ($row["type" == "TF"]) : ?>
+            <?php elseif ($row["type"] == "TF") : ?>
               <div class="flex items-center gap-x-3">
                 <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                 <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">True</label>
@@ -158,6 +158,10 @@ $rows = $stmt->fetchAll();
               <div class="flex items-center gap-x-3">
                 <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                 <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+              </div>
+            <?php elseif ($row["type"] == "OE") : ?>
+              <div class="flex items-center gap-x-3">
+                <textarea id="<?= $h ?>" name="<?= $h ?>" placeholder="Type your answer here" required class="border block w-full rounded p-1 border-slate-300"></textarea>
               </div>
             <?php endif; ?>
           </div>
