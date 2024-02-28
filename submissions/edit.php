@@ -15,6 +15,7 @@ $submission = $stmt->fetch();
 $sql = "
 SELECT
   q.id AS id,
+  q.type as type,
   q.content AS question,
   GROUP_CONCAT(c.content SEPARATOR '|') AS choices,
   r.content AS response,
@@ -22,8 +23,8 @@ SELECT
   r.score AS score
 FROM questions q
 JOIN responses r ON q.id = r.question_id
-JOIN choices c ON q.id = c.question_id
-JOIN answers a ON q.id = a.question_id
+LEFT JOIN choices c ON q.id = c.question_id
+LEFT JOIN answers a ON q.id = a.question_id
 WHERE q.quiz_id = ? AND r.submission_id = ?
 GROUP BY q.id
 ";
@@ -119,16 +120,41 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
             <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
             <div class="mt-6 space-y-2">
               <?php $h = "question_" . $row["id"]; ?>
-              <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+
+              <?php if ($row["type"] == "MC") : ?>
+
+                <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+                  <div class="flex items-center gap-x-3">
+                    <?php if ($row["response"] == $choice) : ?>
+                      <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required checked>
+                    <?php else : ?>
+                      <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required>
+                    <?php endif; ?>
+                    <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                  </div>
+                <?php endforeach ?>
+
+              <?php elseif ($row["type" == "TF"]) : ?>
+
                 <div class="flex items-center gap-x-3">
-                  <?php if ($row["response"] == $choice) : ?>
-                    <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required checked>
+                  <?php if ($row["response"] == "True") : ?>
+                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
                   <?php else : ?>
-                    <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required>
+                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                   <?php endif; ?>
-                  <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+
+                  <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">True</label>
                 </div>
-              <?php endforeach ?>
+                <div class="flex items-center gap-x-3">
+
+                  <?php if ($row["response"] == "False") : ?>
+                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
+                  <?php else : ?>
+                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                  <?php endif; ?>
+                  <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+                </div>
+              <?php endif; ?>
             </div>
           </div>
         <?php endforeach; ?>
