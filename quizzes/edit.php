@@ -66,6 +66,21 @@ if (isset($_POST["new-tf-question"])) {
   // exit;
 }
 
+if (isset($_POST["new-oe-question"])) {
+  echo $_POST["question"];
+  // echo "<br>";
+  // echo $_POST["true-false-option"];
+
+  $sql = "INSERT INTO questions (type, content, quiz_id) VALUES (?, ?, ?)";
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute(["OE", $_POST["question"], $quiz_id]);
+
+  // header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
+  // exit;
+}
+
+
+
 if (isset($_POST["rename-save-button"])) {
   $sql = "UPDATE quizzes SET name = ? WHERE id = ? LIMIT 1";
   prepare_and_execute($sql, [$_POST["new-quiz-name"], $quiz_id]);
@@ -266,7 +281,8 @@ $questions = $stmt->fetchAll();
                     <label for="<?= htmlspecialchars($choice) ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
                   </div>
                 <?php endforeach ?>
-              <?php elseif ($row["type" == "TF"]) : ?>
+                <div class="text-green-700">answer: <?= $row["answer"] ?></div>
+              <?php elseif ($row["type"] == "TF") : ?>
                 <div class="flex items-center gap-x-3">
                   <input id="True" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                   <label for="True" class="block text-sm font-medium leading-6 text-gray-900">True</label>
@@ -275,8 +291,8 @@ $questions = $stmt->fetchAll();
                   <input id="False" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                   <label for="False" class="block text-sm font-medium leading-6 text-gray-900">False</label>
                 </div>
+                <div class="text-green-700">answer: <?= $row["answer"] ?></div>
               <?php endif; ?>
-              <div class="text-green-700">answer: <?= $row["answer"] ?></div>
             </div>
 
             <!-- <div class="mt-6 space-y-6">
@@ -390,8 +406,8 @@ $questions = $stmt->fetchAll();
             <input class="border w-1/2 block" type="text" name="question" placeholder="Open-Ended question" required>
 
             <!-- Open-Ended Textarea with word count limit and counter -->
-            <textarea class="border block w-1/2" name="open_ended_answer" placeholder="Student's answer" required oninput="updateWordCount(this)" maxlength="300"></textarea>
-            <div id="wordCount" class="text-sm text-gray-500">Word count: 0/300</div>
+            <!-- <textarea class="border block w-1/2" name="open_ended_answer" placeholder="Student's answer" required oninput="updateWordCount(this)" maxlength="300"></textarea>
+            <div id="wordCount" class="text-sm text-gray-500">Word count: 0/300</div> -->
 
             <div class="mt-6 flex items-center justify-end gap-x-6">
               <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
