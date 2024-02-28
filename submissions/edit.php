@@ -8,6 +8,14 @@ $submission_id = $_GET["submission_id"];
 
 // echo $submission_id;
 
+if (isset($_POST["edit-button"])) {
+  $sql = "UPDATE responses SET score = ? WHERE id = ?";
+  prepare_and_execute($sql, [$_POST["score-input"], $_POST["response-id"]]);
+
+  header("Location: ./edit.php?submission_id=" . $submission_id);
+  exit;
+}
+
 $sql = "SELECT * FROM submissions WHERE id = ? LIMIT 1";
 $stmt = prepare_and_execute($sql, [$submission_id]);
 $submission = $stmt->fetch();
@@ -19,6 +27,7 @@ SELECT
   q.content AS question,
   GROUP_CONCAT(c.content SEPARATOR '|') AS choices,
   r.content AS response,
+  r.id AS response_id,
   a.content AS answer,
   r.score AS score
 FROM questions q
@@ -31,16 +40,19 @@ GROUP BY q.id
 $stmt = prepare_and_execute($sql, [$submission["quiz_id"], $submission["id"]]);
 $rows = $stmt->fetchAll();
 
-$num_correct = 0;
+// $num_correct = 0;
+
+$total_score = 0;
 
 foreach ($rows as $row) {
-  if ($row["response"] == $row["answer"]) {
-    $num_correct++;
-  }
+  // if ($row["response"] == $row["answer"]) {
+  //   $num_correct++;
+  // }
+  $total_score += $row["score"];
 }
 
 $num_questions = $stmt->rowCount();
-$grade = round(($num_correct / $num_questions) * 100, 2);
+$grade = round(($total_score / $num_questions) * 100, 2);
 
 // echo "<pre style='font-size: 9px;'>";
 // print_r($rows);
@@ -108,7 +120,7 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
     </div>
 
     <form method="">
-      <fieldset disabled="disabled">
+      <fieldset>
         <?php foreach ($rows as $index => $row) : ?>
           <?php
           $border_color = "";
@@ -123,11 +135,19 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
           }
           ?>
           <div class="border rounded-lg my-10 px-4 py-2 border-2 <?= $border_color ?>">
-            <div class="flex">
+            <div class="flex items-center">
               <legend class="grow text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
               <div>
                 score: <?= $row["score"]; ?>
               </div>
+
+
+              <?php if ($row["type"] == "OE") : ?>
+                <button type="button" value="<?= $row["response_id"] . "-" . $row["score"]; ?>" class="edit-button ml-2 cursor-pointer rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                  edit
+                </button>
+              <?php endif; ?>
+
             </div>
             <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
             <div class="mt-6 space-y-2">
@@ -178,6 +198,60 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
         <fieldset>
     </form>
   </div>
+
+  <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="edit-dialog">
+    <form method="post" class="px-8 mx-auto pt-6 pb-8">
+      <div class="space-y-10">
+        <div class="border-b border-gray-900/10 pb-12">
+          <h2 class="text-base font-semibold leading-7 text-gray-900">Update Score</h2>
+          <p class="mt-1 text-sm leading-6 text-gray-600">...</p>
+
+          <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="sm:col-span-4">
+              <label class="block text-sm font-medium leading-6 text-gray-900">score</label>
+              <div class="mt-2">
+                <input type="hidden" name="response-id" id="response-id">
+                <input id="score-input" name="score-input" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 flex items-center justify-end gap-x-6">
+        <button type="button" class="text-sm font-semibold leading-6 text-gray-900" id="js-close">Cancel</button>
+        <button type="submit" name="edit-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          Save
+        </button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const editButtons = document.getElementsByClassName("edit-button");
+    const editDialog = document.getElementById("edit-dialog");
+
+    const scoreInput = document.getElementById("score-input");
+    const responseId = document.getElementById("response-id");
+
+    const jsCloseBtn = document.getElementById("js-close");
+
+    for (const b of editButtons) {
+      b.addEventListener("click", (e) => {
+        e.preventDefault();
+        editDialog.showModal();
+        console.log(b.value);
+        const [responseIdValue, score] = b.value.split("-");
+        scoreInput.value = score;
+        responseId.value = responseIdValue;
+      });
+    }
+
+    jsCloseBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      editDialog.close();
+    });
+  </script>
 
 </body>
 
