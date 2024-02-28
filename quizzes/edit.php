@@ -8,6 +8,13 @@ $dbh = connect_to_database();
 
 $quiz_id = $_GET["quiz_id"];
 
+
+$sql = "SELECT * FROM quizzes WHERE id = ? LIMIT 1";
+$stmt = prepare_and_execute($sql, [$quiz_id]);
+$quiz = $stmt->fetch();
+
+$course_id = $quiz["course_id"];
+
 if (isset($_POST["delete-question-button"])) {
   $question_id = $_POST["delete-question-button"];
 
@@ -46,11 +53,51 @@ if (isset($_POST["rename-save-button"])) {
   exit;
 }
 
-$sql = "SELECT * FROM quizzes WHERE id = ? LIMIT 1";
-$stmt = prepare_and_execute($sql, [$quiz_id]);
-$quiz = $stmt->fetch();
+if (isset($_POST["new-clone-name"])) {
+  $sql = "INSERT INTO quizzes (name, code, course_id) VALUES (?, ?, ?)";
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute([$_POST["new-clone-name"], generate_quiz_code(), $course_id]);
 
-$course_id = $quiz["course_id"];
+  $new_quiz_id = $dbh->lastInsertId();
+
+  $sql = "SELECT id, type, content FROM questions WHERE quiz_id = ?";
+  $stmt = prepare_and_execute($sql, [$quiz_id]);
+  $rows = $stmt->fetchAll();
+
+  var_dump($rows);
+
+  foreach ($rows as $row) {
+    var_dump($row);
+    $sql = "INSERT INTO questions (type, content, quiz_id) VALUES (?, ?, ?)";
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute([$row["type"], $row["content"], $new_quiz_id]);
+
+    $new_question_id = $dbh->lastInsertId();
+
+    if ($row["type"] == "MC") {
+      // Clone choices
+      $sql = "SELECT content FROM choices WHERE question_id = ?";
+      $stmt = prepare_and_execute($sql, [$row["id"]]);
+      $choices = $stmt->fetchAll();
+      foreach ($choices as $choice) {
+        $sql = "INSERT INTO choices (content, question_id) VALUES (?, ?)";
+        prepare_and_execute($sql, [$choice["content"], $new_question_id]);
+      }
+
+      // Clone answer
+      $sql = "SELECT content FROM answers WHERE question_id = ?";
+      $stmt = prepare_and_execute($sql, [$row["id"]]);
+      $answer = $stmt->fetchColumn();
+
+      $sql = "INSERT INTO answers (content, question_id) VALUES (?, ?)";
+      $stmt = prepare_and_execute($sql, [$answer, $new_question_id]);
+    }
+  }
+
+  header("Location: ./index.php");
+  exit;
+}
+
 
 $sql = "SELECT * FROM courses WHERE id = ? LIMIT 1";
 $stmt = $dbh->prepare($sql);
@@ -221,11 +268,10 @@ $questions = $stmt->fetchAll();
         <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
           + New question
         </button>
-
         <button id="show-rename-dialog" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
           Rename
         </button>
-        <button class="rounded-md bg-indigo-300 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        <button id="show-clone-dialog" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
           Clone
         </button>
       </div>
@@ -332,6 +378,33 @@ $questions = $stmt->fetchAll();
       </form>
     </dialog>
 
+    <!-- Clone modal -->
+    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[405px]" id="clone-dialog">
+      <form method="post" class="mt-5 mb-14">
+
+        <div class="space-y-12">
+          <div class="border-b border-gray-900/10 pb-12">
+            <h2 class="text-base font-semibold leading-7 text-gray-900">Clone Quiz</h2>
+            <p class="mt-1 text-sm leading-6 text-gray-600">...</p>
+
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div class="sm:col-span-4">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+                <div class="mt-2">
+                  <input name="new-clone-name" type="text" autocomplete="email" required class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+          <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
+          <button type="submit" name="clone-save-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+        </div>
+      </form>
+    </dialog>
+
     <!-- Rename modal -->
     <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[405px]" id="rename-dialog">
       <form method="post" class="mt-5 mb-14">
@@ -387,9 +460,15 @@ $questions = $stmt->fetchAll();
       showRenameDialogButton.addEventListener("click", () => {
         renameDialog.showModal();
       })
-
       showBtn.addEventListener("click", () => {
         dialog.showModal();
+      });
+
+      const cloneDialogButton = document.getElementById("show-clone-dialog");
+      const cloneDialog = document.getElementById("clone-dialog")
+
+      cloneDialogButton.addEventListener("click", () => {
+        cloneDialog.showModal();
       });
 
       for (const b of jsCloseBtns) {
@@ -397,6 +476,7 @@ $questions = $stmt->fetchAll();
           e.preventDefault();
           dialog.close();
           renameDialog.close();
+          cloneDialog.close();
         });
       }
     </script>
