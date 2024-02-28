@@ -67,7 +67,7 @@ if (isset($_POST["new-clone-name"])) {
   var_dump($rows);
 
   foreach ($rows as $row) {
-    var_dump($row);
+    // var_dump($row);
     $sql = "INSERT INTO questions (type, content, quiz_id) VALUES (?, ?, ?)";
     $stmt = $dbh->prepare($sql);
     $stmt->execute([$row["type"], $row["content"], $new_quiz_id]);
