@@ -104,7 +104,15 @@ $courses = $stmt->fetchAll();
 
     <div class="flex mb-4 items-center">
       <h1 class="grow text-xl font-medium">Courses</h1>
-      <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+ New course</button>
+      <!-- <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+ New course</button> -->
+      <button id="show-dialog" class="flex items-center rounded-md bg-indigo-600 px-3 pl-2 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="h-5 w-5 mr-0.5">
+          <path d="M10.75 6.75a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"></path>
+        </svg>
+        <div>
+          New course
+        </div>
+      </button>
     </div>
 
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
@@ -119,9 +127,9 @@ $courses = $stmt->fetchAll();
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($courses as $index => $course) : ?>
             <tr class="h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
-              <td class="text-center font-medium pl-1"><?= $index + 1 ?> </td>
+              <td class="text-center font-light text-slate-600 pl-1"><?= $index + 1 ?> </td>
               <td class="pl-8"><?= $course["name"] ?></td>
-              <td class="text-gray-500">
+              <td class="text-slate-500">
                 <?= (new DateTime($course["created_at"]))->format('m/d/Y') ?>
               </td>
               <td>
