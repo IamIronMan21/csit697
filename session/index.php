@@ -83,9 +83,10 @@ $quiz = $stmt->fetch();
 $sql = "
 SELECT q.id AS id,
 q.content AS question,
+q.type as type,
 GROUP_CONCAT(c.content SEPARATOR '|') AS choices
 FROM questions q
-JOIN choices c ON q.id = c.question_id
+LEFT JOIN choices c ON q.id = c.question_id
 WHERE q.quiz_id = ?
 GROUP BY q.id, q.content
 ";
@@ -136,11 +137,29 @@ $rows = $stmt->fetchAll();
           <div class="mt-6 space-y-2">
             <?php $h = "question_" . $row["id"]; ?>
             <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
-              <div class="flex items-center gap-x-3">
+              <!-- <div class="flex items-center gap-x-3">
                 <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required>
                 <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
-              </div>
+              </div> -->
             <?php endforeach ?>
+
+            <?php if ($row["type"] == "MC") : ?>
+              <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+                <div class="flex items-center gap-x-3">
+                  <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                  <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                </div>
+              <?php endforeach ?>
+            <?php elseif ($row["type" == "TF"]) : ?>
+              <div class="flex items-center gap-x-3">
+                <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">True</label>
+              </div>
+              <div class="flex items-center gap-x-3">
+                <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+              </div>
+            <?php endif; ?>
           </div>
         </div>
       <?php endforeach; ?>
