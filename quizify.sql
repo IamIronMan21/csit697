@@ -42,7 +42,7 @@ CREATE TABLE `quizzes` (
 CREATE TABLE `responses` (
   `id` int(11) NOT NULL,
   `content` text NOT NULL,
-  `score` int(11) NOT NULL,
+  `score` double NOT NULL,
   `submission_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
