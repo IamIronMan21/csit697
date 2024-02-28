@@ -15,6 +15,7 @@ $quiz = $stmt->fetch();
 
 $course_id = $quiz["course_id"];
 
+// TODO remove data related to questions
 if (isset($_POST["delete-question-button"])) {
   $question_id = $_POST["delete-question-button"];
 
@@ -47,9 +48,9 @@ if (isset($_POST["new-mc-question"])) {
 }
 
 if (isset($_POST["new-tf-question"])) {
-  echo $_POST["question"];
-  echo "<br>";
-  echo $_POST["true-false-option"];
+  // echo $_POST["question"];
+  // echo "<br>";
+  // echo $_POST["true-false-option"];
 
   $sql = "INSERT INTO questions (type, content, quiz_id) VALUES (?, ?, ?)";
   $stmt = $dbh->prepare($sql);
