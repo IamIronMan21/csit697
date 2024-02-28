@@ -113,10 +113,24 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
       grade: <?= $grade ?>
     </div> -->
 
+    <p>Note: Open-ended answers will be graded manually.</p>
+
     <form method="">
       <fieldset disabled="disabled">
         <?php foreach ($rows as $index => $row) : ?>
-          <div class="border rounded-lg my-10 px-4 py-2 border-2 <?= ($row["response"] ==  $row["answer"]) ? "border-green-500" : "border-red-500" ?>">
+          <?php
+          $border_color = "";
+          if ($row["type"] == "OE") {
+            $border_color = "border-gray-300";
+          } else {
+            if ($row["response"] ==  $row["answer"]) {
+              $border_color = "border-green-500";
+            } else {
+              $border_color = "border-red-500";
+            }
+          }
+          ?>
+          <div class="border rounded-lg my-10 px-4 py-2 border-2 <?= $border_color ?>">
             <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
             <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
             <div class="mt-6 space-y-2">
@@ -135,7 +149,7 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
                   </div>
                 <?php endforeach ?>
 
-              <?php elseif ($row["type" == "TF"]) : ?>
+              <?php elseif ($row["type"] == "TF") : ?>
 
                 <div class="flex items-center gap-x-3">
                   <?php if ($row["response"] == "True") : ?>
@@ -154,6 +168,11 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
                     <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                   <?php endif; ?>
                   <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+                </div>
+
+              <?php elseif ($row["type"] == "OE") : ?>
+                <div class="flex items-center gap-x-3">
+                  <textarea id="<?= $h ?>" name="<?= $h ?>" required class="border block w-full rounded p-1 border-slate-300"><?= $row["response"] ?></textarea>
                 </div>
               <?php endif; ?>
             </div>
