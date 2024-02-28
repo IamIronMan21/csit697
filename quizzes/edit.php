@@ -109,6 +109,16 @@ if (isset($_POST["new-clone-name"])) {
 
     $new_question_id = $dbh->lastInsertId();
 
+    if ($row["type"] == "MC" || $row["type"] == "TF") {
+      // Clone answer
+      $sql = "SELECT content FROM answers WHERE question_id = ?";
+      $stmt = prepare_and_execute($sql, [$row["id"]]);
+      $answer = $stmt->fetchColumn();
+
+      $sql = "INSERT INTO answers (content, question_id) VALUES (?, ?)";
+      $stmt = prepare_and_execute($sql, [$answer, $new_question_id]);
+    }
+
     if ($row["type"] == "MC") {
       // Clone choices
       $sql = "SELECT content FROM choices WHERE question_id = ?";
@@ -118,14 +128,6 @@ if (isset($_POST["new-clone-name"])) {
         $sql = "INSERT INTO choices (content, question_id) VALUES (?, ?)";
         prepare_and_execute($sql, [$choice["content"], $new_question_id]);
       }
-
-      // Clone answer
-      $sql = "SELECT content FROM answers WHERE question_id = ?";
-      $stmt = prepare_and_execute($sql, [$row["id"]]);
-      $answer = $stmt->fetchColumn();
-
-      $sql = "INSERT INTO answers (content, question_id) VALUES (?, ?)";
-      $stmt = prepare_and_execute($sql, [$answer, $new_question_id]);
     }
   }
 
