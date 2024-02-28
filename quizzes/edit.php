@@ -134,8 +134,12 @@ $questions = $stmt->fetchAll();
   <div class="mx-auto bg-white border-slate-500 min-h-screen px-12">
 
     <div class="flex w-full min-h-screen">
-      <div class="border-r pt-4 pr-6 mr-10 border-slate-400 px-20">
-        <a href="./index.php">‹ back</a>
+      <div class="border-r pt-4 pr-6 mr-10 border-slate-400 pl-4 pr-10">
+        <div class="pt-4 border-slate-400 px-10 text-center">
+          <a href="./index.php" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            ‹&nbsp;Back
+          </a>
+        </div>
       </div>
 
       <div class="w-2/3 pt-4">
