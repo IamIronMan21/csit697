@@ -67,7 +67,7 @@ if (isset($_POST["new-tf-question"])) {
 }
 
 if (isset($_POST["new-oe-question"])) {
-  echo $_POST["question"];
+  // echo $_POST["question"];
   // echo "<br>";
   // echo $_POST["true-false-option"];
 
