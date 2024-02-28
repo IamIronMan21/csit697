@@ -46,6 +46,25 @@ if (isset($_POST["new-mc-question"])) {
   exit;
 }
 
+if (isset($_POST["new-tf-question"])) {
+  echo $_POST["question"];
+  echo "<br>";
+  echo $_POST["true-false-option"];
+
+  $sql = "INSERT INTO questions (type, content, quiz_id) VALUES (?, ?, ?)";
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute(["TF", $_POST["question"], $quiz_id]);
+
+  $question_id = $dbh->lastInsertId();
+
+  $sql = "INSERT INTO answers (content, question_id) VALUES (?, ?)";
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute([$_POST["true-false-option"], $question_id]);
+
+  // header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
+  // exit;
+}
+
 if (isset($_POST["rename-save-button"])) {
   $sql = "UPDATE quizzes SET name = ? WHERE id = ? LIMIT 1";
   prepare_and_execute($sql, [$_POST["new-quiz-name"], $quiz_id]);
@@ -114,11 +133,12 @@ $questions = $stmt->fetchAll();
 
 $sql = "
 SELECT q.id AS id,
+       q.type as type,
        q.content AS question,
        GROUP_CONCAT(c.content SEPARATOR '|') AS choices,
        a.content AS answer
 FROM questions q
-JOIN choices c ON q.id = c.question_id
+LEFT JOIN choices c ON q.id = c.question_id
 LEFT JOIN answers a ON q.id = a.question_id
 WHERE q.quiz_id = ?
 GROUP BY q.id, q.content, a.content;
@@ -127,9 +147,9 @@ $stmt = $dbh->prepare($sql);
 $stmt->execute([$quiz_id]);
 
 // foreach ($stmt->fetchAll() as $row) {
-//   echo $row["id"] . " " . $row["question"] . $row["choices"] . "<br>";
-//   echo $row["choices"];
-//   echo "<br>";
+//   // echo $row["id"] . " " . $row["question"] . $row["choices"] . "<br>";
+//   // echo $row["choices"];
+//   // echo "<br>";
 // }
 
 // $choices = explode("|", $row["choices"]);
@@ -238,12 +258,23 @@ $questions = $stmt->fetchAll();
             <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
             <div class="mt-6 space-y-2">
               <?php $h = uniqid("", true); ?>
-              <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+              <?php if ($row["type"] == "MC") : ?>
+                <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+                  <div class="flex items-center gap-x-3">
+                    <input id="<?= htmlspecialchars($choice) ?>" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                    <label for="<?= htmlspecialchars($choice) ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                  </div>
+                <?php endforeach ?>
+              <?php elseif ($row["type" == "TF"]) : ?>
                 <div class="flex items-center gap-x-3">
-                  <input id="<?= htmlspecialchars($choice) ?>" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                  <label for="<?= htmlspecialchars($choice) ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                  <input id="True" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                  <label for="True" class="block text-sm font-medium leading-6 text-gray-900">True</label>
                 </div>
-              <?php endforeach ?>
+                <div class="flex items-center gap-x-3">
+                  <input id="False" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                  <label for="False" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+                </div>
+              <?php endif; ?>
               <div class="text-green-700">answer: <?= $row["answer"] ?></div>
             </div>
 
@@ -335,11 +366,11 @@ $questions = $stmt->fetchAll();
 
             <!-- True/False Options -->
             <div class="flex items-center gap-x-3">
-              <input id="true-option" name="true_false_option" type="radio" value="True" required>
+              <input id="true-option" name="true-false-option" type="radio" value="True" required>
               <label for="true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
             </div>
             <div class="flex items-center gap-x-3">
-              <input id="false-option" name="true_false_option" type="radio" value="False" required>
+              <input id="false-option" name="true-false-option" type="radio" value="False" required>
               <label for="false-option" class="block text-sm font-medium leading-6 text-gray-900">False</label>
             </div>
 
