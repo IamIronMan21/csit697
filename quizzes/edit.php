@@ -79,7 +79,20 @@ if (isset($_POST["new-oe-question"])) {
   // exit;
 }
 
+if (isset($_POST["edit-question-submit-button"])) {
+  // var_dump($_POST["edit-question-submit-button"]);
+  $id = $_POST["edit-question-submit-button"];
+  $content = $_POST["question-$id"];
 
+  var_dump($id);
+  var_dump($content);
+
+  $sql = "UPDATE questions SET content = ? WHERE id = ?";
+  prepare_and_execute($sql, [$content, $id]);
+
+  header("Location: ./edit.php?quiz_id=" . $quiz_id);
+  exit;
+}
 
 if (isset($_POST["rename-save-button"])) {
   $sql = "UPDATE quizzes SET name = ? WHERE id = ? LIMIT 1";
@@ -251,8 +264,6 @@ $questions = $stmt->fetchAll();
           </div>
         </div>
 
-
-
         <script>
           function updateWordCount(textarea) {
             const wordCountDisplay = document.getElementById('wordCount');
@@ -336,7 +347,7 @@ $questions = $stmt->fetchAll();
                     <div class="sm:col-span-4">
                       <label class="block text-sm font-medium leading-6 text-gray-900">Question</label>
                       <div class="mt-2">
-                        <input name="new-quiz-name" type="text" autocomplete="email" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $row["question"] ?>">
+                        <input name="question-<?= $row["id"]; ?>" type="text" autocomplete="email" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $row["question"] ?>">
                       </div>
                     </div>
                   </div>
@@ -345,7 +356,7 @@ $questions = $stmt->fetchAll();
 
               <div class="mt-6 flex items-center justify-end gap-x-6">
                 <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="" value="<?= $index ?>">Cancel</button>
-                <button type="submit" name="edit-question-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                <button type="submit" name="edit-question-submit-button" value="<?= $row["id"] ?>" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
               </div>
             </form>
           </dialog>
