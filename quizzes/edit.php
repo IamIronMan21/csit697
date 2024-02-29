@@ -330,7 +330,7 @@ $questions = $stmt->fetchAll();
     <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[405px]" id="dialog">
       <div class="tab w-full flex">
         <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity(event, 'London')">Multiple Choice</button>
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity(event, 'Paris')">True/False</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity(event, 'Paris')">True or False</button>
         <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity(event, 'Tokyo')">Open-Ended</button>
       </div>
       <hr class="mb-2">
@@ -379,9 +379,8 @@ $questions = $stmt->fetchAll();
       <div id="Paris" class="tabcontent">
         <!-- Add True/False question -->
         <div class="">
-          <p>Add True/False question</p>
           <form method="post" class="p-2">
-            <input class="border w-1/2 block" type="text" name="question" placeholder="True/False question" required>
+            <input class="border w-1/2 block" type="text" name="question" placeholder="True or False question" required>
 
             <!-- True/False Options -->
             <div class="flex items-center gap-x-3">
@@ -403,7 +402,6 @@ $questions = $stmt->fetchAll();
 
       <div id="Tokyo" class="tabcontent">
         <div class="">
-          <p>Add Open-Ended question</p>
           <form method="post" class="p-2">
             <input class="border w-1/2 block" type="text" name="question" placeholder="Open-Ended question" required>
 
