@@ -228,13 +228,20 @@ $questions = $stmt->fetchAll();
     <div class="flex w-full min-h-screen">
       <div class="border-r pt-4 pr-6 mr-10 border-slate-400 pl-4 pr-10">
         <div class="pt-4 border-slate-400 px-10 text-center">
-          <a href="./index.php" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-            ‹&nbsp;Back
+          <a href="./index.php" class="flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-3 h-3 mr-1">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+              </svg>
+            </div>
+            <div>
+              Back
+            </div>
           </a>
         </div>
       </div>
 
-      <div class="w-2/3 pt-4">
+      <div class="w-3/5 pt-4">
         <div class="border rounded-xl border-slate-400 mb-3 px-4 py-3 bg-white">
           <h1 class="text-lg font-bold"><?= $course["name"] ?></h1>
           <h1><?= $quiz["name"] ?></h1>
@@ -267,6 +274,9 @@ $questions = $stmt->fetchAll();
               <div class="grow">
                 <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
               </div>
+              <div class="mr-3">
+                <button class="edit-question-button" type="button" value="<?= $index ?>">edit</button>
+              </div>
               <div>
                 <form method="post">
                   <button type="submit" name="delete-question-button" value="<?= $row["id"] ?>">delete</button>
@@ -277,7 +287,7 @@ $questions = $stmt->fetchAll();
             <div class="mt-6 space-y-2">
               <?php $h = uniqid("", true); ?>
               <?php if ($row["type"] == "MC") : ?>
-                <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+                <?php foreach (explode("|", $row["choices"]) as $choice) : ?>
                   <div class="flex items-center gap-x-3">
                     <input id="<?= htmlspecialchars($choice) ?>" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                     <label for="<?= htmlspecialchars($choice) ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
@@ -312,17 +322,63 @@ $questions = $stmt->fetchAll();
               </div>
             </div> -->
           </div>
+
+          <!-- Edit question modal -->
+          <dialog class="edit-modal w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[405px]">
+            <form method="post" class="mt-5 mb-14">
+
+              <div class="space-y-12">
+                <div class="border-b border-gray-900/10 pb-12">
+                  <h2 class="text-base font-semibold leading-7 text-gray-900">Edit Question</h2>
+                  <p class="mt-1 text-sm leading-6 text-gray-600">...</p>
+
+                  <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                    <div class="sm:col-span-4">
+                      <label class="block text-sm font-medium leading-6 text-gray-900">Question</label>
+                      <div class="mt-2">
+                        <input name="new-quiz-name" type="text" autocomplete="email" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $row["question"] ?>">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6 flex items-center justify-end gap-x-6">
+                <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="" value="<?= $index ?>">Cancel</button>
+                <button type="submit" name="edit-question-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+              </div>
+            </form>
+          </dialog>
         <?php endforeach; ?>
       </div>
       <div class="border-l pl-6 ml-10 border-slate-400 pt-4 flex flex-col space-y-2">
-        <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-          + New question
+        <button id="show-dialog" class="flex items-center rounded-md bg-indigo-600 px-3 pl-2 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="h-5 w-5 mr-0.5">
+            <path d="M10.75 6.75a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"></path>
+          </svg>
+          <div>
+            New question
+          </div>
         </button>
-        <button id="show-rename-dialog" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          Rename
+        <button id="show-rename-dialog" class="flex items-center w-[120px] rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+          <div class="mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+            </svg>
+          </div>
+          <div class="">
+            Rename
+          </div>
         </button>
-        <button id="show-clone-dialog" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          Clone
+        <button id="show-clone-dialog" class="flex items-center w-[120px] rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+          <div class="mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+            </svg>
+          </div>
+          <div class="">
+            Clone
+          </div>
         </button>
       </div>
     </div>
@@ -480,15 +536,19 @@ $questions = $stmt->fetchAll();
       </form>
     </dialog>
 
+
+    <script>
+
+    </script>
+
     <script>
       function openCity(evt, cityName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
+        let tabcontent = document.getElementsByClassName("tabcontent");
+        for (let i = 0; i < tabcontent.length; i++) {
           tabcontent[i].style.display = "none";
         }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
+        let tablinks = document.getElementsByClassName("tablinks");
+        for (let i = 0; i < tablinks.length; i++) {
           tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
         document.getElementById(cityName).style.display = "block";
@@ -498,6 +558,17 @@ $questions = $stmt->fetchAll();
     </script>
 
     <script>
+      const editQuestionButtons = document.getElementsByClassName("edit-question-button");
+      const editQuestionDialogs = document.getElementsByClassName("edit-modal");
+
+      for (const b of editQuestionButtons) {
+        b.addEventListener("click", (e) => {
+          e.preventDefault();
+          console.log(b.value);
+          editQuestionDialogs[b.value].showModal();
+        })
+      }
+
       const showBtn = document.getElementById("show-dialog");
       const dialog = document.getElementById("dialog");
       const jsCloseBtns = document.getElementsByClassName("js-close");
@@ -525,6 +596,11 @@ $questions = $stmt->fetchAll();
           dialog.close();
           renameDialog.close();
           cloneDialog.close();
+          console.log(b);
+          console.log(b.value);
+          if (b.value != null) {
+            editQuestionDialogs[parseInt(b.value)].close();
+          }
         });
       }
     </script>
