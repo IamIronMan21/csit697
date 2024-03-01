@@ -100,13 +100,22 @@ if (isset($_POST["edit-question-submit-button"])) {
   }
 
   if ($type == "MC") {
-    // get id's of the 4 choices
-    $sql = "SELECT id FROM choices WHERE question_id = ?";
+    $sql = "SELECT id, content FROM choices WHERE question_id = ?";
     $stmt = prepare_and_execute($sql, [$id]);
     $choices = $stmt->fetchAll();
 
+    $sql = "SELECT content FROM answers WHERE question_id = ?";
+    $stmt = prepare_and_execute($sql, [$id]);
+    $answer = $stmt->fetchColumn();
+
     foreach ($choices as $index => $choice) {
       $new_choice = $_POST["question-$id-choice-$index"];
+
+      if ($choice["content"] == $answer) {
+        $sql = "UPDATE answers SET content = ? WHERE question_id = ?";
+        prepare_and_execute($sql, [$new_choice, $id]);
+      }
+
       $sql = "UPDATE choices SET content = ? WHERE id = ?";
       prepare_and_execute($sql, [$new_choice, $choice["id"]]);
     }
