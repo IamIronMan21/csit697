@@ -99,17 +99,18 @@ if (isset($_POST["edit-question-submit-button"])) {
     prepare_and_execute($sql, [$new_answer, $id]);
   }
 
-  // if ($type == "MC") {
-  //   // get id's of the 4 choices
-  //   $sql = "SELECT id FROM choices WHERE question_id = ?";
-  //   $stmt = prepare_and_execute($sql, [$id]);
-  //   $choice_ids = $stmt->fetchAll();
+  if ($type == "MC") {
+    // get id's of the 4 choices
+    $sql = "SELECT id FROM choices WHERE question_id = ?";
+    $stmt = prepare_and_execute($sql, [$id]);
+    $choices = $stmt->fetchAll();
 
-  //   // deal with choices
-  //   for ($i = 0; $i <= 3; $i++) {
-  //     $new_choice = $_POST["question-$id-choice-$i"];
-  //   }
-  // }
+    foreach ($choices as $index => $choice) {
+      $new_choice = $_POST["question-$id-choice-$index"];
+      $sql = "UPDATE choices SET content = ? WHERE id = ?";
+      prepare_and_execute($sql, [$new_choice, $choice["id"]]);
+    }
+  }
 
   header("Location: ./edit.php?quiz_id=" . $quiz_id);
   exit;
@@ -397,19 +398,19 @@ $questions = $stmt->fetchAll();
                         <input type="hidden" name="question-<?= $row["id"] ?>-answer" value="<?= $row["answer"] ?>">
                         <div class="flex">
                           <span>1</span>
-                          <input class="border block w-1/2" type="text" name="question-<?= $index; ?>-choice-1" placeholder="choice 1" required value="<?= $choices[0]; ?>">
+                          <input class="border block w-1/2" type="text" name="question-<?= $row["id"]; ?>-choice-0" placeholder="choice 1" required value="<?= $choices[0]; ?>">
                         </div>
                         <div class="flex">
                           <span>2</span>
-                          <input class="border block w-1/2" type="text" name="question-<?= $index; ?>-choice-2" placeholder="choice 2" required value="<?= $choices[1]; ?>">
+                          <input class="border block w-1/2" type="text" name="question-<?= $row["id"]; ?>-choice-1" placeholder="choice 2" required value="<?= $choices[1]; ?>">
                         </div>
                         <div class="flex">
                           <span>3</span>
-                          <input class="border block w-1/2" type="text" name="question-<?= $index; ?>-choice-3" required value="<?= $choices[2]; ?>">
+                          <input class="border block w-1/2" type="text" name="question-<?= $row["id"]; ?>-choice-2" required value="<?= $choices[2]; ?>">
                         </div>
                         <div class="flex">
                           <span>4</span>
-                          <input class="border block w-1/2" type="text" name="question-<?= $index; ?>-choice-4" placeholder="choice 4" required value="<?= $choices[3]; ?>">
+                          <input class="border block w-1/2" type="text" name="question-<?= $row["id"]; ?>-choice-3" placeholder="choice 4" required value="<?= $choices[3]; ?>">
                         </div>
                         <div class="flex">
                           <span>correct answer</span>
