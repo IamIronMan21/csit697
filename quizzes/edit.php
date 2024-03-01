@@ -186,44 +186,28 @@ if (isset($_POST["new-clone-name"])) {
   exit;
 }
 
-
-$sql = "SELECT * FROM courses WHERE id = ? LIMIT 1";
-$stmt = $dbh->prepare($sql);
-$stmt->execute([$course_id]);
-
+$sql = "SELECT name FROM courses WHERE id = ? LIMIT 1";
+$stmt = prepare_and_execute($sql, [$course_id]);
 $course = $stmt->fetch();
 
-//
-$sql = "SELECT * FROM questions WHERE quiz_id = ?";
-$stmt = $dbh->prepare($sql);
-$stmt->execute([$quiz_id]);
-
-$questions = $stmt->fetchAll();
-
 $sql = "
-SELECT q.id AS id,
-       q.type as type,
-       q.content AS question,
-       GROUP_CONCAT(c.content SEPARATOR '|') AS choices,
-       a.content AS answer
-FROM questions q
-LEFT JOIN choices c ON q.id = c.question_id
-LEFT JOIN answers a ON q.id = a.question_id
-WHERE q.quiz_id = ?
-GROUP BY q.id, q.content, a.content;
+SELECT
+  q.id AS id,
+  q.type AS type,
+  q.content AS question,
+  GROUP_CONCAT(c.content SEPARATOR '|') AS choices,
+  a.content AS answer
+FROM
+  questions q
+  LEFT JOIN choices c ON q.id = c.question_id
+  LEFT JOIN answers a ON q.id = a.question_id
+WHERE
+  q.quiz_id = ?
+GROUP BY
+  q.id;
 ";
-$stmt = $dbh->prepare($sql);
-$stmt->execute([$quiz_id]);
-
-// foreach ($stmt->fetchAll() as $row) {
-//   // echo $row["id"] . " " . $row["question"] . $row["choices"] . "<br>";
-//   // echo $row["choices"];
-//   // echo "<br>";
-// }
-
-// $choices = explode("|", $row["choices"]);
-
-$questions = $stmt->fetchAll();
+$stmt = prepare_and_execute($sql, [$quiz_id]);
+$rows = $stmt->fetchAll();
 
 ?>
 
@@ -274,12 +258,12 @@ $questions = $stmt->fetchAll();
     </div>
   </nav>
 
-  <div class="mx-auto bg-white border-slate-500 min-h-screen px-12">
+  <div class="mx-auto bg-white border-slate-500 min-h-screen">
 
     <div class="flex w-full min-h-screen">
-      <div class="border-r pt-4 pr-6 mr-10 border-slate-400 pl-4 pr-10">
-        <div class="pt-4 border-slate-400 px-10 text-center">
-          <a href="./index.php" class="flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+      <div class="w-1/4 pt-4 border-slate-400">
+        <div class="border-slate-400 flex justify-end">
+          <a href="./index.php" class="flex items-center w-1/3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-3 h-3 mr-1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -292,8 +276,8 @@ $questions = $stmt->fetchAll();
         </div>
       </div>
 
-      <div class="w-3/5 pt-4">
-        <div class="border rounded-xl border-slate-400 mb-3 px-4 py-3 bg-white">
+      <div class="w-1/2 pt-4">
+        <div class="border w-4/5 mx-auto rounded-xl border-slate-400 mb-3 px-4 py-3 bg-white">
           <h1 class="text-lg font-bold"><?= $course["name"] ?></h1>
           <h1><?= $quiz["name"] ?></h1>
           <div class="flex">
@@ -317,8 +301,8 @@ $questions = $stmt->fetchAll();
           }
         </script>
 
-        <?php foreach ($questions as $index => $row) : ?>
-          <div class="border mx-auto w-4/5 rounded-lg my-10 px-4 py-2 border-slate-300 bg-white">
+        <?php foreach ($rows as $index => $row) : ?>
+          <div class="border mx-auto w-4/5 rounded-lg my-10 px-4 py-2 border-slate-400 bg-white">
             <div class="flex">
               <div class="grow">
                 <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
@@ -454,35 +438,42 @@ $questions = $stmt->fetchAll();
           </dialog>
         <?php endforeach; ?>
       </div>
-      <div class="border-l pl-6 ml-10 border-slate-400 pt-4 flex flex-col space-y-2">
-        <button id="show-dialog" class="flex items-center rounded-md bg-indigo-600 px-3 pl-2 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="h-5 w-5 mr-0.5">
-            <path d="M10.75 6.75a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"></path>
-          </svg>
-          <div>
-            New question
-          </div>
-        </button>
-        <button id="show-rename-dialog" class="flex items-center w-[120px] rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          <div class="mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+
+      <!--  -->
+      <div class="w-1/4 border-slate-400 pt-4">
+        <div class="space-y-3.5 flex flex-col justify-start">
+
+          <button id="show-dialog" class="flex w-1/2 items-center justify-center rounded-md bg-indigo-600 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="h-5 w-5 mr-0.5">
+              <path d="M10.75 6.75a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"></path>
             </svg>
-          </div>
-          <div class="">
-            Rename
-          </div>
-        </button>
-        <button id="show-clone-dialog" class="flex items-center w-[120px] rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          <div class="mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-            </svg>
-          </div>
-          <div class="">
-            Clone
-          </div>
-        </button>
+            <div class="text-center">
+              New question
+            </div>
+          </button>
+
+          <button id="show-rename-dialog" class="flex w-1/2 items-center justify-center rounded-md bg-white px-3 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <div class="">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+              </svg>
+            </div>
+            <div class="text-center ml-2">
+              Rename
+            </div>
+          </button>
+
+          <button id="show-clone-dialog" class="flex w-1/2 items-center justify-center rounded-md bg-white px-3 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <div class="">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+              </svg>
+            </div>
+            <div class="text-center ml-2">
+              Clone
+            </div>
+          </button>
+        </div>
       </div>
     </div>
 
