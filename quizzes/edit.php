@@ -108,17 +108,24 @@ if (isset($_POST["edit-question-submit-button"])) {
     $stmt = prepare_and_execute($sql, [$id]);
     $answer = $stmt->fetchColumn();
 
+    $choice_number = $_POST["question-$id-new-correct-choice-number"];
+    // adjust
+    $choice_number -= 1;
+
     foreach ($choices as $index => $choice) {
       $new_choice = $_POST["question-$id-choice-$index"];
 
-      if ($choice["content"] == $answer) {
-        $sql = "UPDATE answers SET content = ? WHERE question_id = ?";
-        prepare_and_execute($sql, [$new_choice, $id]);
-      }
+      // if ($choice["content"] == $answer) {
+      //   $sql = "UPDATE answers SET content = ? WHERE question_id = ?";
+      //   prepare_and_execute($sql, [$new_choice, $id]);
+      // }
 
       $sql = "UPDATE choices SET content = ? WHERE id = ?";
       prepare_and_execute($sql, [$new_choice, $choice["id"]]);
     }
+
+    $sql = "UPDATE answers SET content = ? WHERE question_id = ?";
+    prepare_and_execute($sql, [$_POST["question-$id-choice-$choice_number"], $id]);
   }
 
   header("Location: ./edit.php?quiz_id=" . $quiz_id);
@@ -423,7 +430,7 @@ $questions = $stmt->fetchAll();
                         </div>
                         <div class="flex">
                           <span>correct answer</span>
-                          <input type="number" class="border" name="correct-choice-number" min="1" max="4" placeholder="1-4" required>
+                          <input type="number" class="border" name="question-<?= $row["id"] ?>-new-correct-choice-number" min="1" max="4" placeholder="1-4" required>
                         </div>
                       </div>
                     </div>
