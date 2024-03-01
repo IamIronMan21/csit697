@@ -90,6 +90,27 @@ if (isset($_POST["edit-question-submit-button"])) {
   $sql = "UPDATE questions SET content = ? WHERE id = ?";
   prepare_and_execute($sql, [$content, $id]);
 
+  $type = $_POST["question-$id-type"];
+
+  if ($type == "TF") {
+    $new_answer = $_POST["question-$id-edit-true-false-option"];
+
+    $sql = "UPDATE answers SET content = ? WHERE question_id = ?";
+    prepare_and_execute($sql, [$new_answer, $id]);
+  }
+
+  // if ($type == "MC") {
+  //   // get id's of the 4 choices
+  //   $sql = "SELECT id FROM choices WHERE question_id = ?";
+  //   $stmt = prepare_and_execute($sql, [$id]);
+  //   $choice_ids = $stmt->fetchAll();
+
+  //   // deal with choices
+  //   for ($i = 0; $i <= 3; $i++) {
+  //     $new_choice = $_POST["question-$id-choice-$i"];
+  //   }
+  // }
+
   header("Location: ./edit.php?quiz_id=" . $quiz_id);
   exit;
 }
@@ -351,6 +372,52 @@ $questions = $stmt->fetchAll();
                       </div>
                     </div>
                   </div>
+
+                  <input type="hidden" name="question-<?= $row["id"] ?>-type" value="<?= $row["type"] ?>">
+
+                  <?php if ($row["type"] == "TF") : ?>
+                    <!-- True/False Options -->
+                    <div class="flex items-center gap-x-3">
+                      <input id="edit-true-option" name="question-<?= $row["id"] ?>-edit-true-false-option" type="radio" value="True" required <?= ($row["answer"] == "True") ? "checked" : "" ?>>
+                      <label for="edit-true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
+                    </div>
+                    <div class="flex items-center gap-x-3">
+                      <input id="edit-false-option" name="question-<?= $row["id"] ?>-edit-true-false-option" type="radio" value="False" required <?= ($row["answer"] == "False") ? "checked" : "" ?>>
+                      <label for="edit-false-option" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+                    </div>
+                  <?php endif; ?>
+
+                  <?php if ($row["type"] == "MC") : ?>
+                    <?php
+
+                    $choices = explode("|", $row["choices"]);
+                    ?>
+                    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8">
+                      <div>
+                        <input type="hidden" name="question-<?= $row["id"] ?>-answer" value="<?= $row["answer"] ?>">
+                        <div class="flex">
+                          <span>1</span>
+                          <input class="border block w-1/2" type="text" name="question-<?= $index; ?>-choice-1" placeholder="choice 1" required value="<?= $choices[0]; ?>">
+                        </div>
+                        <div class="flex">
+                          <span>2</span>
+                          <input class="border block w-1/2" type="text" name="question-<?= $index; ?>-choice-2" placeholder="choice 2" required value="<?= $choices[1]; ?>">
+                        </div>
+                        <div class="flex">
+                          <span>3</span>
+                          <input class="border block w-1/2" type="text" name="question-<?= $index; ?>-choice-3" required value="<?= $choices[2]; ?>">
+                        </div>
+                        <div class="flex">
+                          <span>4</span>
+                          <input class="border block w-1/2" type="text" name="question-<?= $index; ?>-choice-4" placeholder="choice 4" required value="<?= $choices[3]; ?>">
+                        </div>
+                        <div class="flex">
+                          <span>correct answer</span>
+                          <input type="number" class="border" name="correct-choice-number" min="1" max="4" placeholder="1-4" required>
+                        </div>
+                      </div>
+                    </div>
+                  <?php endif; ?>
                 </div>
               </div>
 
