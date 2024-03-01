@@ -430,7 +430,15 @@ $questions = $stmt->fetchAll();
                         </div>
                         <div class="flex">
                           <span>correct answer</span>
-                          <input type="number" class="border" name="question-<?= $row["id"] ?>-new-correct-choice-number" min="1" max="4" placeholder="1-4" required>
+                          <?php
+                          $correct_choice_value = null;
+                          foreach ($choices as $index => $choice) {
+                            if ($choice == $row["answer"]) {
+                              $correct_choice_value = $index + 1;
+                            }
+                          }
+                          ?>
+                          <input type="number" class="border" name="question-<?= $row["id"] ?>-new-correct-choice-number" min="1" max="4" placeholder="1-4" required value="<?= $correct_choice_value ?>">
                         </div>
                       </div>
                     </div>
