@@ -488,19 +488,19 @@ $questions = $stmt->fetchAll();
 
     <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[405px]" id="dialog">
       <div class="tab w-full flex">
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity(event, 'London')">Multiple Choice</button>
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity(event, 'Paris')">True or False</button>
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity(event, 'Tokyo')">Open-Ended</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('london')">Multiple Choice</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('Paris')">True or False</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('Tokyo')">Open-Ended</button>
       </div>
       <hr class="mb-2">
 
       <style>
-        .tabcontent {
+        /* .tabcontent {
           display: none;
-        }
+        } */
       </style>
 
-      <div id="London" class="tabcontent">
+      <div id="london" class="tabcontent">
         <form method="post" class="p-2">
           <div class="h-full">
             <input class="border w-1/2 block" type="text" name="question" placeholder="question" required>
@@ -535,7 +535,7 @@ $questions = $stmt->fetchAll();
         </form>
       </div>
 
-      <div id="Paris" class="tabcontent">
+      <div id="Paris" class="tabcontent" style="display: none;">
         <!-- Add True/False question -->
         <div class="">
           <form method="post" class="p-2">
@@ -559,7 +559,7 @@ $questions = $stmt->fetchAll();
         </div>
       </div>
 
-      <div id="Tokyo" class="tabcontent">
+      <div id="Tokyo" class="tabcontent" style="display: none;">
         <div class="">
           <form method="post" class="p-2">
             <input class="border w-1/2 block" type="text" name="question" placeholder="Open-Ended question" required>
@@ -645,19 +645,17 @@ $questions = $stmt->fetchAll();
     </script>
 
     <script>
-      function openCity(evt, cityName) {
-        let tabcontent = document.getElementsByClassName("tabcontent");
+      let tabcontent = document.getElementsByClassName("tabcontent");
+      let tablinks = document.getElementsByClassName("tablinks");
+
+      function openCity(cityName) {
         for (let i = 0; i < tabcontent.length; i++) {
           tabcontent[i].style.display = "none";
         }
-        let tablinks = document.getElementsByClassName("tablinks");
-        for (let i = 0; i < tablinks.length; i++) {
-          tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(cityName).style.display = "block";
-        evt.currentTarget.className += " active";
+        document.getElementById(cityName).style.display = "";
       }
-      openCity(null, 'London')
+
+      // openCity('London');
     </script>
 
     <script>
