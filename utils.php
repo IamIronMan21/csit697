@@ -21,6 +21,7 @@ function prepare_and_execute($sql, $params = [])
   $dbh = connect_to_database();
   $stmt = $dbh->prepare($sql);
   $stmt->execute($params);
+  $dbh = null;
   return $stmt;
 }
 
@@ -39,4 +40,11 @@ function generate_quiz_code()
       return $code;
     }
   }
+}
+
+function has_submissions_for_quiz($quiz_id)
+{
+  $sql = "SELECT 1 FROM submissions WHERE quiz_id = ? LIMIT 1";
+  $stmt = prepare_and_execute($sql, [$quiz_id]);
+  return $stmt->rowCount() == 1;
 }
