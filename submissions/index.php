@@ -4,15 +4,22 @@ require "../utils.php";
 
 session_start();
 
-$sql = <<<EOD
-SELECT S.id, C.name as course_name, Q.name as quiz_name, S.submitter, S.created_at
-FROM courses C, quizzes Q, submissions S
-WHERE (
-  C.tutor_id = ? AND
-  C.id = Q.course_id AND
-  Q.id = S.quiz_id
-);
-EOD;
+$sql = "
+SELECT
+  s.id,
+  c.name AS course_name,
+  q.name AS quiz_name,
+  s.submitter,
+  s.created_at
+FROM
+  courses c,
+  quizzes q,
+  submissions s
+WHERE
+  c.tutor_id = ?
+  AND c.id = q.course_id
+  AND q.id = s.quiz_id
+";
 $stmt  = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
 $submissions = $stmt->fetchAll();
 
