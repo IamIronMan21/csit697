@@ -432,9 +432,9 @@ $questions = $stmt->fetchAll();
                           <span>correct answer</span>
                           <?php
                           $correct_choice_value = null;
-                          foreach ($choices as $index => $choice) {
+                          foreach ($choices as $k => $choice) {
                             if ($choice == $row["answer"]) {
-                              $correct_choice_value = $index + 1;
+                              $correct_choice_value = $k + 1;
                             }
                           }
                           ?>
