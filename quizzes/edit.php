@@ -190,6 +190,14 @@ $sql = "SELECT name FROM courses WHERE id = ? LIMIT 1";
 $stmt = prepare_and_execute($sql, [$course_id]);
 $course = $stmt->fetch();
 
+$sql = "SELECT COUNT(id) FROM questions WHERE quiz_id = ?";
+$stmt = prepare_and_execute($sql, [$quiz_id]);
+$num_questions = $stmt->fetchColumn();
+
+$sql = "SELECT COUNT(id) FROM submissions WHERE quiz_id = ?";
+$stmt = prepare_and_execute($sql, [$quiz_id]);
+$num_submissions = $stmt->fetchColumn();
+
 $sql = "
 SELECT
   q.id AS id,
@@ -263,13 +271,11 @@ $rows = $stmt->fetchAll();
     <div class="flex w-full min-h-screen">
       <div class="w-1/4 pt-4 border-slate-400">
         <div class="border-slate-400 flex justify-end">
-          <a href="./index.php" class="flex items-center w-1/3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor" class="w-3 h-3 mr-1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-              </svg>
-            </div>
-            <div>
+          <a href="./index.php" id="" class="flex w-1/3 items-center justify-center rounded-md bg-white px-3 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+            <div class="text-center ml-2">
               Back
             </div>
           </a>
@@ -277,12 +283,29 @@ $rows = $stmt->fetchAll();
       </div>
 
       <div class="w-1/2 pt-4">
-        <div class="border w-4/5 mx-auto rounded-xl border-slate-400 mb-3 px-4 py-3 bg-white">
-          <h1 class="text-lg font-bold"><?= $course["name"] ?></h1>
-          <h1><?= $quiz["name"] ?></h1>
-          <div class="flex">
-            <h1>Code:</h1>
-            <button type="button" onclick="copyTextToClipboard(<?= $quiz['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $quiz["code"] ?></button>
+        <div class="border w-4/5 mx-auto rounded-xl border-slate-400 mb-3 px-4 py-2.5 bg-white">
+          <h1 class="w-full flex items-center mb-1">
+            <div class="text-lg font-semibold">
+              <?= $quiz["name"] ?>
+            </div>
+            <div class="mx-1 text-slate-400">
+              —
+            </div>
+            <?= $course["name"] ?>
+          </h1>
+          <div class="flex items-center">
+            <div class="grow text-left">
+              <span class="font-">Questions</span>: <?= $num_questions ?>
+            </div>
+            <div class="grow text-center">
+              Submissions: <?= $num_submissions ?>
+            </div>
+            <div class="grow text-right">
+              <span>Code:&nbsp;</span>
+              <div class="inline">
+                <button type="button" onclick="copyTextToClipboard(<?= $quiz['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $quiz["code"] ?></button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -484,12 +507,6 @@ $rows = $stmt->fetchAll();
         <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('Tokyo')">Open-Ended</button>
       </div>
       <hr class="mb-2">
-
-      <style>
-        /* .tabcontent {
-          display: none;
-        } */
-      </style>
 
       <div id="london" class="tabcontent">
         <form method="post" class="p-2">
