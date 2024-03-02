@@ -27,6 +27,12 @@ if (isset($_POST["delete-question-button"])) {
 }
 
 if (isset($_POST["new-mc-question"])) {
+  if (has_submissions_for_quiz($quiz_id)) {
+    $_SESSION["error_message"] = "Cannot edit quiz that already has submissions.";
+    header("Location: ./edit.php?quiz_id=$quiz_id");
+    exit;
+  }
+
   $sql = "INSERT INTO questions (type, content, quiz_id) VALUES (?, ?, ?)";
   $stmt = $dbh->prepare($sql);
   $stmt->execute(["MC", $_POST["question"], $quiz_id]);
@@ -43,7 +49,7 @@ if (isset($_POST["new-mc-question"])) {
   $stmt = $dbh->prepare($sql);
   $stmt->execute([$_POST["choice"][$_POST["correct-choice-number"] - 1], $question_id]);
 
-  header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
+  header("Location: ./edit.php?quiz_id=$quiz_id");
   exit;
 }
 
@@ -128,14 +134,14 @@ if (isset($_POST["edit-question-submit-button"])) {
     prepare_and_execute($sql, [$_POST["question-$id-choice-$choice_number"], $id]);
   }
 
-  header("Location: ./edit.php?quiz_id=" . $quiz_id);
+  header("Location: ./edit.php?quiz_id=$quiz_id");
   exit;
 }
 
 if (isset($_POST["rename-save-button"])) {
   $sql = "UPDATE quizzes SET name = ? WHERE id = ? LIMIT 1";
   prepare_and_execute($sql, [$_POST["new-quiz-name"], $quiz_id]);
-  header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
+  header("Location: ./edit.php?quiz_id=$quiz_id");
   exit;
 }
 
@@ -283,6 +289,19 @@ $rows = $stmt->fetchAll();
       </div>
 
       <div class="w-1/2 pt-4">
+        <?php if (isset($_SESSION["error_message"])) : ?>
+          <div class="flex w-4/5 mx-auto items-center bg-red-50 rounded-lg py-3 px-3 border border-red-600 mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#f87171" aria-hidden="true" class="w-6 h-6">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"></path>
+            </svg>
+            <p class="text-red-700 text-[14px] px-2">
+              <?= $_SESSION["error_message"] ?>
+            </p>
+          </div>
+          <?php unset($_SESSION["error_message"])
+          ?>
+        <?php endif; ?>
+
         <div class="border w-4/5 mx-auto rounded-md border-slate-400 mb-3 px-4 py-2.5 bg-white">
           <h1 class="w-full flex items-center mb-1">
             <div class="text-lg font-semibold">
