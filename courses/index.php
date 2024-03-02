@@ -136,7 +136,7 @@ $courses = $stmt->fetchAll();
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($courses as $index => $course) : ?>
             <tr class="course z-0 h-[45px]" style="<?= ($index % 2 == 1) ? "background-color: #f1f5f9" : ""; ?>" value="<?= $course["name"] ?>">
-              <td class="index text-center font-light text-slate-600 pl-1"><?= $index + 1 ?> </td>
+              <td class="index text-center font-light text-slate-500 pl-1"><?= $index + 1 ?> </td>
               <td class="pl-8 text-[15px]"><?= $course["name"] ?></td>
               <td class="text-slate-500">
                 <?= (new DateTime($course["created_at"]))->format('m/d/Y') ?>

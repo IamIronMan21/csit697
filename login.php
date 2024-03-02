@@ -47,7 +47,7 @@ if (isset($_POST["submit-button"])) {
     <p class="text-center text font- text-slate-700 mb-4">Sign in to your tutor account</p>
 
     <?php if (isset($error_message)) : ?>
-      <div class="text-left bg-red-50 rounded-lg py-2 px-3 border border-red-600 mb-4 pb-3.5">
+      <div class="text-left bg-red-50 rounded-md py-2 px-3 border border-red-600 mb-4 pb-3.5">
         <h1 class="text-red-800 font-medium mb-0.5">
           Error
         </h1>
