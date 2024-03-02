@@ -88,7 +88,14 @@ $courses = $stmt->fetchAll();
 
     <div class="flex mb-4 items-center">
       <h1 class="grow text-xl font-medium">Quizzes</h1>
-      <button id="show-dialog" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">+ New quiz</button>
+      <button id="show-dialog" class="flex items-center rounded-md bg-indigo-600 px-3 pl-2 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="h-5 w-5 mr-0.5">
+          <path d="M10.75 6.75a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"></path>
+        </svg>
+        <div>
+          New quiz
+        </div>
+      </button>
     </div>
 
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
@@ -105,7 +112,7 @@ $courses = $stmt->fetchAll();
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($rows as $index => $row) : ?>
             <tr class="h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
-              <td class="text-center font-medium pl-1"><?= $index + 1 ?> </td>
+              <td class="index text-center font-light text-slate-500 pl-1"><?= $index + 1 ?></td>
               <td class="pl-8"><?= $row["quiz_name"] ?></td>
               <td><?= $row["course_name"] ?></td>
               <td class="">
@@ -113,7 +120,7 @@ $courses = $stmt->fetchAll();
                   <button type="button" onclick="copyTextToClipboard(<?= $row['code'] ?>, this)" class="rounded-md bg-white px-4 py-1 text-sm w-2/5 font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><?= $row["code"] ?></button>
                 </span>
               </td>
-              <td class="text-gray-500">
+              <td class="text-slate-500">
                 <?= (new DateTime($row["created_at"]))->format('m/d/Y') ?>
               </td>
               <td class="text-blue-500 underline">

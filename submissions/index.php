@@ -78,9 +78,6 @@ $submissions = $stmt->fetchAll();
       <div class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm invisible">+</div>
     </div>
 
-    <?php // var_dump($submissions)
-    ?>
-
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
@@ -95,11 +92,11 @@ $submissions = $stmt->fetchAll();
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($submissions as $index => $submission) : ?>
             <tr class="h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
-              <td class="text-center font-medium pl-1"><?= $index + 1 ?> </td>
+              <td class="index text-center font-light text-slate-500 pl-1"><?= $index + 1 ?></td>
               <td class="pl-8"><?= $submission["submitter"] ?></td>
               <td class=""><?= $submission["course_name"] ?></td>
               <td class=""><?= $submission["quiz_name"] ?></td>
-              <td class="text-gray-500">
+              <td class="text-slate-500">
                 <?= (new DateTime($submission["created_at"]))->format('m/d/Y') ?>
               </td>
               <td>
