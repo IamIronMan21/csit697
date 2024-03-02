@@ -97,7 +97,7 @@ if (isset($_POST["submit-button"])) {
         <div class="my-5 text-slate-500">
           Already have an account? <a href="./login.php" class="text-indigo-600 hover:text-indigo-500">Sign in</a>
         </div>
-        <a href="./index.php" class="text-gray-900 hover:text-gray-700">‹ Back</a>
+        <a href="./start.php" class="text-gray-900 hover:text-gray-700">‹ Back</a>
       </div>
     </form>
   </div>

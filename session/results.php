@@ -73,7 +73,7 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
 
   <div class="w-1/2 mx-auto bg-white min-h-screen px-8">
     <div>
-      <a href="../index.php">Return</a>
+      <a href="../start.php">Return</a>
     </div>
     <div class="">
       <div class="px-4 sm:px-0">
