@@ -283,7 +283,7 @@ $rows = $stmt->fetchAll();
       </div>
 
       <div class="w-1/2 pt-4">
-        <div class="border w-4/5 mx-auto rounded-xl border-slate-400 mb-3 px-4 py-2.5 bg-white">
+        <div class="border w-4/5 mx-auto rounded-md border-slate-400 mb-3 px-4 py-2.5 bg-white">
           <h1 class="w-full flex items-center mb-1">
             <div class="text-lg font-semibold">
               <?= $quiz["name"] ?>
@@ -325,17 +325,17 @@ $rows = $stmt->fetchAll();
         </script>
 
         <?php foreach ($rows as $index => $row) : ?>
-          <div class="border mx-auto w-4/5 rounded-lg my-10 px-4 py-2 border-slate-400 bg-white">
-            <div class="flex">
+          <div class="border mx-auto w-4/5 rounded-md my-10 px-4 py-2.5 border-slate-400 bg-white">
+            <div class="flex items-center">
               <div class="grow">
                 <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
               </div>
               <div class="mr-3">
-                <button class="edit-question-button" type="button" value="<?= $index ?>">edit</button>
+                <button type="button" value="<?= $index ?>" class="edit-question-button rounded-md py-1 px-2 w-[65px] text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Edit</button>
               </div>
               <div>
                 <form method="post">
-                  <button type="submit" name="delete-question-button" value="<?= $row["id"] ?>">delete</button>
+                  <button type="submit" name="delete-question-button" value="<?= $row["id"] ?>" class="w-[65px] rounded-md text-sm font-semibold bg-red-600 text-white py-1 px-2 hover:bg-red-500">Delete</button>
                 </form>
               </div>
             </div>
