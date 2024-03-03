@@ -22,6 +22,7 @@ if (isset($_POST["delete-question-button"])) {
   $sql = "DELETE FROM questions WHERE id = ?";
   prepare_and_execute($sql, [$question_id]);
 
+  $_SESSION["success_message"] = "Question has been deleted.";
   header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
   exit;
 }
@@ -49,14 +50,17 @@ if (isset($_POST["new-mc-question"])) {
   $stmt = $dbh->prepare($sql);
   $stmt->execute([$_POST["choice"][$_POST["correct-choice-number"] - 1], $question_id]);
 
+  $_SESSION["success_message"] = "Added new question.";
   header("Location: ./edit.php?quiz_id=$quiz_id");
   exit;
 }
 
 if (isset($_POST["new-tf-question"])) {
-  // echo $_POST["question"];
-  // echo "<br>";
-  // echo $_POST["true-false-option"];
+  if (has_submissions_for_quiz($quiz_id)) {
+    $_SESSION["error_message"] = "Cannot edit quiz that already has submissions.";
+    header("Location: ./edit.php?quiz_id=$quiz_id");
+    exit;
+  }
 
   $sql = "INSERT INTO questions (type, content, quiz_id) VALUES (?, ?, ?)";
   $stmt = $dbh->prepare($sql);
@@ -68,25 +72,34 @@ if (isset($_POST["new-tf-question"])) {
   $stmt = $dbh->prepare($sql);
   $stmt->execute([$_POST["true-false-option"], $question_id]);
 
+  $_SESSION["success_message"] = "Added new question.";
   // header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
   // exit;
 }
 
 if (isset($_POST["new-oe-question"])) {
-  // echo $_POST["question"];
-  // echo "<br>";
-  // echo $_POST["true-false-option"];
+  if (has_submissions_for_quiz($quiz_id)) {
+    $_SESSION["error_message"] = "Cannot edit quiz that already has submissions.";
+    header("Location: ./edit.php?quiz_id=$quiz_id");
+    exit;
+  }
 
   $sql = "INSERT INTO questions (type, content, quiz_id) VALUES (?, ?, ?)";
   $stmt = $dbh->prepare($sql);
   $stmt->execute(["OE", $_POST["question"], $quiz_id]);
 
+  $_SESSION["success_message"] = "Added new question.";
   // header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
   // exit;
 }
 
 if (isset($_POST["edit-question-submit-button"])) {
-  // var_dump($_POST["edit-question-submit-button"]);
+  if (has_submissions_for_quiz($quiz_id)) {
+    $_SESSION["error_message"] = "Cannot edit quiz that already has submissions.";
+    header("Location: ./edit.php?quiz_id=$quiz_id");
+    exit;
+  }
+
   $id = $_POST["edit-question-submit-button"];
   $content = $_POST["question-$id"];
 
@@ -141,6 +154,7 @@ if (isset($_POST["edit-question-submit-button"])) {
 if (isset($_POST["rename-save-button"])) {
   $sql = "UPDATE quizzes SET name = ? WHERE id = ? LIMIT 1";
   prepare_and_execute($sql, [$_POST["new-quiz-name"], $quiz_id]);
+  $_SESSION["success_message"] = "Quiz has been renamed.";
   header("Location: ./edit.php?quiz_id=$quiz_id");
   exit;
 }
@@ -188,6 +202,7 @@ if (isset($_POST["new-clone-name"])) {
     }
   }
 
+  $_SESSION["success_message"] = "Clone of {$quiz['name']} has been created.";
   header("Location: ./index.php");
   exit;
 }
@@ -289,19 +304,21 @@ $rows = $stmt->fetchAll();
       </div>
 
       <div class="w-1/2 pt-4">
-        <?php if (isset($_SESSION["error_message"])) : ?>
-          <div class="flex w-4/5 mx-auto items-center bg-red-50 rounded-lg py-3 px-3 border border-red-600 mb-6">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#f87171" aria-hidden="true" class="w-6 h-6">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"></path>
-            </svg>
-            <p class="text-red-700 text-[14px] px-2">
-              <?= $_SESSION["error_message"] ?>
-            </p>
-          </div>
-
-          <?php unset($_SESSION["error_message"])
+        <div class="w-4/5 mx-auto">
+          <?php
+          if (isset($_SESSION["error_message"])) {
+            display_error_message($_SESSION["error_message"]);
+            unset($_SESSION["error_message"]);
+          }
           ?>
-        <?php endif; ?>
+
+          <?php
+          if (isset($_SESSION["success_message"])) {
+            display_success_message($_SESSION["success_message"]);
+            unset($_SESSION["success_message"]);
+          }
+          ?>
+        </div>
 
         <div class="border w-4/5 mx-auto rounded-md border-slate-400 shadow-sm mb-6 px-4 py-2.5 bg-white">
           <h1 class="w-full flex items-center mb-1">
@@ -328,21 +345,6 @@ $rows = $stmt->fetchAll();
             </div>
           </div>
         </div>
-
-        <script>
-          function updateWordCount(textarea) {
-            const wordCountDisplay = document.getElementById('wordCount');
-            const wordCount = textarea.value.trim().split(/\s+/).length;
-            wordCountDisplay.textContent = `Word count: ${wordCount}/300`;
-
-            // You can also add logic to prevent submission if the word count exceeds the limit.
-            // For example:
-            // if (wordCount > 300) {
-            //     alert('Word limit exceeded! Please limit your response to 300 words.');
-            //     textarea.value = textarea.value.split(/\s+/).slice(0, 300).join(' ');
-            // }
-          }
-        </script>
 
         <?php foreach ($rows as $index => $row) : ?>
           <div class="border shadow-sm mx-auto w-4/5 rounded-md mb-6 px-4 py-2.5 border-slate-400 bg-white">
@@ -535,7 +537,7 @@ $rows = $stmt->fetchAll();
     </div>
 
     <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[500px]" id="dialog">
-      <div class="tab w-full flex">
+      <div class="tab w-full flex select-none">
         <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b border-indigo-600 hover:border-indigo-500 text-indigo-700" value="multiple-choice-tab" onclick="openCity('multiple-choice-tab')">Multiple Choice</button>
         <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b hover:border-indigo-500" value="true-false-tab" onclick="openCity('true-false-tab')">True or False</button>
         <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b hover:border-indigo-500" value="open-ended-tab" onclick="openCity('open-ended-tab')">Open-Ended</button>
