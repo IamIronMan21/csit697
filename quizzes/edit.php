@@ -16,6 +16,12 @@ $quiz = $stmt->fetch();
 $course_id = $quiz["course_id"];
 
 if (isset($_POST["delete-question-button"])) {
+  if (has_submissions_for_quiz($quiz_id)) {
+    $_SESSION["error_message"] = "Cannot edit quiz that already has submissions.";
+    header("Location: ./edit.php?quiz_id=$quiz_id");
+    exit;
+  }
+
   $question_id = $_POST["delete-question-button"];
   delete_question($question_id);
 
