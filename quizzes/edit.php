@@ -534,92 +534,65 @@ $rows = $stmt->fetchAll();
       </div>
     </div>
 
-    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[405px]" id="dialog">
+    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[500px]" id="dialog">
       <div class="tab w-full flex">
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('london')">Multiple Choice</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('multiple-choice-tab')">Multiple Choice</button>
         <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('true-false-tab')">True or False</button>
         <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('open-ended-tab')">Open-Ended</button>
       </div>
       <hr class="mb-2">
 
-      <div id="london" class="tabcontent">
-        <form method="post" class="px-8 mx-auto pt-6">
-          <div class="h-full">
-            <!-- <input class="border w-1/2 block" type="text" name="question" placeholder="question" required> -->
-            <!-- <div class="mt-3">
-              <div class="flex items-center justify-between">
-                <label class="block text-sm font-medium leading-6 text-gray-900">Question</label>
-              </div>
-              <div class="mt-2">
-                <input name="question" type="type" required class="px-2.5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-              </div>
-            </div> -->
-
+      <section id="multiple-choice-tab" class="tabcontent">
+        <form method="post" class="px-8 mx-auto pt-2 h-[415px] flex flex-col">
+          <div class="border-b border-gray-900/10 pb-6 grow">
             <div class="grid grid-cols-1 gap-x-6 gap-y-8">
               <div class="w-full">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Question</label>
                 <div class="mt-2">
-                  <input name="question" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                  <input name="question" type="text" required placeholder="Multiple choice question" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+                <div class="mt-4">
+                  <div class="text-slate-500 text-sm mb-4">
+                    Enter choices and select the correct answer
+                  </div>
+
+                  <div class="space-y-3">
+                    <div class="flex items-center">
+                      <span class="w-1/5 text-sm text-right pr-4">Choice 1</span>
+                      <input type="text" name="choice[]" placeholder="" required class="block px-2 w-full rounded-md border-0 py-0.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                    <div class="flex items-center">
+                      <span class="w-1/5 text-sm text-right pr-4">Choice 2</span>
+                      <input type="text" name="choice[]" placeholder="" required class="block px-2 w-full rounded-md border-0 py-0.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                    <div class="flex items-center">
+                      <span class="w-1/5 text-sm text-right pr-4">Choice 3</span>
+                      <input type="text" name="choice[]" placeholder="" required class="block px-2 w-full rounded-md border-0 py-0.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                    <div class="flex items-center">
+                      <span class="w-1/5 text-sm text-right pr-4">Choice 4</span>
+                      <input type="text" name="choice[]" placeholder="" required class="block px-2 w-full rounded-md border-0 py-0.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                  </div>
+                  <div class="flex items-center mt-3.5">
+                    <span class="w-1/5 text-sm text-right pr-4">Answer</span>
+                    <input type="number" name="correct-choice-number" min="1" max="4" placeholder="Select between 1 to 4" required class="block px-2 w-full rounded-md border-0 py-0.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                  </div>
                 </div>
               </div>
             </div>
-
-            <!-- Choices for Multiple Choice Question -->
-            <div class="flex">
-              <span>1</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 1" required>
-            </div>
-            <div class="flex">
-              <span>2</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 2" required>
-            </div>
-            <div class="flex">
-              <span>3</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 3" required>
-            </div>
-            <div class="flex">
-              <span>4</span>
-              <input class="border block w-1/2" type="text" name="choice[]" placeholder="choice 4" required>
-            </div>
-            <div class="flex">
-              <span>correct answer</span>
-              <input type="number" class="border" name="correct-choice-number" min="1" max="4" placeholder="1-4" required>
-            </div>
           </div>
-          <!-- <input type="submit" name="new-mc-question" value="Submit"> -->
           <div class="mt-6 flex items-center justify-end gap-x-6">
-            <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
-            <button type="submit" name="new-mc-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+            <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+            <button type="submit" name="new-mc-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              Submit
+            </button>
           </div>
         </form>
-      </div>
-
-      <div id="Paris" class="tabcontent" style="display: none;">
-        <!-- Add True/False question -->
-        <div class="">
-          <form method="post" class="p-2">
-            <input class="border w-1/2 block" type="text" name="question" placeholder="True or False question" required>
-
-            <!-- True/False Options -->
-            <div class="flex items-center gap-x-3">
-              <input id="true-option" name="true-false-option" type="radio" value="True" required>
-              <label for="true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
-            </div>
-            <div class="flex items-center gap-x-3">
-              <input id="false-option" name="true-false-option" type="radio" value="False" required>
-              <label for="false-option" class="block text-sm font-medium leading-6 text-gray-900">False</label>
-            </div>
-
-            <div class="mt-6 flex items-center justify-end gap-x-6">
-              <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
-              <button type="submit" name="new-tf-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
-            </div>
-          </form>
-        </div>
-      </div>
+      </section>
 
       <section id="true-false-tab" class="tabcontent" style="display: none;">
-        <form method="post" class="px-8 mx-auto pt-3.5 h-[319px] flex flex-col">
+        <form method="post" class="px-8 mx-auto pt-2 h-[415px] flex flex-col">
           <div class="border-b border-gray-900/10 pb-12 grow">
             <div class="grid grid-cols-1 gap-x-6 gap-y-8">
               <div class="w-full">
@@ -628,16 +601,8 @@ $rows = $stmt->fetchAll();
                   <input name="question" type="text" required placeholder="True or false question" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
                 <div class="mt-4">
-                  <!-- <div class="flex items-center gap-x-3">
-                    <input id="true-option" name="true-false-option" type="radio" value="True" required>
-                    <label for="true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
-                  </div>
-                  <div class="flex items-center gap-x-3">
-                    <input id="false-option" name="true-false-option" type="radio" value="False" required>
-                    <label for="false-option" class="block text-sm font-medium leading-6 text-gray-900">False</label>
-                  </div> -->
-                  <div class="text-slate-500 text-sm mb-2">
-                    Select answer
+                  <div class="text-slate-500 text-sm mb-4">
+                    Select the correct answer
                   </div>
 
                   <div class="flex items-center gap-x-3 my-1.5">
@@ -662,7 +627,7 @@ $rows = $stmt->fetchAll();
       </section>
 
       <section id="open-ended-tab" class="tabcontent" style="display: none;">
-        <form method="post" class="px-8 mx-auto pt-3.5 h-[319px] flex flex-col">
+        <form method="post" class="px-8 mx-auto pt-2 h-[415px] flex flex-col">
           <div class="border-b border-gray-900/10 pb-12 grow">
             <div class="grid grid-cols-1 gap-x-6 gap-y-8">
               <div class="w-full">
@@ -671,9 +636,9 @@ $rows = $stmt->fetchAll();
                   <input name="question" type="text" required placeholder="Open-ended question" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
                 <div class="mt-4">
-                  <span class="text-slate-500 text-sm">
-                    Note: Open-ended answers will have to be manually graded.
-                  </span>
+                  <div class="text-slate-500 text-sm mb-4">
+                    Note: Open-ended answers will be manually graded by you.
+                  </div>
                 </div>
               </div>
             </div>
@@ -765,7 +730,7 @@ $rows = $stmt->fetchAll();
       document.getElementById(cityName).style.display = "";
     }
 
-    // openCity('London');
+    // openCity('multiple-choice-tab');
   </script>
 
   <script>
