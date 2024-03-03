@@ -9,21 +9,22 @@ if (isset($_POST["new-course-button"])) {
 
   $sql = "SELECT 1 FROM courses WHERE name = ? LIMIT 1";
   $stmt = prepare_and_execute($sql, [$course_name]);
+
   if ($stmt->rowCount() == 1) {
     $_SESSION["error_message"] = "Course entered already exists.";
-    header("Location: .");
+    header("Location: ./index.php");
     exit;
   }
 
   $sql = "INSERT INTO courses (name, tutor_id) VALUES (?, ?)";
   prepare_and_execute($sql, [$course_name, $_SESSION["tutor_id"]]);
 
-  $_SESSION["success_message"] = "The new course has been added.";
-  header("Location: .");
+  $_SESSION["success_message"] = "Course has been added.";
+  header("Location: ./index.php");
   exit;
 }
 
-$sql = "SELECT * FROM courses WHERE tutor_id = ?";
+$sql = "SELECT id, name, created_at FROM courses WHERE tutor_id = ?";
 $stmt = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
 $courses = $stmt->fetchAll();
 
