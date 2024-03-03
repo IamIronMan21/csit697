@@ -72,10 +72,20 @@ $submissions = $stmt->fetchAll();
     </div>
   </nav>
 
+
   <div class="mx-auto bg-white min-h-screen px-12 pt-4">
     <div class="flex mb-4 items-center">
       <h1 class="grow text-xl font-medium">Submissions</h1>
       <div class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm invisible">+</div>
+    </div>
+
+    <div class="flex items-center mb-5 w-full shadow rounded-md">
+      <div class="pl-2.5 pr-1 block w-fit rounded-l-md border-l border-y py-2 text-gray-900 bg-white border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        </svg>
+      </div>
+      <input type="text" id="search-input" placeholder="Search by submitter" class="px-2 block w-full rounded-r-md border-y border-r py-1.5 text-gray-900 border-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 outline-none">
     </div>
 
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
@@ -91,11 +101,11 @@ $submissions = $stmt->fetchAll();
         </thead>
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($submissions as $index => $submission) : ?>
-            <tr class="h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
+            <tr class="submission h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>" value="<?= $submission["submitter"] ?>">
               <td class="index text-center font-light text-slate-500 pl-1"><?= $index + 1 ?></td>
               <td class="pl-8"><?= $submission["submitter"] ?></td>
-              <td class=""><?= $submission["course_name"] ?></td>
-              <td class=""><?= $submission["quiz_name"] ?></td>
+              <td><?= $submission["course_name"] ?></td>
+              <td><?= $submission["quiz_name"] ?></td>
               <td class="text-slate-500">
                 <?= (new DateTime($submission["created_at"]))->format('m/d/Y') ?>
               </td>
@@ -113,6 +123,56 @@ $submissions = $stmt->fetchAll();
 
   </div>
 
+  <script>
+    const searchInput = document.getElementById("search-input");
+
+    const submissions = document.getElementsByClassName("submission");
+
+    searchInput.addEventListener("input", (e) => {
+      e.preventDefault();
+
+      for (const c of submissions) {
+        const name = c.getAttribute("value");
+        if (!name.includes(searchInput.value)) {
+          c.style.display = "none";
+        } else {
+          c.style.display = "";
+        }
+      }
+
+      for (const c of submissions) {
+        const name = c.getAttribute("value");
+        if (!(name.toLowerCase()).includes((searchInput.value.toLowerCase()))) {
+          c.style.display = "none";
+        } else {
+          c.style.display = "";
+        }
+      }
+
+      let f = 1;
+      let t = false;
+      let i = 1;
+
+      for (const c of submissions) {
+        c.style.borderTop = "1px solid rgb(203 213 225)";
+        const name = c.getAttribute("value");
+        if (c.style.display == "") {
+          if (f) {
+            c.style.backgroundColor = "#fff"
+          } else {
+            c.style.backgroundColor = "#f1f5f9";
+          }
+          f ^= 1;
+          c.querySelector(".index").innerHTML = i;
+          i++;
+          if (!t) {
+            c.style.borderTop = "1px solid rgb(100 116 139)";
+            t = true;
+          }
+        }
+      }
+    });
+  </script>
 </body>
 
 </html>
