@@ -536,9 +536,9 @@ $rows = $stmt->fetchAll();
 
     <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[500px]" id="dialog">
       <div class="tab w-full flex">
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('multiple-choice-tab')">Multiple Choice</button>
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('true-false-tab')">True or False</button>
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('open-ended-tab')">Open-Ended</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-slate-400 border-b border-indigo-600 hover:border-slate-400 text-indigo-700" value="multiple-choice-tab" onclick="openCity('multiple-choice-tab')">Multiple Choice</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-slate-400 border-b hover:border-slate-400" value="true-false-tab" onclick="openCity('true-false-tab')">True or False</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-slate-400 border-b hover:border-slate-400" value="open-ended-tab" onclick="openCity('open-ended-tab')">Open-Ended</button>
       </div>
       <hr class="mb-2">
 
@@ -726,8 +726,17 @@ $rows = $stmt->fetchAll();
     function openCity(cityName) {
       for (let i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
+        tablinks[i].classList.remove("text-indigo-700")
+        tablinks[i].classList.remove("border-indigo-600")
       }
       document.getElementById(cityName).style.display = "";
+      for (const link of tablinks) {
+        if (link.getAttribute("value") == cityName) {
+          link.classList.add("text-indigo-700")
+          link.classList.add("border-indigo-600")
+        }
+      }
+      // document.getElementById(cityName).classList.add = "active";
     }
 
     // openCity('multiple-choice-tab');
