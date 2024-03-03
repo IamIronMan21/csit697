@@ -298,6 +298,7 @@ $rows = $stmt->fetchAll();
               <?= $_SESSION["error_message"] ?>
             </p>
           </div>
+
           <?php unset($_SESSION["error_message"])
           ?>
         <?php endif; ?>
@@ -536,15 +537,32 @@ $rows = $stmt->fetchAll();
     <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[405px]" id="dialog">
       <div class="tab w-full flex">
         <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('london')">Multiple Choice</button>
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('Paris')">True or False</button>
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('Tokyo')">Open-Ended</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('true-false-tab')">True or False</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-600 hover: hover:border-indigo-600" onclick="openCity('open-ended-tab')">Open-Ended</button>
       </div>
       <hr class="mb-2">
 
       <div id="london" class="tabcontent">
-        <form method="post" class="p-2">
+        <form method="post" class="px-8 mx-auto pt-6">
           <div class="h-full">
-            <input class="border w-1/2 block" type="text" name="question" placeholder="question" required>
+            <!-- <input class="border w-1/2 block" type="text" name="question" placeholder="question" required> -->
+            <!-- <div class="mt-3">
+              <div class="flex items-center justify-between">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Question</label>
+              </div>
+              <div class="mt-2">
+                <input name="question" type="type" required class="px-2.5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              </div>
+            </div> -->
+
+            <div class="grid grid-cols-1 gap-x-6 gap-y-8">
+              <div class="w-full">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Question</label>
+                <div class="mt-2">
+                  <input name="question" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                </div>
+              </div>
+            </div>
 
             <!-- Choices for Multiple Choice Question -->
             <div class="flex">
@@ -600,180 +618,233 @@ $rows = $stmt->fetchAll();
         </div>
       </div>
 
-      <div id="Tokyo" class="tabcontent" style="display: none;">
-        <div class="">
-          <form method="post" class="p-2">
-            <input class="border w-1/2 block" type="text" name="question" placeholder="Open-Ended question" required>
+      <section id="true-false-tab" class="tabcontent" style="display: none;">
+        <form method="post" class="px-8 mx-auto pt-3.5 h-[319px] flex flex-col">
+          <div class="border-b border-gray-900/10 pb-12 grow">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-8">
+              <div class="w-full">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Question</label>
+                <div class="mt-2">
+                  <input name="question" type="text" required placeholder="True or false question" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+                <div class="mt-4">
+                  <!-- <div class="flex items-center gap-x-3">
+                    <input id="true-option" name="true-false-option" type="radio" value="True" required>
+                    <label for="true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
+                  </div>
+                  <div class="flex items-center gap-x-3">
+                    <input id="false-option" name="true-false-option" type="radio" value="False" required>
+                    <label for="false-option" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+                  </div> -->
+                  <div class="text-slate-500 text-sm mb-2">
+                    Select answer
+                  </div>
 
-            <!-- Open-Ended Textarea with word count limit and counter -->
-            <!-- <textarea class="border block w-1/2" name="open_ended_answer" placeholder="Student's answer" required oninput="updateWordCount(this)" maxlength="300"></textarea>
-            <div id="wordCount" class="text-sm text-gray-500">Word count: 0/300</div> -->
-
-            <div class="mt-6 flex items-center justify-end gap-x-6">
-              <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
-              <button type="submit" name="new-oe-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+                  <div class="flex items-center gap-x-3 my-1.5">
+                    <input id="true-option" name="true-false-option" type="radio" value="True" required class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                    <label for="true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
+                  </div>
+                  <div class="flex items-center gap-x-3">
+                    <input id="false-option" name="true-false-option" type="radio" value="False" required class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                    <label for="false-option" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+                  </div>
+                </div>
+              </div>
             </div>
-          </form>
-        </div>
-      </div>
+          </div>
+          <div class="mt-6 flex items-center justify-end gap-x-6">
+            <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+            <button type="submit" name="new-tf-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              Submit
+            </button>
+          </div>
+        </form>
+      </section>
 
-      <form method="post" class="px-8 mx-auto pt-6 pb-8">
+      <section id="open-ended-tab" class="tabcontent" style="display: none;">
+        <form method="post" class="px-8 mx-auto pt-3.5 h-[319px] flex flex-col">
+          <div class="border-b border-gray-900/10 pb-12 grow">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-8">
+              <div class="w-full">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Question</label>
+                <div class="mt-2">
+                  <input name="question" type="text" required placeholder="Open-ended question" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+                <div class="mt-4">
+                  <span class="text-slate-500 text-sm">
+                    Note: Open-ended answers will have to be manually graded.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-6 flex items-center justify-end gap-x-6">
+            <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900">Cancel</button>
+            <button type="submit" name="new-oe-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              Submit
+            </button>
+          </div>
+        </form>
+      </section>
+  </div>
 
-        <!-- <div class="mt-6 flex items-center justify-end gap-x-6">
+  <form method="post" class="px-8 mx-auto pt-6 pb-8">
+
+    <!-- <div class="mt-6 flex items-center justify-end gap-x-6">
           <button type="button" class="text-sm font-semibold leading-6 text-gray-900" id="js-close">Cancel</button>
           <button type="submit" name="new-course-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add</button>
         </div> -->
-      </form>
-    </dialog>
+  </form>
+  </dialog>
 
-    <!-- Clone modal -->
-    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="clone-dialog">
-      <form method="post" class="px-8 mx-auto pt-6 pb-8">
-        <div class="space-y-10">
-          <div class="border-b border-gray-900/10 pb-12">
-            <h2 class="text-base font-semibold leading-7 text-gray-900">Clone Quiz</h2>
-            <p class="mt-1 text-sm leading-6 text-gray-600">Cloning this quiz will create a copy of it without its submissions.</p>
+  <!-- Clone modal -->
+  <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="clone-dialog">
+    <form method="post" class="px-8 mx-auto pt-6 pb-8">
+      <div class="space-y-10">
+        <div class="border-b border-gray-900/10 pb-12">
+          <h2 class="text-base font-semibold leading-7 text-gray-900">Clone Quiz</h2>
+          <p class="mt-1 text-sm leading-6 text-gray-600">Cloning this quiz will create a copy of it without its submissions.</p>
 
-            <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div class="sm:col-span-4">
-                <label class="block text-sm font-medium leading-6 text-gray-900">Cloned Quiz Name</label>
-                <div class="mt-2">
-                  <input name="new-clone-name" type="text" autocomplete="email" required class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
+          <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="sm:col-span-4">
+              <label class="block text-sm font-medium leading-6 text-gray-900">Cloned Quiz Name</label>
+              <div class="mt-2">
+                <input name="new-clone-name" type="text" autocomplete="email" required class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
-          <button type="submit" name="clone-save-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
-        </div>
-      </form>
-    </dialog>
+      <div class="mt-6 flex items-center justify-end gap-x-6">
+        <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
+        <button type="submit" name="clone-save-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+      </div>
+    </form>
+  </dialog>
 
-    <!-- Rename modal -->
-    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="rename-dialog">
-      <form method="post" class="px-8 mx-auto pt-6 pb-8">
-        <div class="space-y-10">
-          <div class="border-b border-gray-900/10 pb-12">
-            <h2 class="text-base font-semibold leading-7 text-gray-900">Rename Quiz</h2>
-            <p class="mt-1 text-sm leading-6 text-gray-600">Update the name of this quiz.</p>
+  <!-- Rename modal -->
+  <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="rename-dialog">
+    <form method="post" class="px-8 mx-auto pt-6 pb-8">
+      <div class="space-y-10">
+        <div class="border-b border-gray-900/10 pb-12">
+          <h2 class="text-base font-semibold leading-7 text-gray-900">Rename Quiz</h2>
+          <p class="mt-1 text-sm leading-6 text-gray-600">Update the name of this quiz.</p>
 
-            <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div class="sm:col-span-4">
-                <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
-                <div class="mt-2">
-                  <input name="new-quiz-name" type="text" autocomplete="email" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $quiz["name"] ?>">
-                </div>
+          <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="sm:col-span-4">
+              <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+              <div class="mt-2">
+                <input name="new-quiz-name" type="text" autocomplete="email" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $quiz["name"] ?>">
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
-          <button type="submit" name="rename-save-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
-        </div>
-      </form>
-    </dialog>
+      <div class="mt-6 flex items-center justify-end gap-x-6">
+        <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="">Cancel</button>
+        <button type="submit" name="rename-save-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+      </div>
+    </form>
+  </dialog>
 
 
-    <script>
+  <script>
 
-    </script>
+  </script>
 
-    <script>
-      let tabcontent = document.getElementsByClassName("tabcontent");
-      let tablinks = document.getElementsByClassName("tablinks");
+  <script>
+    let tabcontent = document.getElementsByClassName("tabcontent");
+    let tablinks = document.getElementsByClassName("tablinks");
 
-      function openCity(cityName) {
-        for (let i = 0; i < tabcontent.length; i++) {
-          tabcontent[i].style.display = "none";
-        }
-        document.getElementById(cityName).style.display = "";
+    function openCity(cityName) {
+      for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
       }
+      document.getElementById(cityName).style.display = "";
+    }
 
-      // openCity('London');
-    </script>
+    // openCity('London');
+  </script>
 
-    <script>
-      const editQuestionButtons = document.getElementsByClassName("edit-question-button");
-      const editQuestionDialogs = document.getElementsByClassName("edit-modal");
+  <script>
+    const editQuestionButtons = document.getElementsByClassName("edit-question-button");
+    const editQuestionDialogs = document.getElementsByClassName("edit-modal");
 
-      for (const b of editQuestionButtons) {
-        b.addEventListener("click", (e) => {
-          e.preventDefault();
-          console.log(b.value);
-          editQuestionDialogs[b.value].showModal();
-        })
-      }
-
-      const showBtn = document.getElementById("show-dialog");
-      const dialog = document.getElementById("dialog");
-      const jsCloseBtns = document.getElementsByClassName("js-close");
-
-      const showRenameDialogButton = document.getElementById("show-rename-dialog");
-      const renameDialog = document.getElementById("rename-dialog");
-
-      showRenameDialogButton.addEventListener("click", () => {
-        renameDialog.showModal();
+    for (const b of editQuestionButtons) {
+      b.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log(b.value);
+        editQuestionDialogs[b.value].showModal();
       })
-      showBtn.addEventListener("click", () => {
-        dialog.showModal();
+    }
+
+    const showBtn = document.getElementById("show-dialog");
+    const dialog = document.getElementById("dialog");
+    const jsCloseBtns = document.getElementsByClassName("js-close");
+
+    const showRenameDialogButton = document.getElementById("show-rename-dialog");
+    const renameDialog = document.getElementById("rename-dialog");
+
+    showRenameDialogButton.addEventListener("click", () => {
+      renameDialog.showModal();
+    })
+    showBtn.addEventListener("click", () => {
+      dialog.showModal();
+    });
+
+    const cloneDialogButton = document.getElementById("show-clone-dialog");
+    const cloneDialog = document.getElementById("clone-dialog")
+
+    cloneDialogButton.addEventListener("click", () => {
+      cloneDialog.showModal();
+    });
+
+    for (const b of jsCloseBtns) {
+      b.addEventListener("click", (e) => {
+        e.preventDefault();
+        dialog.close();
+        renameDialog.close();
+        cloneDialog.close();
+        console.log(b);
+        console.log(b.value);
+        if (b.value != null) {
+          editQuestionDialogs[parseInt(b.value)].close();
+        }
       });
+    }
+  </script>
+  <script>
+    function copyTextToClipboard(textToCopy, element) {
+      // Create a temporary input element
+      let tempInput = document.createElement("input");
 
-      const cloneDialogButton = document.getElementById("show-clone-dialog");
-      const cloneDialog = document.getElementById("clone-dialog")
+      // Set the value of the temporary input element to the provided text
+      tempInput.value = textToCopy;
 
-      cloneDialogButton.addEventListener("click", () => {
-        cloneDialog.showModal();
-      });
+      // Append the input element to the document
+      document.body.appendChild(tempInput);
 
-      for (const b of jsCloseBtns) {
-        b.addEventListener("click", (e) => {
-          e.preventDefault();
-          dialog.close();
-          renameDialog.close();
-          cloneDialog.close();
-          console.log(b);
-          console.log(b.value);
-          if (b.value != null) {
-            editQuestionDialogs[parseInt(b.value)].close();
-          }
-        });
-      }
-    </script>
-    <script>
-      function copyTextToClipboard(textToCopy, element) {
-        // Create a temporary input element
-        let tempInput = document.createElement("input");
+      // Select the text inside the input element
+      tempInput.select();
+      tempInput.setSelectionRange(0, 99999); // For mobile devices
 
-        // Set the value of the temporary input element to the provided text
-        tempInput.value = textToCopy;
+      // Copy the selected text to the clipboard
+      document.execCommand("copy");
 
-        // Append the input element to the document
-        document.body.appendChild(tempInput);
+      // Remove the temporary input element from the document
+      document.body.removeChild(tempInput);
 
-        // Select the text inside the input element
-        tempInput.select();
-        tempInput.setSelectionRange(0, 99999); // For mobile devices
+      // Display a temporary "Copied!" message in the element
+      element.textContent = "Copied!";
 
-        // Copy the selected text to the clipboard
-        document.execCommand("copy");
-
-        // Remove the temporary input element from the document
-        document.body.removeChild(tempInput);
-
-        // Display a temporary "Copied!" message in the element
-        element.textContent = "Copied!";
-
-        // Reset the message after a short delay (e.g., 2 seconds)
-        setTimeout(function() {
-          element.textContent = textToCopy;
-        }, 1500);
-      }
-    </script>
+      // Reset the message after a short delay (e.g., 2 seconds)
+      setTimeout(function() {
+        element.textContent = textToCopy;
+      }, 1500);
+    }
+  </script>
 </body>
 
 </html>
