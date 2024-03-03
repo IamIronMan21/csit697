@@ -536,9 +536,9 @@ $rows = $stmt->fetchAll();
 
     <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[500px]" id="dialog">
       <div class="tab w-full flex">
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-slate-400 border-b border-indigo-600 hover:border-slate-400 text-indigo-700" value="multiple-choice-tab" onclick="openCity('multiple-choice-tab')">Multiple Choice</button>
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-slate-400 border-b hover:border-slate-400" value="true-false-tab" onclick="openCity('true-false-tab')">True or False</button>
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-slate-400 border-b hover:border-slate-400" value="open-ended-tab" onclick="openCity('open-ended-tab')">Open-Ended</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b border-indigo-600 hover:border-indigo-500 text-indigo-700" value="multiple-choice-tab" onclick="openCity('multiple-choice-tab')">Multiple Choice</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b hover:border-indigo-500" value="true-false-tab" onclick="openCity('true-false-tab')">True or False</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b hover:border-indigo-500" value="open-ended-tab" onclick="openCity('open-ended-tab')">Open-Ended</button>
       </div>
       <hr class="mb-2">
 
