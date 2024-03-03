@@ -72,3 +72,26 @@ function display_error_message($message)
     </div>
   EOD;
 }
+
+function delete_question($question_id)
+{
+  $sql = "SELECT type FROM questions WHERE id = ?";
+  $stmt = prepare_and_execute($sql, [$question_id]);
+  $type = $stmt->fetchColumn();
+
+  $sql = "DELETE FROM questions WHERE id = ?";
+  prepare_and_execute($sql, [$question_id]);
+
+  if ($type == "MC") {
+    $sql = "DELETE FROM choices WHERE question_id = ?";
+    prepare_and_execute($sql, [$question_id]);
+
+    $sql = "DELETE FROM answers WHERE question_id = ?";
+    prepare_and_execute($sql, [$question_id]);
+  }
+
+  if ($type == "TF") {
+    $sql = "DELETE FROM answers WHERE question_id = ?";
+    prepare_and_execute($sql, [$question_id]);
+  }
+}
