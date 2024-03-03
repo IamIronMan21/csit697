@@ -314,7 +314,7 @@ $rows = $stmt->fetchAll();
           </h1>
           <div class="flex items-center">
             <div class="grow text-left">
-              <span class="font-">Questions</span>: <?= $num_questions ?>
+              Questions: <?= $num_questions ?>
             </div>
             <div class="grow text-center">
               Submissions: <?= $num_submissions ?>
@@ -632,7 +632,7 @@ $rows = $stmt->fetchAll();
         <div class="space-y-10">
           <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Clone Quiz</h2>
-            <p class="mt-1 text-sm leading-6 text-gray-600">Cloning a quiz will create a new copy of this quiz.</p>
+            <p class="mt-1 text-sm leading-6 text-gray-600">Cloning this quiz will create a copy of it without its submissions.</p>
 
             <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div class="sm:col-span-4">

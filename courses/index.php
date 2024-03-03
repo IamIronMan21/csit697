@@ -57,7 +57,7 @@ $courses = $stmt->fetchAll();
           <div class="flex flex-shrink-0 items-center">
             <h1 class="text-white font-['Literata'] text-xl mr-1">Quizify</h1>
           </div>
-          <div class="hidden sm:ml-6 sm:block">
+          <div class="ml-6">
             <div class="flex space-x-4">
               <a href="." class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Courses</a>
               <a href="../quizzes/index.php" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Quizzes</a>
@@ -84,8 +84,8 @@ $courses = $stmt->fetchAll();
       display_error_message($_SESSION["error_message"]);
       unset($_SESSION["error_message"]);
     }
-
     ?>
+
     <?php
     if (isset($_SESSION["success_message"])) {
       display_success_message($_SESSION["success_message"]);

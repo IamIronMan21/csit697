@@ -47,33 +47,26 @@ if (isset($_POST["submit-button"])) {
     <p class="text-center text font- text-slate-700 mb-4">Sign in to your tutor account</p>
 
     <?php if (isset($error_message)) : ?>
-      <div class="text-left bg-red-50 rounded-md py-2 px-3 border border-red-600 mb-4 pb-3.5">
-        <h1 class="text-red-800 font-medium mb-0.5">
-          Error
-        </h1>
-        <p class="text-red-700 text-sm">
-          <?= $error_message ?>
-        </p>
-      </div>
+      <?php display_error_message($error_message) ?>
     <?php endif; ?>
 
     <form method="post" class="mb-4">
 
       <div class="mt-3">
         <div class="flex items-center justify-between">
-          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+          <label class="block text-sm font-medium leading-6 text-gray-900">Email</label>
         </div>
         <div class="mt-2">
-          <input id="email" name="email" type="text" autocomplete="email" required class="px-2.5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input name="email" type="text" required class="px-2.5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
 
       <div class="mt-3">
         <div class="flex items-center justify-between">
-          <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+          <label class="block text-sm font-medium leading-6 text-gray-900">Password</label>
         </div>
         <div class="mt-2">
-          <input id="password" name="password" type="password" autocomplete="current-password" required class="px-2.5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input name="password" type="password" required class="px-2.5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
 
