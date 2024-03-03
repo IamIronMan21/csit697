@@ -98,6 +98,20 @@ $courses = $stmt->fetchAll();
       </button>
     </div>
 
+    <?php
+    if (isset($_SESSION["error_message"])) {
+      display_error_message($_SESSION["error_message"]);
+      unset($_SESSION["error_message"]);
+    }
+    ?>
+
+    <?php
+    if (isset($_SESSION["success_message"])) {
+      display_success_message($_SESSION["success_message"]);
+      unset($_SESSION["success_message"]);
+    }
+    ?>
+
     <div class="flex items-center mb-5 w-full shadow rounded-md">
       <div class="pl-2.5 pr-1 block w-fit rounded-l-md border-l border-y py-2 text-gray-900 bg-white border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
