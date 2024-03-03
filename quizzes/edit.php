@@ -15,15 +15,12 @@ $quiz = $stmt->fetch();
 
 $course_id = $quiz["course_id"];
 
-// TODO remove data related to questions
 if (isset($_POST["delete-question-button"])) {
   $question_id = $_POST["delete-question-button"];
-
-  $sql = "DELETE FROM questions WHERE id = ?";
-  prepare_and_execute($sql, [$question_id]);
+  delete_question($question_id);
 
   $_SESSION["success_message"] = "Question has been deleted.";
-  header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
+  header("Location: ./edit.php?quiz_id=$quiz_id");
   exit;
 }
 
