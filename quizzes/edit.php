@@ -358,12 +358,12 @@ $rows = $stmt->fetchAll();
                 </form>
               </div>
             </div>
-            <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
-            <div class="mt-6 space-y-2">
+            <p class="my-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
+            <div class="my-4">
               <?php $h = uniqid("", true); ?>
               <?php if ($row["type"] == "MC") : ?>
                 <?php foreach (explode("|", $row["choices"]) as $choice) : ?>
-                  <div class="flex items-center gap-x-3">
+                  <div class="flex items-center gap-x-3 my-1.5">
                     <input id="<?= htmlspecialchars($choice) ?>" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                     <label for="<?= htmlspecialchars($choice) ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
                     <?php if ($row["answer"] == $choice) : ?>
@@ -374,7 +374,7 @@ $rows = $stmt->fetchAll();
                   </div>
                 <?php endforeach ?>
               <?php elseif ($row["type"] == "TF") : ?>
-                <div class="flex items-center gap-x-3">
+                <div class="flex items-center gap-x-3 my-1.5">
                   <input id="True" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                   <label for="True" class="block text-sm font-medium leading-6 text-gray-900">True</label>
                   <?php if ($row["answer"] == "True") : ?>
@@ -627,17 +627,16 @@ $rows = $stmt->fetchAll();
     </dialog>
 
     <!-- Clone modal -->
-    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[405px]" id="clone-dialog">
-      <form method="post" class="mt-5 mb-14">
-
-        <div class="space-y-12">
+    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="clone-dialog">
+      <form method="post" class="px-8 mx-auto pt-6 pb-8">
+        <div class="space-y-10">
           <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Clone Quiz</h2>
-            <p class="mt-1 text-sm leading-6 text-gray-600">...</p>
+            <p class="mt-1 text-sm leading-6 text-gray-600">Cloning a quiz will create a new copy of this quiz.</p>
 
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div class="sm:col-span-4">
-                <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+                <label class="block text-sm font-medium leading-6 text-gray-900">Cloned Quiz Name</label>
                 <div class="mt-2">
                   <input name="new-clone-name" type="text" autocomplete="email" required class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
@@ -654,15 +653,14 @@ $rows = $stmt->fetchAll();
     </dialog>
 
     <!-- Rename modal -->
-    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[405px]" id="rename-dialog">
-      <form method="post" class="mt-5 mb-14">
-
-        <div class="space-y-12">
+    <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="rename-dialog">
+      <form method="post" class="px-8 mx-auto pt-6 pb-8">
+        <div class="space-y-10">
           <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Rename Quiz</h2>
             <p class="mt-1 text-sm leading-6 text-gray-600">Update the name of this quiz.</p>
 
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div class="sm:col-span-4">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                 <div class="mt-2">
