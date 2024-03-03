@@ -98,6 +98,15 @@ $courses = $stmt->fetchAll();
       </button>
     </div>
 
+    <div class="flex items-center mb-5 w-full shadow rounded-md">
+      <div class="pl-2.5 pr-1 block w-fit rounded-l-md border-l border-y py-2 text-gray-900 bg-white border-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        </svg>
+      </div>
+      <input type="text" id="search-input" placeholder="Search by quiz" class="px-2 block w-full rounded-r-md border-y border-r py-1.5 text-gray-900 border-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6 outline-none">
+    </div>
+
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
@@ -111,7 +120,7 @@ $courses = $stmt->fetchAll();
         </thead>
         <tbody class="divide-y divide-slate-300">
           <?php foreach ($rows as $index => $row) : ?>
-            <tr class="h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>">
+            <tr class="quiz h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>" value="<?= $row["quiz_name"] ?>">
               <td class="index text-center font-light text-slate-500 pl-1"><?= $index + 1 ?></td>
               <td class="pl-8"><?= $row["quiz_name"] ?></td>
               <td><?= $row["course_name"] ?></td>
@@ -175,6 +184,56 @@ $courses = $stmt->fetchAll();
           </div>
       </form>
     </dialog>
+
+    <script>
+      const searchInput = document.getElementById("search-input");
+      const quizzes = document.getElementsByClassName("quiz");
+
+      searchInput.addEventListener("input", (e) => {
+        e.preventDefault();
+
+        for (const c of quizzes) {
+          const name = c.getAttribute("value");
+          if (!name.includes(searchInput.value)) {
+            c.style.display = "none";
+          } else {
+            c.style.display = "";
+          }
+        }
+
+        for (const c of quizzes) {
+          const name = c.getAttribute("value");
+          if (!(name.toLowerCase()).includes((searchInput.value.toLowerCase()))) {
+            c.style.display = "none";
+          } else {
+            c.style.display = "";
+          }
+        }
+
+        let f = 1;
+        let t = false;
+        let i = 1;
+
+        for (const c of quizzes) {
+          c.style.borderTop = "1px solid rgb(203 213 225)";
+          const name = c.getAttribute("value");
+          if (c.style.display == "") {
+            if (f) {
+              c.style.backgroundColor = "#fff"
+            } else {
+              c.style.backgroundColor = "#f1f5f9";
+            }
+            f ^= 1;
+            c.querySelector(".index").innerHTML = i;
+            i++;
+            if (!t) {
+              c.style.borderTop = "1px solid rgb(100 116 139)";
+              t = true;
+            }
+          }
+        }
+      });
+    </script>
 
     <script>
       const showBtn = document.getElementById("show-dialog");
