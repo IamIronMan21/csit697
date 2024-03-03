@@ -57,7 +57,7 @@ $tutor = $stmt->fetch();
     </div>
   </nav>
 
-  <div class="mx-auto bg-white border-slate-500 min-h-screen px-12 pt-3">
+  <div class="mx-auto bg-white border-slate-500 min-h-screen px-12 pt-4">
 
     <form class="w-3/5 mt-5 mx-auto mb-14">
       <div class="space-y-8">
