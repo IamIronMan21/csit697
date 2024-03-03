@@ -57,60 +57,62 @@ $tutor = $stmt->fetch();
     </div>
   </nav>
 
-  <div class="mx-auto bg-white border-slate-500 min-h-screen px-12 pt-4">
+  <div class="mx-auto max-w-7xl bg-white border-slate-500 min-h-screen px-12 pt-4">
 
-    <form class="w-3/5 mt-5 mx-auto mb-14">
+    <div class="w-3/5 mt-5 mx-auto mb-14">
       <div class="space-y-8">
         <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-base font-semibold leading-7 text-gray-900">Profile</h2>
           <p class="mt-1 text-sm leading-6 text-gray-600">Edit your personal information to be up-to-date.</p>
 
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-3">
-              <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
-              <div class="mt-2">
-                <input type="text" name="name" autocomplete="given-name" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value=<?= $tutor["name"] ?>>
+          <form method="post">
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <!-- Name -->
+              <div class="col-span-3">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+                <div class="mt-2">
+                  <input type="text" name="name" autocomplete="given-name" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value=<?= $tutor["name"] ?>>
+                </div>
+              </div>
+              <!-- Email  -->
+              <div class="col-span-3">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                <div class="mt-2">
+                  <input type="text" name="email" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value=<?= $tutor["email"] ?>>
+                </div>
               </div>
             </div>
-
-            <div class="sm:col-span-3">
-              <label class="block text-sm font-medium leading-6 text-gray-900">Email</label>
-              <div class="mt-2">
-                <input type="text" name="email" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value=<?= $tutor["email"] ?>>
-              </div>
+            <div class="mt-6 flex items-center justify-end gap-x-6">
+              <button name="profile-save-button" type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
             </div>
-          </div>
-
-          <div class="mt-6 flex items-center justify-end gap-x-6">
-            <button type="submit" name="profile-save" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
-          </div>
+          </form>
         </div>
 
         <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-base font-semibold leading-7 text-gray-900">Password</h2>
           <p class="mt-1 text-sm leading-6 text-gray-600">Set a new password to keep your account safe.</p>
 
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-3">
-              <label class="block text-sm font-medium leading-6 text-gray-900">New Password</label>
-              <div class="mt-2">
-                <input type="password" name="new-password" class="block w-full px-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="••••••••">
+          <form method="post">
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <!-- New Password -->
+              <div class="col-span-3">
+                <label class="block text-sm font-medium leading-6 text-gray-900">New Password</label>
+                <div class="mt-2">
+                  <input type="password" name="new-password" class="block w-full px-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="••••••••">
+                </div>
+              </div>
+              <!-- Confirm New Password -->
+              <div class="col-span-3">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Confirm New Password</label>
+                <div class="mt-2">
+                  <input type="password" name="confirm-new-password" class="block w-full px-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="••••••••">
+                </div>
               </div>
             </div>
-
-            <div class="sm:col-span-3">
-              <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Confirm New Password</label>
-              <div class="mt-2">
-                <input type="password" name="last-name" id="last-name" autocomplete="family-name" class="block w-full px-2.5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="••••••••">
-              </div>
+            <div class="mt-6 flex items-center justify-end gap-x-6">
+              <button name="password-save-button" type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
             </div>
-
-          </div>
-          <div class="mt-6 flex items-center justify-end gap-x-6">
-            <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
-          </div>
-
-
+          </form>
         </div>
 
         <div class="border-b border-gray-900/10 pb-12">
@@ -124,7 +126,7 @@ $tutor = $stmt->fetch();
 
       </div>
 
-    </form>
+    </div>
 
   </div>
 
