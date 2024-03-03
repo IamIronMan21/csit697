@@ -302,7 +302,7 @@ $rows = $stmt->fetchAll();
           ?>
         <?php endif; ?>
 
-        <div class="border w-4/5 mx-auto rounded-md border-slate-400 shadow-sm mb-3 px-4 py-2.5 bg-white">
+        <div class="border w-4/5 mx-auto rounded-md border-slate-400 shadow-sm mb-6 px-4 py-2.5 bg-white">
           <h1 class="w-full flex items-center mb-1">
             <div class="text-lg font-semibold">
               <?= $quiz["name"] ?>
@@ -344,7 +344,7 @@ $rows = $stmt->fetchAll();
         </script>
 
         <?php foreach ($rows as $index => $row) : ?>
-          <div class="border shadow-sm mx-auto w-4/5 rounded-md my-10 px-4 py-2.5 border-slate-400 bg-white">
+          <div class="border shadow-sm mx-auto w-4/5 rounded-md mb-6 px-4 py-2.5 border-slate-400 bg-white">
             <div class="flex items-center">
               <div class="grow">
                 <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
