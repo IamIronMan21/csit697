@@ -107,96 +107,111 @@ $grade = round(($total_score / $num_questions) * 100, 2);
     </div>
   </nav>
 
-  <div class="mx-auto bg-white min-h-screen px-12 pt-4 w-1/2">
-    <div>
-      <a href="./index.php" class="text-gray-900 hover:text-gray-700">‹ Back</a>
-    </div>
-    <br>
-    <div>
-      name: <?= $submission["submitter"] ?>
-    </div>
-    <div>
-      grade: <?= $grade ?>
-    </div>
+  <div class="mx-auto bg-white border-slate-500 min-h-screen">
 
-    <form method="">
-      <fieldset>
-        <?php foreach ($rows as $index => $row) : ?>
-          <?php
-          $border_color = "";
-          if ($row["type"] == "OE") {
-            $border_color = "border-gray-300";
-          } else {
-            if ($row["response"] ==  $row["answer"]) {
-              $border_color = "border-green-500";
-            } else {
-              $border_color = "border-red-500";
-            }
-          }
-          ?>
-          <div class="border rounded-lg my-10 px-4 py-2 border-2 <?= $border_color ?>">
-            <div class="flex items-center">
-              <legend class="grow text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
-              <div>
-                score: <?= $row["score"]; ?>
-              </div>
-
-
-              <?php if ($row["type"] == "OE") : ?>
-                <button type="button" value="<?= $row["response_id"] . "-" . $row["score"]; ?>" class="edit-button ml-2 cursor-pointer rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                  edit
-                </button>
-              <?php endif; ?>
-
+    <div class="flex w-full min-h-screen">
+      <div class="w-1/4 pt-4 border-slate-400">
+        <div class="border-slate-400 flex justify-end">
+          <a href="./index.php" class="flex w-1/3 items-center justify-center rounded-md bg-white px-3 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+            <div class="text-center ml-2">
+              Back
             </div>
-            <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
-            <div class="mt-6 space-y-2">
-              <?php $h = "question_" . $row["id"]; ?>
+          </a>
+        </div>
+      </div>
 
-              <?php if ($row["type"] == "MC") : ?>
-
-                <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
-                  <div class="flex items-center gap-x-3">
-                    <?php if ($row["response"] == $choice) : ?>
-                      <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required checked>
-                    <?php else : ?>
-                      <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required>
-                    <?php endif; ?>
-                    <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
-                  </div>
-                <?php endforeach ?>
-
-              <?php elseif ($row["type"] == "TF") : ?>
-
-                <div class="flex items-center gap-x-3">
-                  <?php if ($row["response"] == "True") : ?>
-                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
-                  <?php else : ?>
-                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                  <?php endif; ?>
-
-                  <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">True</label>
-                </div>
-                <div class="flex items-center gap-x-3">
-
-                  <?php if ($row["response"] == "False") : ?>
-                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
-                  <?php else : ?>
-                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                  <?php endif; ?>
-                  <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">False</label>
-                </div>
-
-              <?php elseif ($row["type"] == "OE") : ?>
-                <div class="flex items-center gap-x-3">
-                  <textarea id="<?= $h ?>" name="<?= $h ?>" required class="border block w-full rounded p-1 border-slate-300"><?= $row["response"] ?></textarea>
-                </div>
-              <?php endif; ?>
-            </div>
+      <div class="w-1/2 pt-4">
+        <div class="border w-4/5 mx-auto rounded-md border-slate-400 shadow-sm mb-3 px-4 py-2.5 bg-white">
+          <div>
+            name: <?= $submission["submitter"] ?>
           </div>
-        <?php endforeach; ?>
-        <fieldset>
-    </form>
+          <div>
+            grade: <?= $grade ?>
+          </div>
+        </div>
+
+        <form method="">
+
+          <?php foreach ($rows as $index => $row) : ?>
+            <?php
+            $border_color = "";
+            if ($row["type"] == "OE") {
+              $border_color = "border-gray-300";
+            } else {
+              if ($row["response"] ==  $row["answer"]) {
+                $border_color = "border-green-500";
+              } else {
+                $border_color = "border-red-500";
+              }
+            }
+            ?>
+            <div class="border shadow-sm mx-auto w-4/5 rounded-md my-10 px-4 py-2.5 border-2 bg-white <?= $border_color ?>">
+              <div class="flex items-center">
+                <legend class="grow text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+                <div>
+                  score: <?= $row["score"]; ?>
+                </div>
+
+
+                <?php if ($row["type"] == "OE") : ?>
+                  <button type="button" value="<?= $row["response_id"] . "-" . $row["score"]; ?>" class="edit-button ml-2 cursor-pointer rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                    edit
+                  </button>
+                <?php endif; ?>
+
+              </div>
+              <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
+              <div class="mt-6 space-y-2">
+                <?php $h = "question_" . $row["id"]; ?>
+
+                <?php if ($row["type"] == "MC") : ?>
+
+                  <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+                    <div class="flex items-center gap-x-3">
+                      <?php if ($row["response"] == $choice) : ?>
+                        <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required checked>
+                      <?php else : ?>
+                        <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required>
+                      <?php endif; ?>
+                      <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                    </div>
+                  <?php endforeach ?>
+
+                <?php elseif ($row["type"] == "TF") : ?>
+
+                  <div class="flex items-center gap-x-3">
+                    <?php if ($row["response"] == "True") : ?>
+                      <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
+                    <?php else : ?>
+                      <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                    <?php endif; ?>
+
+                    <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">True</label>
+                  </div>
+                  <div class="flex items-center gap-x-3">
+
+                    <?php if ($row["response"] == "False") : ?>
+                      <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
+                    <?php else : ?>
+                      <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                    <?php endif; ?>
+                    <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+                  </div>
+
+                <?php elseif ($row["type"] == "OE") : ?>
+                  <div class="flex items-center gap-x-3">
+                    <textarea id="<?= $h ?>" name="<?= $h ?>" required class="border block w-full rounded p-1 border-slate-300"><?= $row["response"] ?></textarea>
+                  </div>
+                <?php endif; ?>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </form>
+      </div>
+    </div>
   </div>
 
   <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="edit-dialog">
