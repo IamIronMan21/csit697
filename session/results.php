@@ -58,10 +58,14 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
 
   <title>Quizify</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Literata:ital,opsz@0,7..72;1,7..72&display=swap">
+
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen">
+<body class="min-h-screen font-['Inter']">
 
   <header class="px-8 py-5 bg-gray-800">
     <div class="flex items-center">

@@ -371,7 +371,7 @@ $rows = $stmt->fetchAll();
                 <?php foreach (explode("|", $row["choices"]) as $choice) : ?>
                   <div class="flex items-center gap-x-3 my-2">
                     <input id="<?= $h . $choice ?>" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" disabled>
-                    <label for="<?= $h . $choice ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                    <label for="<?= $h . $choice ?>" class="block text-sm leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
                     <?php if ($row["answer"] == $choice) : ?>
                       <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                         Answer
@@ -382,7 +382,7 @@ $rows = $stmt->fetchAll();
               <?php elseif ($row["type"] == "TF") : ?>
                 <div class="flex items-center gap-x-3 my-2">
                   <input id="<?= $h . "True" ?>" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" disabled>
-                  <label for="<?= $h . "True" ?>" class="block text-sm font-medium leading-6 text-gray-900">True</label>
+                  <label for="<?= $h . "True" ?>" class="block text-sm leading-6 text-gray-900">True</label>
                   <?php if ($row["answer"] == "True") : ?>
                     <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                       Answer
@@ -391,7 +391,7 @@ $rows = $stmt->fetchAll();
                 </div>
                 <div class="flex items-center gap-x-3">
                   <input id="<?= $h . "False" ?>" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" disabled>
-                  <label id="<?= $h . "False" ?>" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+                  <label id="<?= $h . "False" ?>" class="block text-sm leading-6 text-gray-900">False</label>
                   <?php if ($row["answer"] == "False") : ?>
                     <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                       Answer

@@ -6,29 +6,13 @@ session_start();
 
 $quiz_id = $_SESSION["quiz_id"];
 
-$dbh = connect_to_database();
-// $showResult = false;
-// $resultMessage = "";
-// $correctAnswersInfo = [];
-
 if (isset($_POST["submit"])) {
-  // print_r($_POST);
-
+  $dbh = connect_to_database();
   $sql = "INSERT INTO submissions (submitter, quiz_id) VALUES (?, ?)";
   $stmt = $dbh->prepare($sql);
   $stmt->execute([$_POST["submitter"], $quiz_id]);
 
   $submission_id = $dbh->lastInsertId();
-  // echo $submission_id . "<br>";
-
-  // Get user's answers from the submitted form
-  // $userAnswers = [];
-  // foreach ($_POST as $key => $value) {
-  //   if (strpos($key, "question_") === 0) {
-  //     $questionId = substr($key, strlen("question_"));
-  //     $userAnswers[$questionId] = $value;
-  //   }
-  // }
 
   foreach ($_POST as $key => $value) {
     if (strpos($key, "question_") === 0) {
@@ -41,39 +25,6 @@ if (isset($_POST["submit"])) {
   $_SESSION["submission_id"] = $submission_id;
   header("Location: ./results.php");
   exit;
-
-  // // Fetch correct answers from the database
-  // $sql = "SELECT id, content AS answer FROM answers WHERE question_id IN (" . implode(",", array_keys($userAnswers)) . ")";
-  // $stmt = $dbh->prepare($sql);
-  // $stmt->execute();
-  // $correctAnswers = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
-
-  // // Calculate the grade
-  // $totalQuestions = count($correctAnswers);
-  // $correctCount = 0;
-  // $wrongQuestions = [];
-
-  // foreach ($userAnswers as $questionId => $userChoice) {
-  //   if (isset($correctAnswers[$questionId]) && $userChoice === $correctAnswers[$questionId]) {
-  //     $correctCount++;
-  //   } else {
-  //     $wrongQuestions[] = $questionId;
-  //   }
-  // }
-
-  // $grade = ($correctCount / $totalQuestions) * 100;
-
-  // $resultMessage = "Grade:  $grade %</div>";
-
-  // // Display correct and incorrect answers for each question
-  // foreach ($userAnswers as $questionId => $userChoice) {
-  //   if (in_array($questionId, $wrongQuestions)) {
-  //     $correctChoice = isset($correctAnswers[$questionId]) ? $correctAnswers[$questionId] : '';
-  //     $correctAnswersInfo[] = ['questionId' => $questionId, 'correctChoice' => $correctChoice];
-  //   }
-  // }
-
-  // $showResult = true;
 }
 
 $sql = "SELECT * FROM quizzes WHERE id = ? LIMIT 1";
@@ -81,18 +32,20 @@ $stmt = prepare_and_execute($sql, [$quiz_id]);
 $quiz = $stmt->fetch();
 
 $sql = "
-SELECT q.id AS id,
-q.content AS question,
-q.type as type,
-GROUP_CONCAT(c.content SEPARATOR '|') AS choices
-FROM questions q
-LEFT JOIN choices c ON q.id = c.question_id
-WHERE q.quiz_id = ?
-GROUP BY q.id, q.content
+SELECT
+  q.id AS id,
+  q.content AS question,
+  q.type AS type,
+  GROUP_CONCAT(c.content SEPARATOR '|') AS choices
+FROM
+  questions q
+  LEFT JOIN choices c ON q.id = c.question_id
+WHERE
+  q.quiz_id = ?
+GROUP BY
+  q.id
 ";
-$stmt = $dbh->prepare($sql);
-$stmt->execute([$quiz_id]);
-
+$stmt = prepare_and_execute($sql, [$quiz_id]);
 $rows = $stmt->fetchAll();
 
 ?>
@@ -106,10 +59,14 @@ $rows = $stmt->fetchAll();
 
   <title>Quizify</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Literata:ital,opsz@0,7..72;1,7..72&display=swap">
+
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen">
+<body class="min-h-screen font-['Inter']">
 
   <header class="px-8 py-5 bg-gray-800">
     <div class="flex items-center">
@@ -131,37 +88,44 @@ $rows = $stmt->fetchAll();
       </div>
 
       <?php foreach ($rows as $index => $row) : ?>
-        <div class="border rounded-lg my-10 px-4 py-2 border-slate-300">
-          <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
-          <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
-          <div class="mt-6 space-y-2">
+        <div class="border shadow-sm mx-auto w-5/6 rounded-md mb-6 px-4 py-3.5 border-slate-400 bg-white">
+          <div class="flex items-center">
+            <div class="grow">
+              <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+            </div>
+            <div class="mr-3">
+              <!-- <button type="button" value="<?= $index ?>" class="edit-question-button rounded-md py-1 px-2 w-[65px] text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Edit</button> -->
+            </div>
+            <div>
+              <form method="post">
+                <!-- <button type="submit" name="delete-question-button" value="<?= $row["id"] ?>" class="w-[65px] rounded-md text-sm font-semibold bg-red-600 text-white py-1 px-2 hover:bg-red-500">Delete</button> -->
+              </form>
+            </div>
+          </div>
+          <p class="my-4 text-sm leading-6 text-slate-500"><?= $row["question"] ?></p>
+
+          <div class="my-4">
             <?php $h = "question_" . $row["id"]; ?>
-            <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
-              <!-- <div class="flex items-center gap-x-3">
-                <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required>
-                <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
-              </div> -->
-            <?php endforeach ?>
 
             <?php if ($row["type"] == "MC") : ?>
               <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
-                <div class="flex items-center gap-x-3">
+                <div class="flex items-center gap-x-3 my-2">
                   <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                  <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                  <label for="<?= $h . "_" . $index ?>" class="block text-sm leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
                 </div>
               <?php endforeach ?>
             <?php elseif ($row["type"] == "TF") : ?>
-              <div class="flex items-center gap-x-3">
-                <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">True</label>
+              <div class="flex items-center gap-x-3 my-2">
+                <input id="<?= $h . "True" ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                <label id="<?= $h . "True" ?>" class="block text-sm leading-6 text-gray-900">True</label>
               </div>
               <div class="flex items-center gap-x-3">
-                <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+                <input id="<?= $h . "False" ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                <label id="<?= $h . "False" ?>" class="block text-sm leading-6 text-gray-900">False</label>
               </div>
             <?php elseif ($row["type"] == "OE") : ?>
               <div class="flex items-center gap-x-3">
-                <textarea id="<?= $h ?>" name="<?= $h ?>" placeholder="Type your answer here" required class="border block w-full rounded p-1 border-slate-300"></textarea>
+                <textarea id="<?= $h ?>" name="<?= $h ?>" placeholder="Type your answer here" required class="border block w-full rounded px-2 py-1 border-slate-400 text-[14px]"></textarea>
               </div>
             <?php endif; ?>
           </div>
