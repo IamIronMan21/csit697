@@ -293,7 +293,7 @@ $rows = $stmt->fetchAll();
   <div class="mx-auto max-w-7xl bg-white min-h-screen px-12 pt-4">
 
     <div class="flex w-full min-h-screen">
-      <div class="w-1/4 pt-4 border-slate-400">
+      <div class="w-1/4 border-slate-400">
         <div class="border-slate-400 flex justify-end">
           <a href="./index.php" id="" class="flex w-1/3 items-center justify-center rounded-md bg-white px-3 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -306,7 +306,7 @@ $rows = $stmt->fetchAll();
         </div>
       </div>
 
-      <div class="w-1/2 pt-4">
+      <div class="w-1/2">
         <div class="w-4/5 mx-auto">
           <?php
           if (isset($_SESSION["error_message"])) {
@@ -324,7 +324,7 @@ $rows = $stmt->fetchAll();
         </div>
 
         <div class="border w-4/5 mx-auto rounded-md border-slate-400 shadow-sm mb-6 px-4 py-3.5 bg-white">
-          <h1 class="w-full flex items-center mb-1">
+          <div class="w-full flex items-center mb-1">
             <div class="text-lg font-semibold">
               <?= $quiz["name"] ?>
             </div>
@@ -332,7 +332,7 @@ $rows = $stmt->fetchAll();
               —
             </div>
             <?= $course["name"] ?>
-          </h1>
+          </div>
           <div class="flex items-center">
             <div class="grow text-left">
               Questions: <?= $num_questions ?>
@@ -501,7 +501,7 @@ $rows = $stmt->fetchAll();
       </div>
 
       <!--  -->
-      <div class="w-1/4 border-slate-400 pt-4">
+      <div class="w-1/4 border-slate-400">
         <div class="space-y-3.5 flex flex-col justify-start">
 
           <button id="show-dialog" class="flex w-1/2 items-center justify-center rounded-md bg-indigo-600 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
