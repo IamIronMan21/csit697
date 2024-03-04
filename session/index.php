@@ -97,9 +97,9 @@ $rows = $stmt->fetchAll();
               <!-- <button type="button" value="<?= $index ?>" class="edit-question-button rounded-md py-1 px-2 w-[65px] text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Edit</button> -->
             </div>
             <div>
-              <form method="post">
-                <!-- <button type="submit" name="delete-question-button" value="<?= $row["id"] ?>" class="w-[65px] rounded-md text-sm font-semibold bg-red-600 text-white py-1 px-2 hover:bg-red-500">Delete</button> -->
-              </form>
+              <!-- <form method="post">
+                <button type="submit" name="delete-question-button" value="<?= $row["id"] ?>" class="w-[65px] rounded-md text-sm font-semibold bg-red-600 text-white py-1 px-2 hover:bg-red-500">Delete</button>
+              </form> -->
             </div>
           </div>
           <p class="my-4 text-sm leading-6 text-slate-500"><?= $row["question"] ?></p>
