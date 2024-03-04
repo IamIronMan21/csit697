@@ -68,44 +68,49 @@ $course = $stmt->fetch();
     </div>
   </nav>
 
-  <div class="bg-white border-slate-500 min-h-screen px-12 pt-4 w-3/5">
+  <div class="bg-white border-slate-500 min-h-screen px-12 pt-4">
 
-    <?php if (isset($_SESSION["success_message"])) : ?>
-      <div class="flex items-center bg-green-50 rounded-lg py-3 px-3 border border-green-600 mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#4ade80" aria-hidden="true" class="w-6 h-6">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"></path>
-        </svg>
-        <p class="text-green-700 text-[14px] font-medium px-2">
-          <?= $_SESSION['success_message'] ?>
-        </p>
-      </div>
-      <?php unset($_SESSION["success_message"]) ?>
-    <?php endif; ?>
+    <div class="w-3/5 mx-auto">
 
-    <form method="post" class="mt-5 mb-14">
+      <?php
+      if (isset($_SESSION["error_message"])) {
+        display_error_message($_SESSION["error_message"]);
+        unset($_SESSION["error_message"]);
+      }
+      ?>
 
-      <div class="space-y-12">
-        <div class="border-b border-gray-900/10 pb-12">
-          <h2 class="text-base font-semibold leading-7 text-gray-900">Edit Course</h2>
-          <p class="mt-1 text-sm leading-6 text-gray-600">Update the information of an existing course.</p>
+      <?php
+      if (isset($_SESSION["success_message"])) {
+        display_success_message($_SESSION["success_message"]);
+        unset($_SESSION["success_message"]);
+      }
+      ?>
 
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-4">
-              <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
-              <div class="mt-2">
-                <input name="new-name" type="text" autocomplete="email" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $course["name"] ?>">
+      <form method="post" class="mt-5 mb-14">
+
+        <div class="space-y-12">
+          <div class="border-b border-gray-900/10 pb-12">
+            <h2 class="text-base font-semibold leading-7 text-gray-900">Edit Course</h2>
+            <p class="mt-1 text-sm leading-6 text-gray-600">Update the information of an existing course.</p>
+
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div class="sm:col-span-4">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+                <div class="mt-2">
+                  <input name="new-name" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $course["name"] ?>">
+                </div>
               </div>
             </div>
           </div>
+
         </div>
 
-      </div>
-
-      <div class="mt-6 flex items-center justify-end gap-x-6">
-        <a href="./index.php" class="text-sm font-semibold leading-6 text-gray-900">Back</a>
-        <button type="submit" name="save-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
-      </div>
-    </form>
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+          <a href="./index.php" class="text-sm font-semibold leading-6 text-gray-900">Back</a>
+          <button type="submit" name="save-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+        </div>
+      </form>
+    </div>
 
 </body>
 
