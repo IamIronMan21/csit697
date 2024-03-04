@@ -8,7 +8,7 @@ INSERT INTO `answers` (`id`, `content`, `question_id`, `created_at`) VALUES
 (6, '13', 7, '2024-03-04 19:24:17'),
 (7, '11001', 8, '2024-03-04 19:25:22'),
 (8, 'False', 9, '2024-03-04 19:26:02'),
-(9, 'False', 12, '2024-03-04 16:34:30');
+(9, 'False', 11, '2024-03-04 16:34:30');
 
 INSERT INTO `choices` (`id`, `content`, `question_id`, `created_at`) VALUES
 (1, 'Magnetic forces', 1, '2024-03-04 06:18:20'),
