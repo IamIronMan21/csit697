@@ -117,11 +117,11 @@ $rows = $stmt->fetchAll();
             <?php elseif ($row["type"] == "TF") : ?>
               <div class="flex items-center gap-x-3 my-2">
                 <input id="<?= $h . "True" ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label id="<?= $h . "True" ?>" class="block text-sm leading-6 text-gray-900">True</label>
+                <label for="<?= $h . "True" ?>" class="block text-sm leading-6 text-gray-900">True</label>
               </div>
               <div class="flex items-center gap-x-3">
                 <input id="<?= $h . "False" ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label id="<?= $h . "False" ?>" class="block text-sm leading-6 text-gray-900">False</label>
+                <label for="<?= $h . "False" ?>" class="block text-sm leading-6 text-gray-900">False</label>
               </div>
             <?php elseif ($row["type"] == "OE") : ?>
               <div class="flex items-center gap-x-3">
