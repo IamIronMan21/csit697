@@ -106,9 +106,6 @@ if (isset($_POST["edit-question-submit-button"])) {
   $id = $_POST["edit-question-submit-button"];
   $content = $_POST["question-$id"];
 
-  var_dump($id);
-  var_dump($content);
-
   $sql = "UPDATE questions SET content = ? WHERE id = ?";
   prepare_and_execute($sql, [$content, $id]);
 
@@ -155,6 +152,12 @@ if (isset($_POST["edit-question-submit-button"])) {
 }
 
 if (isset($_POST["rename-save-button"])) {
+  if (has_submissions_for_quiz($quiz_id)) {
+    $_SESSION["error_message"] = "Cannot edit quiz that already has submissions.";
+    header("Location: ./edit.php?quiz_id=$quiz_id");
+    exit;
+  }
+
   $sql = "UPDATE quizzes SET name = ? WHERE id = ? LIMIT 1";
   prepare_and_execute($sql, [$_POST["new-quiz-name"], $quiz_id]);
   $_SESSION["success_message"] = "Quiz has been renamed.";
@@ -173,10 +176,7 @@ if (isset($_POST["new-clone-name"])) {
   $stmt = prepare_and_execute($sql, [$quiz_id]);
   $rows = $stmt->fetchAll();
 
-  var_dump($rows);
-
   foreach ($rows as $row) {
-    // var_dump($row);
     $sql = "INSERT INTO questions (type, content, quiz_id) VALUES (?, ?, ?)";
     $stmt = $dbh->prepare($sql);
     $stmt->execute([$row["type"], $row["content"], $new_quiz_id]);
@@ -290,7 +290,7 @@ $rows = $stmt->fetchAll();
     </div>
   </nav>
 
-  <div class="mx-auto bg-white border-slate-500 min-h-screen">
+  <div class="mx-auto max-w-7xl bg-white min-h-screen px-12 pt-4">
 
     <div class="flex w-full min-h-screen">
       <div class="w-1/4 pt-4 border-slate-400">
@@ -656,16 +656,8 @@ $rows = $stmt->fetchAll();
           </div>
         </form>
       </section>
+    </dialog>
   </div>
-
-  <form method="post" class="px-8 mx-auto pt-6 pb-8">
-
-    <!-- <div class="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" class="text-sm font-semibold leading-6 text-gray-900" id="js-close">Cancel</button>
-          <button type="submit" name="new-course-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add</button>
-        </div> -->
-  </form>
-  </dialog>
 
   <!-- Clone modal -->
   <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="clone-dialog">
@@ -718,11 +710,6 @@ $rows = $stmt->fetchAll();
       </div>
     </form>
   </dialog>
-
-
-  <script>
-
-  </script>
 
   <script>
     let tabcontent = document.getElementsByClassName("tabcontent");
