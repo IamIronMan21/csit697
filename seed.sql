@@ -1,0 +1,1 @@
+INSERT INTO `tutors` (`id`, `name`, `email`, `password`, `created_at`) VALUES (1, 'Emdadul', 'haquee1@montclair.edu', '$argon2i$v=19$m=65536,t=4,p=1$dnMvazVHZEoyWnE0NDJMSA$C0SDo+22raaug38gEi4gcE2p1ZxFS9BqfaDik1NVuew', '2024-03-04 00:27:05');
