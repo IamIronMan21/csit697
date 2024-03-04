@@ -323,7 +323,7 @@ $rows = $stmt->fetchAll();
           ?>
         </div>
 
-        <div class="border w-4/5 mx-auto rounded-md border-slate-400 shadow-sm mb-6 px-4 py-2.5 bg-white">
+        <div class="border w-4/5 mx-auto rounded-md border-slate-400 shadow-sm mb-6 px-4 py-3.5 bg-white">
           <h1 class="w-full flex items-center mb-1">
             <div class="text-lg font-semibold">
               <?= $quiz["name"] ?>
@@ -350,7 +350,7 @@ $rows = $stmt->fetchAll();
         </div>
 
         <?php foreach ($rows as $index => $row) : ?>
-          <div class="border shadow-sm mx-auto w-4/5 rounded-md mb-6 px-4 py-2.5 border-slate-400 bg-white">
+          <div class="border shadow-sm mx-auto w-4/5 rounded-md mb-6 px-4 py-3.5 border-slate-400 bg-white">
             <div class="flex items-center">
               <div class="grow">
                 <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
@@ -364,12 +364,12 @@ $rows = $stmt->fetchAll();
                 </form>
               </div>
             </div>
-            <p class="my-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
+            <p class="my-4 text-sm leading-6 text-slate-500"><?= $row["question"] ?></p>
             <div class="my-4">
               <?php $h = uniqid("", true); ?>
               <?php if ($row["type"] == "MC") : ?>
                 <?php foreach (explode("|", $row["choices"]) as $choice) : ?>
-                  <div class="flex items-center gap-x-3 my-1.5">
+                  <div class="flex items-center gap-x-3 my-2">
                     <input id="<?= htmlspecialchars($choice) ?>" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                     <label for="<?= htmlspecialchars($choice) ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
                     <?php if ($row["answer"] == $choice) : ?>
@@ -380,7 +380,7 @@ $rows = $stmt->fetchAll();
                   </div>
                 <?php endforeach ?>
               <?php elseif ($row["type"] == "TF") : ?>
-                <div class="flex items-center gap-x-3 my-1.5">
+                <div class="flex items-center gap-x-3 my-2">
                   <input id="True" name="<?= $h ?>" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                   <label for="True" class="block text-sm font-medium leading-6 text-gray-900">True</label>
                   <?php if ($row["answer"] == "True") : ?>
