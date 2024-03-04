@@ -610,7 +610,7 @@ $rows = $stmt->fetchAll();
                     Select the correct answer
                   </div>
 
-                  <div class="flex items-center gap-x-3 my-1.5">
+                  <div class="flex items-center gap-x-3 my-2">
                     <input id="true-option" name="true-false-option" type="radio" value="True" required class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                     <label for="true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
                   </div>
