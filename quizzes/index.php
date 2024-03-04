@@ -57,9 +57,6 @@ $courses = $stmt->fetchAll();
   <nav class="bg-gray-800 px-4">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
-        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-
-        </div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
             <h1 class="text-white font-['Literata'] text-xl mr-1">Quizify</h1>
@@ -84,7 +81,7 @@ $courses = $stmt->fetchAll();
     </div>
   </nav>
 
-  <div class="mx-auto bg-white min-h-screen px-12 pt-4">
+  <div class="mx-auto max-w-7xl bg-white min-h-screen px-12 pt-4">
 
     <div class="flex mb-4 items-center">
       <h1 class="grow text-xl font-medium">Quizzes</h1>
