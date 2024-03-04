@@ -50,7 +50,7 @@ INSERT INTO `questions` (`id`, `type`, `content`, `quiz_id`, `created_at`) VALUE
 (9, 'TF', 'In the binary system, each digit is referred to as a \"byte.\"', 2, '2024-03-04 14:26:02');
 
 INSERT INTO `quizzes` (`id`, `name`, `code`, `course_id`, `created_at`) VALUES
-(1, 'Plate Techtonics', '96866', 1, '2024-03-04 01:17:44'),
+(1, 'Plate Tectonics', '96866', 1, '2024-03-04 01:17:44'),
 (2, 'Binary Numbers', '24128', 2, '2024-03-04 14:21:44');
 
 INSERT INTO `responses` (`id`, `content`, `score`, `submission_id`, `question_id`, `created_at`) VALUES

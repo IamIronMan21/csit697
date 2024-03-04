@@ -294,7 +294,7 @@ $rows = $stmt->fetchAll();
 
     <div class="flex w-full min-h-screen">
       <div class="w-1/4 border-slate-400">
-        <div class="border-slate-400 flex justify-end">
+        <div class="border-slate-400 flex justify-end sticky top-[16px]">
           <a href="./index.php" id="" class="flex w-1/3 items-center justify-center rounded-md bg-white px-3 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -502,7 +502,7 @@ $rows = $stmt->fetchAll();
 
       <!--  -->
       <div class="w-1/4 border-slate-400">
-        <div class="space-y-3.5 flex flex-col justify-start">
+        <div class="space-y-3.5 flex flex-col justify-start sticky top-[16px]">
 
           <button id="show-dialog" class="flex w-1/2 items-center justify-center rounded-md bg-indigo-600 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" class="h-5 w-5 mr-0.5">
