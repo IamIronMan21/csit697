@@ -173,9 +173,11 @@ $rows = $stmt->fetchAll();
             </div>
           <?php endforeach; ?>
 
+          <hr class="w-4/5 mt-10 my-6 mx-auto border-slate-300">
+
           <div class="flex w-4/5 mx-auto mt-10">
             <div class="grow"></div>
-            <button name="submit" class="mb-16 rounded-md bg-indigo-600 px-8 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+            <button name="submit" class="mb-16 rounded-md bg-indigo-600 px-10 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
           </div>
         </form>
       </div>
