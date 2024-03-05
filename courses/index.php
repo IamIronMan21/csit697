@@ -63,9 +63,7 @@ $courses = $stmt->fetchAll();
   <nav class="bg-gray-800 px-4">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
-        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-
-        </div>
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden"></div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
             <h1 class="text-white font-['Literata'] text-xl mr-1">Quizify</h1>
@@ -90,7 +88,7 @@ $courses = $stmt->fetchAll();
     </div>
   </nav>
 
-  <div class="mx-auto bg-white min-h-screen px-12 pt-4">
+  <div class="mx-auto max-w-7xl bg-white min-h-screen pt-4 px-12">
 
     <?php
     if (isset($_SESSION["error_message"])) {
@@ -188,19 +186,18 @@ $courses = $stmt->fetchAll();
     <script>
       const searchInput = document.getElementById("search-input");
       const courses = document.getElementsByClassName("course");
-      const thead = document.getElementsByTagName("thead")[0];
 
       searchInput.addEventListener("input", (e) => {
         e.preventDefault();
 
-        for (const c of courses) {
-          const name = c.getAttribute("value");
-          if (!name.includes(searchInput.value)) {
-            c.style.display = "none";
-          } else {
-            c.style.display = "";
-          }
-        }
+        // for (const c of courses) {
+        //   const name = c.getAttribute("value");
+        //   if (!name.includes(searchInput.value)) {
+        //     c.style.display = "none";
+        //   } else {
+        //     c.style.display = "";
+        //   }
+        // }
 
         for (const c of courses) {
           const name = c.getAttribute("value");
@@ -233,9 +230,6 @@ $courses = $stmt->fetchAll();
             }
           }
         }
-
-        // thead.style.borderBottom = "1px solid rgb(100 116 139)";
-        // thead.style.zIndex = "-1";
       });
     </script>
 
