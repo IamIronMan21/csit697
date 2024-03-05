@@ -93,53 +93,31 @@ $rows = $stmt->fetchAll();
   <div class="mx-auto max-w-7xl bg-white min-h-screen px-12 pt-4">
 
     <div class="flex w-full min-h-screen">
-
       <div class="w-1/4">
-        <div class="flex justify-end sticky top-[16px]">
-          <div class="w-1/2 items-center justify-center rounded-md bg-white px-3 py-3 shadow-sm ring-1 ring-inset ring-gray-300 select-none">
-            <div class="text-sm text-slate-500">Time elapsed</div>
-            <div class="block">
-              <p id="stopwatch" class="text-gray-900">0:00:00</p>
-            </div>
-          </div>
-        </div>
-        <script>
-          const stopwatchElement = document.getElementById('stopwatch');
 
-          // Function to format the time as HH:MM:SS
-          function formatTime(seconds) {
-            const hours = Math.floor(seconds / 3600);
-            const minutes = Math.floor((seconds % 3600) / 60);
-            const remainingSeconds = seconds % 60;
-            return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-          }
-
-          // Function to update the stopwatch
-          function updateStopwatch() {
-            elapsedTime++;
-            stopwatchElement.textContent = formatTime(elapsedTime);
-          }
-
-          // Initialize variables
-          let elapsedTime = 0;
-
-          // Start the stopwatch automatically when the page loads
-          const intervalId = setInterval(updateStopwatch, 1000);
-        </script>
       </div>
 
       <div class="w-1/2">
         <form method="post">
-          <div class="w-4/5 mx-auto border rounded-md border-slate-400 mb-5 pb-3.5 bg-white">
+          <div class="w-4/5 mx-auto rounded-md border-slate-400 mb-5 pb-2 bg-white">
             <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
             <div class="mt-2">
               <input name="submitter" placeholder="" type="text" required class="block w-1/2 rounded-md border-0 py-1.5 px-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
+            <div class="flex items-center mt-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-slate-400">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+              </svg>
+              <p class="text-slate-400 text-[14px] pl-1.5 select-none">
+                Use a name that your tutor will be able to recognize as yours.
+              </p>
+            </div>
           </div>
 
-          <div class="w-4/5 border mx-auto rounded-md border-slate-400 shadow-sm mb-6 px-4 py-3.5 bg-white">
+          <hr class="w-4/5 my-6 mx-auto border-slate-300">
 
-            <div class="w-full flex items-center mb-1">
+          <div class="w-4/5 border- rounde-md mx-auto border-slate-400 shado-sm mb-6 px-4 py-2 bg-white">
+            <div class="w-full flex justify-center items-center mb-1">
               <div class="text-lg font-semibold">
                 <?= $quiz["quiz_name"] ?>
               </div>
@@ -148,14 +126,12 @@ $rows = $stmt->fetchAll();
               </div>
               <?= $quiz["course_name"] ?>
             </div>
-
           </div>
-
 
           <?php foreach ($rows as $index => $row) : ?>
             <div class="border shadow-sm mx-auto w-4/5 rounded-md mb-6 px-4 py-3.5 border-slate-400 bg-white">
-              <div class="flex items-center">
-                <div class="grow">
+              <div class="flex items-center h-[28px]">
+                <div class="grow ">
                   <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
                 </div>
                 <div class="mr-3">
@@ -175,17 +151,17 @@ $rows = $stmt->fetchAll();
                 <?php if ($row["type"] == "MC") : ?>
                   <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
                     <div class="flex items-center gap-x-3 my-2">
-                      <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                      <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                       <label for="<?= $h . "_" . $index ?>" class="block text-sm leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
                     </div>
                   <?php endforeach ?>
                 <?php elseif ($row["type"] == "TF") : ?>
                   <div class="flex items-center gap-x-3 my-2">
-                    <input id="<?= $h . "True" ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                    <input id="<?= $h . "True" ?>" name="<?= $h ?>" type="radio" value="True" required class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                     <label for="<?= $h . "True" ?>" class="block text-sm leading-6 text-gray-900">True</label>
                   </div>
                   <div class="flex items-center gap-x-3">
-                    <input id="<?= $h . "False" ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                    <input id="<?= $h . "False" ?>" name="<?= $h ?>" type="radio" value="False" required class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
                     <label for="<?= $h . "False" ?>" class="block text-sm leading-6 text-gray-900">False</label>
                   </div>
                 <?php elseif ($row["type"] == "OE") : ?>
@@ -197,28 +173,85 @@ $rows = $stmt->fetchAll();
             </div>
           <?php endforeach; ?>
 
-          <div class="flex">
+          <div class="flex w-4/5 mx-auto mt-10">
             <div class="grow"></div>
-            <button name="submit" class="mb-14 rounded-md bg-indigo-600 px-8 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+            <button name="submit" class="mb-16 rounded-md bg-indigo-600 px-8 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
           </div>
-
-          <?php if (isset($showResult)) : ?>
-            <div style="margin-top: 20px;">
-              <?= $resultMessage ?>
-              <?php foreach ($correctAnswersInfo as $info) : ?>
-                <div style="margin-top: 10px;">
-                  Question #<?= $info['questionId'] - 1 ?>: Correct Answer - <?= $info['correctChoice'] ?>
-                </div>
-              <?php endforeach; ?>
-            </div>
-          <?php endif; ?>
         </form>
       </div>
       <div class="w-1/4">
-
+        <!-- <div class="flex justify-start  top-[16px]">
+            <div class="w-2/5 items-center justify-center rounded-md bg-white px-3 py-3 shadow-sm ring-1 ring-inset ring-gray-300 select-none">
+              <div class="text-sm text-slate-500">Name</div>
+              <div class="block">
+                <p class="text-gray-900">John</p>
+              </div>
+            </div>
+          </div> -->
+        <div class="flex justify-start sticky top-[16px]">
+          <div class="w-1/2 items-center justify-center rounded-md bg-white px-3 py-3 shadow-sm ring-1 ring-inset ring-gray-300 select-none">
+            <div class="text-sm text-slate-500">Time elapsed</div>
+            <div class="block">
+              <p id="stopwatch" class="text-gray-900">0:00:00</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%]" id="dialog">
+    <form method="post" class="px-8 mx-auto pt-6 pb-8">
+      <div class="space-y-10">
+        <div class="border-b border-gray-900/10 pb-12">
+          <h2 class="text-base font-semibold leading-7 text-gray-900">New Course</h2>
+          <p class="mt-1 text-sm leading-6 text-gray-600">Create a new course here.</p>
+
+          <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="sm:col-span-4">
+              <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+              <div class="mt-2">
+                <input name="course-name" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 flex items-center justify-end gap-x-6">
+        <button type="button" class="text-sm font-semibold leading-6 text-gray-900" id="js-close">Cancel</button>
+        <button type="submit" name="new-course-button" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const stopwatchElement = document.getElementById('stopwatch');
+
+    // Function to format the time as HH:MM:SS
+    function formatTime(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const remainingSeconds = seconds % 60;
+      return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    }
+
+    // Function to update the stopwatch
+    function updateStopwatch() {
+      elapsedTime++;
+      stopwatchElement.textContent = formatTime(elapsedTime);
+    }
+
+    // Initialize variables
+    let elapsedTime = 0;
+
+    // Start the stopwatch automatically when the page loads
+    const intervalId = setInterval(updateStopwatch, 1000);
+  </script>
+
+  <script>
+
+  </script>
 </body>
 
 </html>
