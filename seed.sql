@@ -1,4 +1,3 @@
-
 INSERT INTO `answers` (`id`, `content`, `question_id`, `created_at`) VALUES
 (1, 'Convection currents in the mantle', 1, '2024-03-04 06:18:20'),
 (2, 'Divergent boundary', 2, '2024-03-04 06:20:55'),
@@ -38,8 +37,10 @@ INSERT INTO `choices` (`id`, `content`, `question_id`, `created_at`) VALUES
 
 INSERT INTO `courses` (`id`, `name`, `tutor_id`, `created_at`) VALUES
 (1, 'Geology 101', 1, '2024-03-01 06:15:57'),
-(2, 'Intro to Computer Science', 1, '2024-03-04 15:34:52'),
-(3, 'Graphic Design I', 1, '2024-03-04 16:07:07');
+(2, 'Intro to Computer Science', 1, '2024-03-02 15:34:52'),
+(3, 'Graphic Design I', 1, '2024-03-03 16:07:07'),
+(4, 'Astronomy', 1, '2024-03-03 22:17:12'),
+(5, 'Web Applications', 1, '2024-03-04 22:17:20');
 
 INSERT INTO `questions` (`id`, `type`, `content`, `quiz_id`, `created_at`) VALUES
 (1, 'MC', 'What is the primary driving force behind plate tectonics?', 1, '2024-03-04 06:18:20'),
