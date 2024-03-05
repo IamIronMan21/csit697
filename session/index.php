@@ -27,7 +27,19 @@ if (isset($_POST["submit"])) {
   exit;
 }
 
-$sql = "SELECT * FROM quizzes WHERE id = ? LIMIT 1";
+$sql = "
+SELECT
+  q.name as quiz_name,
+  c.name as course_name
+FROM
+  quizzes q,
+  courses c
+WHERE
+  q.id = ?
+  AND q.course_id = c.id
+LIMIT
+  1
+";
 $stmt = prepare_and_execute($sql, [$quiz_id]);
 $quiz = $stmt->fetch();
 
@@ -68,86 +80,144 @@ $rows = $stmt->fetchAll();
 
 <body class="min-h-screen font-['Inter']">
 
-  <header class="px-8 py-5 bg-gray-800">
-    <div class="flex items-center">
-      <div class="grow">
-        &nbsp;
+  <header class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center text-center">
+        <div class="grow">
+          <h1 class="text-white text-center font-['Literata'] text-xl">Quizify</h1>
+        </div>
       </div>
     </div>
   </header>
 
-  <div class="w-1/2 mx-auto bg-white min-h-screen px-8">
-    <form method="post">
-      <h1 class="my-4 font-semibold"><?= $quiz["name"] ?></h1>
+  <div class="mx-auto max-w-7xl bg-white min-h-screen px-12 pt-4">
 
-      <div class="mb-4">
-        <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
-        <div class="mt-2">
-          <input name="submitter" type="text" required class="block w-1/2 rounded-md border-0 py-1.5 px-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+    <div class="flex w-full min-h-screen">
+
+      <div class="w-1/4">
+        <div class="flex justify-end sticky top-[16px]">
+          <div class="w-1/2 items-center justify-center rounded-md bg-white px-3 py-3 shadow-sm ring-1 ring-inset ring-gray-300 select-none">
+            <div class="text-sm text-slate-500">Time elapsed</div>
+            <div class="block">
+              <p id="stopwatch" class="text-gray-900">0:00:00</p>
+            </div>
+          </div>
         </div>
+        <script>
+          const stopwatchElement = document.getElementById('stopwatch');
+
+          // Function to format the time as HH:MM:SS
+          function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+            return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+          }
+
+          // Function to update the stopwatch
+          function updateStopwatch() {
+            elapsedTime++;
+            stopwatchElement.textContent = formatTime(elapsedTime);
+          }
+
+          // Initialize variables
+          let elapsedTime = 0;
+
+          // Start the stopwatch automatically when the page loads
+          const intervalId = setInterval(updateStopwatch, 1000);
+        </script>
       </div>
 
-      <?php foreach ($rows as $index => $row) : ?>
-        <div class="border shadow-sm mx-auto w-5/6 rounded-md mb-6 px-4 py-3.5 border-slate-400 bg-white">
-          <div class="flex items-center">
-            <div class="grow">
-              <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+      <div class="w-1/2">
+        <form method="post">
+          <div class="w-4/5 mx-auto border rounded-md border-slate-400 mb-5 pb-3.5 bg-white">
+            <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+            <div class="mt-2">
+              <input name="submitter" placeholder="" type="text" required class="block w-1/2 rounded-md border-0 py-1.5 px-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
-            <div class="mr-3">
-              <!-- <button type="button" value="<?= $index ?>" class="edit-question-button rounded-md py-1 px-2 w-[65px] text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Edit</button> -->
+          </div>
+
+          <div class="w-4/5 border mx-auto rounded-md border-slate-400 shadow-sm mb-6 px-4 py-3.5 bg-white">
+
+            <div class="w-full flex items-center mb-1">
+              <div class="text-lg font-semibold">
+                <?= $quiz["quiz_name"] ?>
+              </div>
+              <div class="mx-1 text-slate-400">
+                —
+              </div>
+              <?= $quiz["course_name"] ?>
             </div>
-            <div>
-              <!-- <form method="post">
+
+          </div>
+
+
+          <?php foreach ($rows as $index => $row) : ?>
+            <div class="border shadow-sm mx-auto w-4/5 rounded-md mb-6 px-4 py-3.5 border-slate-400 bg-white">
+              <div class="flex items-center">
+                <div class="grow">
+                  <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+                </div>
+                <div class="mr-3">
+                  <!-- <button type="button" value="<?= $index ?>" class="edit-question-button rounded-md py-1 px-2 w-[65px] text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Edit</button> -->
+                </div>
+                <div>
+                  <!-- <form method="post">
                 <button type="submit" name="delete-question-button" value="<?= $row["id"] ?>" class="w-[65px] rounded-md text-sm font-semibold bg-red-600 text-white py-1 px-2 hover:bg-red-500">Delete</button>
               </form> -->
-            </div>
-          </div>
-          <p class="my-4 text-sm leading-6 text-slate-500"><?= $row["question"] ?></p>
-
-          <div class="my-4">
-            <?php $h = "question_" . $row["id"]; ?>
-
-            <?php if ($row["type"] == "MC") : ?>
-              <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
-                <div class="flex items-center gap-x-3 my-2">
-                  <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                  <label for="<?= $h . "_" . $index ?>" class="block text-sm leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
                 </div>
-              <?php endforeach ?>
-            <?php elseif ($row["type"] == "TF") : ?>
-              <div class="flex items-center gap-x-3 my-2">
-                <input id="<?= $h . "True" ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label for="<?= $h . "True" ?>" class="block text-sm leading-6 text-gray-900">True</label>
               </div>
-              <div class="flex items-center gap-x-3">
-                <input id="<?= $h . "False" ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label for="<?= $h . "False" ?>" class="block text-sm leading-6 text-gray-900">False</label>
-              </div>
-            <?php elseif ($row["type"] == "OE") : ?>
-              <div class="flex items-center gap-x-3">
-                <textarea id="<?= $h ?>" name="<?= $h ?>" placeholder="Type your answer here" required class="border block w-full rounded px-2 py-1 border-slate-400 text-[14px]"></textarea>
-              </div>
-            <?php endif; ?>
-          </div>
-        </div>
-      <?php endforeach; ?>
+              <p class="my-4 text-sm leading-6 text-slate-500"><?= $row["question"] ?></p>
 
-      <div class="flex">
-        <div class="grow"></div>
-        <button name="submit" class="mb-14 rounded-md bg-indigo-600 px-8 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
-      </div>
+              <div class="my-4">
+                <?php $h = "question_" . $row["id"]; ?>
 
-      <?php if (isset($showResult)) : ?>
-        <div style="margin-top: 20px;">
-          <?= $resultMessage ?>
-          <?php foreach ($correctAnswersInfo as $info) : ?>
-            <div style="margin-top: 10px;">
-              Question #<?= $info['questionId'] - 1 ?>: Correct Answer - <?= $info['correctChoice'] ?>
+                <?php if ($row["type"] == "MC") : ?>
+                  <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+                    <div class="flex items-center gap-x-3 my-2">
+                      <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                      <label for="<?= $h . "_" . $index ?>" class="block text-sm leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                    </div>
+                  <?php endforeach ?>
+                <?php elseif ($row["type"] == "TF") : ?>
+                  <div class="flex items-center gap-x-3 my-2">
+                    <input id="<?= $h . "True" ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                    <label for="<?= $h . "True" ?>" class="block text-sm leading-6 text-gray-900">True</label>
+                  </div>
+                  <div class="flex items-center gap-x-3">
+                    <input id="<?= $h . "False" ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                    <label for="<?= $h . "False" ?>" class="block text-sm leading-6 text-gray-900">False</label>
+                  </div>
+                <?php elseif ($row["type"] == "OE") : ?>
+                  <div class="flex items-center gap-x-3 my-2">
+                    <textarea id="<?= $h ?>" name="<?= $h ?>" placeholder="Type your answer here" required rows="3" class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+                  </div>
+                <?php endif; ?>
+              </div>
             </div>
           <?php endforeach; ?>
-        </div>
-      <?php endif; ?>
-    </form>
+
+          <div class="flex">
+            <div class="grow"></div>
+            <button name="submit" class="mb-14 rounded-md bg-indigo-600 px-8 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+          </div>
+
+          <?php if (isset($showResult)) : ?>
+            <div style="margin-top: 20px;">
+              <?= $resultMessage ?>
+              <?php foreach ($correctAnswersInfo as $info) : ?>
+                <div style="margin-top: 10px;">
+                  Question #<?= $info['questionId'] - 1 ?>: Correct Answer - <?= $info['correctChoice'] ?>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          <?php endif; ?>
+        </form>
+      </div>
+      <div class="w-1/4">
+
+      </div>
+    </div>
   </div>
 </body>
 
