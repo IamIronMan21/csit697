@@ -72,8 +72,7 @@ $submissions = $stmt->fetchAll();
     </div>
   </nav>
 
-
-  <div class="mx-auto bg-white min-h-screen px-12 pt-4">
+  <div class="mx-auto max-w-7xl bg-white min-h-screen pt-4 px-12">
     <div class="flex mb-4 items-center">
       <h1 class="grow text-xl font-medium">Submissions</h1>
       <div class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm invisible">+</div>
