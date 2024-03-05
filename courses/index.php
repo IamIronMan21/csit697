@@ -24,7 +24,20 @@ if (isset($_POST["new-course-button"])) {
   exit;
 }
 
-$sql = "SELECT id, name, created_at FROM courses WHERE tutor_id = ?";
+$sql = "
+SELECT
+  c.id,
+  c.name,
+  c.created_at,
+  COUNT(q.id) as count
+FROM
+  courses c
+  LEFT JOIN quizzes q ON c.id = q.course_id
+WHERE
+  c.tutor_id = ?
+GROUP BY
+  c.id;
+";
 $stmt = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
 $courses = $stmt->fetchAll();
 
@@ -119,7 +132,8 @@ $courses = $stmt->fetchAll();
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
           <th class="font-semibold w-[4%] pl-1">#</th>
           <th class="font-semibold text-left w-[42%] pl-8">Name</th>
-          <th class="font-semibold text-left w-[42%]">Date Created</th>
+          <th class="font-semibold text-left w-[21%]">Quizzes</th>
+          <th class="font-semibold text-left w-[21%]">Date Created</th>
           <th class="font-semibold w-[6%]"></th>
           <th class="font-semibold w-[6%]"></th>
         </thead>
@@ -128,6 +142,9 @@ $courses = $stmt->fetchAll();
             <tr class="course z-0 h-[45px]" style="<?= ($index % 2 == 1) ? "background-color: #f1f5f9" : ""; ?>" value="<?= $course["name"] ?>">
               <td class="index text-center font-light text-slate-500 pl-1"><?= $index + 1 ?></td>
               <td class="pl-8 text-[15px]"><?= $course["name"] ?></td>
+              <td>
+                <?= $course["count"] ?>
+              </td>
               <td class="text-slate-500">
                 <?= (new DateTime($course["created_at"]))->format('m/d/Y') ?>
               </td>
