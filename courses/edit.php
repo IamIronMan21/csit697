@@ -68,7 +68,7 @@ $course = $stmt->fetch();
     </div>
   </nav>
 
-  <div class="bg-white border-slate-500 min-h-screen px-12 pt-4">
+  <div class="mx-auto max-w-7xl bg-white min-h-screen pt-4 px-12">
 
     <div class="w-3/5 mx-auto">
 
