@@ -67,123 +67,143 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
 
 <body class="min-h-screen font-['Inter']">
 
-  <header class="px-8 py-5 bg-gray-800">
-    <div class="flex items-center">
-      <div class="grow">
-        &nbsp;
+  <header class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center text-center">
+        <div class="grow">
+          <h1 class="text-white text-center font-['Literata'] text-xl">Quizify</h1>
+        </div>
       </div>
     </div>
   </header>
 
-  <div class="w-1/2 mx-auto bg-white min-h-screen px-8">
-    <div>
-      <a href="../start.php">Return</a>
-    </div>
-    <div class="">
-      <div class="px-4 sm:px-0">
-        <h3 class="text-base font-semibold leading-7 text-gray-900">Results</h3>
-        <!-- <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Here are your results.</p> -->
-      </div>
-      <div class="mt-6 border-t border-gray-100">
-        <dl class="divide-y divide-gray-100">
-          <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt class="text-sm font-medium leading-6 text-gray-900">Submitter</dt>
-            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><?= $submission["submitter"] ?></dd>
-          </div>
-          <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt class="text-sm font-medium leading-6 text-gray-900">Quiz</dt>
-            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">...</dd>
-          </div>
-          <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt class="text-sm font-medium leading-6 text-gray-900">Course</dt>
-            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">...</dd>
-          </div>
-          <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt class="text-sm font-medium leading-6 text-gray-900">Grade</dt>
-            <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><?= $grade ?></dd>
-          </div>
-        </dl>
-      </div>
-    </div>
+  <div class="mx-auto max-w-7xl bg-white min-h-screen px-12 pt-4">
 
+    <div class="flex w-full">
+      <div class="w-1/4">
+        <div class="border-slate-400 flex justify-end sticky top-[16px]">
+          <a href="../start.php" id="" class="flex w-1/3 items-center justify-center rounded-md bg-white px-3 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 19.5-15-15m0 0v11.25m0-11.25h11.25" />
+            </svg>
 
-
-    <hr>
-
-    <!-- <div>
-      name: <?= $submission["submitter"] ?>
-    </div>
-    <div>
-      grade: <?= $grade ?>
-    </div> -->
-
-    <p>Note: Open-ended answers will be graded manually.</p>
-
-    <form method="">
-      <fieldset disabled="disabled">
-        <?php foreach ($rows as $index => $row) : ?>
-          <?php
-          $border_color = "";
-          if ($row["type"] == "OE") {
-            $border_color = "border-gray-300";
-          } else {
-            if ($row["response"] ==  $row["answer"]) {
-              $border_color = "border-green-500";
-            } else {
-              $border_color = "border-red-500";
-            }
-          }
-          ?>
-          <div class="border rounded-lg my-10 px-4 py-2 border-2 <?= $border_color ?>">
-            <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
-            <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
-            <div class="mt-6 space-y-2">
-              <?php $h = "question_" . $row["id"]; ?>
-
-              <?php if ($row["type"] == "MC") : ?>
-
-                <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
-                  <div class="flex items-center gap-x-3">
-                    <?php if ($row["response"] == $choice) : ?>
-                      <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required checked>
-                    <?php else : ?>
-                      <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required>
-                    <?php endif; ?>
-                    <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
-                  </div>
-                <?php endforeach ?>
-
-              <?php elseif ($row["type"] == "TF") : ?>
-
-                <div class="flex items-center gap-x-3">
-                  <?php if ($row["response"] == "True") : ?>
-                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
-                  <?php else : ?>
-                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                  <?php endif; ?>
-
-                  <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">True</label>
-                </div>
-                <div class="flex items-center gap-x-3">
-
-                  <?php if ($row["response"] == "False") : ?>
-                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
-                  <?php else : ?>
-                    <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                  <?php endif; ?>
-                  <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">False</label>
-                </div>
-
-              <?php elseif ($row["type"] == "OE") : ?>
-                <div class="flex items-center gap-x-3">
-                  <textarea id="<?= $h ?>" name="<?= $h ?>" required class="border block w-full rounded p-1 border-slate-300"><?= $row["response"] ?></textarea>
-                </div>
-              <?php endif; ?>
+            <div class="text-center ml-2">
+              Return
             </div>
+          </a>
+        </div>
+      </div>
+      <div class="w-1/2">
+        <div class="w-4/5 border mx-auto">
+          <div class="px-4 sm:px-0">
+            <h3 class="text-base font-semibold leading-7 text-gray-900">Results</h3>
+            <!-- <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Here are your results.</p> -->
           </div>
-        <?php endforeach; ?>
-        <fieldset>
-    </form>
+          <div class="mt-6 border-t border-gray-100">
+            <dl class="divide-y divide-gray-100">
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Submitter</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><?= $submission["submitter"] ?></dd>
+              </div>
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Quiz</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">...</dd>
+              </div>
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Course</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">...</dd>
+              </div>
+              <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Grade</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><?= $grade ?></dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <hr>
+
+        <div>
+          name: <?= $submission["submitter"] ?>
+        </div>
+        <div>
+          grade: <?= $grade ?>
+        </div>
+
+        <p>Note: Open-ended answers will be graded manually.</p>
+
+        <form method="" class="w-4/5 mx-auto">
+          <fieldset disabled="disabled">
+            <?php foreach ($rows as $index => $row) : ?>
+              <?php
+              $border_color = "";
+              if ($row["type"] == "OE") {
+                $border_color = "border-gray-300";
+              } else {
+                if ($row["response"] ==  $row["answer"]) {
+                  $border_color = "border-green-500";
+                } else {
+                  $border_color = "border-red-500";
+                }
+              }
+              ?>
+              <div class="border rounded-lg my-10 px-4 py-2 border-2 <?= $border_color ?>">
+                <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
+                <p class="mt-1 text-sm leading-6 text-gray-600"><?= $row["question"] ?></p>
+                <div class="mt-6 space-y-2">
+                  <?php $h = "question_" . $row["id"]; ?>
+
+                  <?php if ($row["type"] == "MC") : ?>
+
+                    <?php foreach (explode("|", $row["choices"]) as $index => $choice) : ?>
+                      <div class="flex items-center gap-x-3">
+                        <?php if ($row["response"] == $choice) : ?>
+                          <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required checked>
+                        <?php else : ?>
+                          <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" required>
+                        <?php endif; ?>
+                        <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                      </div>
+                    <?php endforeach ?>
+
+                  <?php elseif ($row["type"] == "TF") : ?>
+
+                    <div class="flex items-center gap-x-3">
+                      <?php if ($row["response"] == "True") : ?>
+                        <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
+                      <?php else : ?>
+                        <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                      <?php endif; ?>
+
+                      <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">True</label>
+                    </div>
+                    <div class="flex items-center gap-x-3">
+
+                      <?php if ($row["response"] == "False") : ?>
+                        <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
+                      <?php else : ?>
+                        <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                      <?php endif; ?>
+                      <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+                    </div>
+
+                  <?php elseif ($row["type"] == "OE") : ?>
+                    <div class="flex items-center gap-x-3">
+                      <textarea id="<?= $h ?>" name="<?= $h ?>" required class="border block w-full rounded p-1 border-slate-300"><?= $row["response"] ?></textarea>
+                    </div>
+                  <?php endif; ?>
+                </div>
+              </div>
+            <?php endforeach; ?>
+            <fieldset>
+        </form>
+      </div>
+      <div class="w-1/4">
+
+      </div>
+
+    </div>
+
   </div>
 
 </body>
