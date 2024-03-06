@@ -57,11 +57,10 @@ INSERT INTO `choices` (`id`, `content`, `question_id`, `created_at`) VALUES
 (40, 'Magnetite', 16, '2024-03-06 09:03:11');
 
 INSERT INTO `courses` (`id`, `name`, `tutor_id`, `created_at`) VALUES
-(1, 'Geology 101', 1, '2024-03-01 06:15:57'),
-(2, 'Intro to Computer Science', 1, '2024-03-02 15:34:52'),
+(1, 'Foundations of Geology', 1, '2024-03-01 06:15:57'),
+(2, 'Introduction to Computing', 1, '2024-03-02 15:34:52'),
 (3, 'Graphic Design I', 1, '2024-03-03 16:07:07'),
-(4, 'Astronomy', 1, '2024-03-03 22:17:12'),
-(5, 'Web Applications', 1, '2024-03-04 22:17:20');
+(4, 'Basic Astronomy', 1, '2024-03-03 22:17:12');
 
 INSERT INTO `questions` (`id`, `type`, `content`, `quiz_id`, `created_at`) VALUES
 (1, 'MC', 'What is the primary driving force behind plate tectonics?', 1, '2024-03-04 06:18:20'),
@@ -85,7 +84,9 @@ INSERT INTO `quizzes` (`id`, `name`, `code`, `course_id`, `created_at`) VALUES
 (1, 'Plate Tectonics', '96866', 1, '2024-03-01 06:17:44'),
 (2, 'Binary Numbers', '24128', 2, '2024-03-04 19:21:44'),
 (3, 'Typography', '27516', 3, '2024-03-04 16:29:19'),
-(4, 'Minerals', '12528', 1, '2024-03-04 16:29:35');
+(4, 'Minerals', '12528', 1, '2024-03-04 16:29:35'),
+(5, 'Color Theory', '42887', 3, '2024-03-06 10:12:05'),
+(6, 'Our Solar System', '83596', 4, '2024-03-06 10:12:15');
 
 INSERT INTO `responses` (`id`, `content`, `score`, `submission_id`, `question_id`, `created_at`) VALUES
 (1, 'Convection currents in the mantle', 1, 1, 1, '2024-03-04 06:30:02'),
