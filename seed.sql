@@ -7,7 +7,12 @@ INSERT INTO `answers` (`id`, `content`, `question_id`, `created_at`) VALUES
 (6, '13', 7, '2024-03-04 19:24:17'),
 (7, '11001', 8, '2024-03-04 19:25:22'),
 (8, 'False', 9, '2024-03-04 19:26:02'),
-(9, 'False', 11, '2024-03-04 16:34:30');
+(9, 'False', 11, '2024-03-04 16:34:30'),
+(10, 'Resistance to scratching', 12, '2024-03-06 08:58:37'),
+(11, 'Bauxite', 13, '2024-03-06 08:59:28'),
+(12, 'Graphite', 14, '2024-03-06 09:00:25'),
+(13, 'True', 15, '2024-03-06 09:01:11'),
+(14, 'Calcite', 16, '2024-03-06 09:03:11');
 
 INSERT INTO `choices` (`id`, `content`, `question_id`, `created_at`) VALUES
 (1, 'Magnetic forces', 1, '2024-03-04 06:18:20'),
@@ -33,7 +38,23 @@ INSERT INTO `choices` (`id`, `content`, `question_id`, `created_at`) VALUES
 (21, '11001', 8, '2024-03-04 19:25:22'),
 (22, '10011', 8, '2024-03-04 19:25:22'),
 (23, '10101', 8, '2024-03-04 19:25:22'),
-(24, '11010', 8, '2024-03-04 19:25:22');
+(24, '11010', 8, '2024-03-04 19:25:22'),
+(25, 'Density', 12, '2024-03-06 08:58:37'),
+(26, 'Resistance to scratching', 12, '2024-03-06 08:58:37'),
+(27, 'Melting point', 12, '2024-03-06 08:58:37'),
+(28, 'Transparency', 12, '2024-03-06 08:58:37'),
+(29, 'Magnetite', 13, '2024-03-06 08:59:28'),
+(30, 'Bauxite', 13, '2024-03-06 08:59:28'),
+(31, 'Fluorite', 13, '2024-03-06 08:59:28'),
+(32, 'Pyrite', 13, '2024-03-06 08:59:28'),
+(33, 'Graphite', 14, '2024-03-06 09:00:25'),
+(34, 'Sulfur', 14, '2024-03-06 09:00:25'),
+(35, 'Talc', 14, '2024-03-06 09:00:25'),
+(36, 'Mica', 14, '2024-03-06 09:00:25'),
+(37, 'Quartz', 16, '2024-03-06 09:03:11'),
+(38, 'Halite', 16, '2024-03-06 09:03:11'),
+(39, 'Calcite', 16, '2024-03-06 09:03:11'),
+(40, 'Magnetite', 16, '2024-03-06 09:03:11');
 
 INSERT INTO `courses` (`id`, `name`, `tutor_id`, `created_at`) VALUES
 (1, 'Geology 101', 1, '2024-03-01 06:15:57'),
@@ -53,7 +74,12 @@ INSERT INTO `questions` (`id`, `type`, `content`, `quiz_id`, `created_at`) VALUE
 (8, 'MC', 'What is the binary representation of the decimal number 25?', 2, '2024-03-04 19:25:22'),
 (9, 'TF', 'In the binary system, each digit is referred to as a \"byte\".', 2, '2024-03-04 19:26:02'),
 (10, 'OE', 'What is the difference between serif fonts and sans-serif fonts?', 3, '2024-03-04 16:33:21'),
-(11, 'TF', 'The choice of font in graphic design has little impact on the audience\'s perception of a message or brand.', 3, '2024-03-04 16:34:30');
+(11, 'TF', 'The choice of font in graphic design has little impact on the audience\'s perception of a message or brand.', 3, '2024-03-04 16:34:30'),
+(12, 'MC', 'Mohs scale is a measure of a mineral\'s:', 4, '2024-03-06 08:58:37'),
+(13, 'MC', 'Which mineral is a significant source of aluminum?', 4, '2024-03-06 08:59:28'),
+(14, 'MC', 'What mineral is commonly found in both pencil \"lead\" and lubricants?', 4, '2024-03-06 09:00:25'),
+(15, 'TF', 'The mineral diamond is composed of carbon atoms arranged in a crystal lattice structure.', 4, '2024-03-06 09:01:11'),
+(16, 'MC', 'Which mineral is commonly associated with the formation of stalactites and stalagmites in caves?', 4, '2024-03-06 09:03:11');
 
 INSERT INTO `quizzes` (`id`, `name`, `code`, `course_id`, `created_at`) VALUES
 (1, 'Plate Tectonics', '96866', 1, '2024-03-01 06:17:44'),
@@ -75,12 +101,18 @@ INSERT INTO `responses` (`id`, `content`, `score`, `submission_id`, `question_id
 (11, '2', 1, 3, 6, '2024-03-04 16:36:36'),
 (12, '13', 1, 3, 7, '2024-03-04 16:36:36'),
 (13, '11010', 0, 3, 8, '2024-03-04 16:36:36'),
-(14, 'False', 1, 3, 9, '2024-03-04 16:36:36');
+(14, 'False', 1, 3, 9, '2024-03-04 16:36:36'),
+(15, 'Resistance to scratching', 1, 4, 12, '2024-03-06 09:08:09'),
+(16, 'Magnetite', 0, 4, 13, '2024-03-06 09:08:09'),
+(17, 'Graphite', 1, 4, 14, '2024-03-06 09:08:09'),
+(18, 'True', 1, 4, 15, '2024-03-06 09:08:09'),
+(19, 'Calcite', 1, 4, 16, '2024-03-06 09:08:09');
 
 INSERT INTO `submissions` (`id`, `submitter`, `quiz_id`, `created_at`) VALUES
 (1, 'Finnian', 1, '2024-03-04 06:30:02'),
 (2, 'Caden', 1, '2024-03-04 19:16:49'),
-(3, 'Harry', 2, '2024-03-04 16:36:36');
+(3, 'Harry', 2, '2024-03-04 16:36:36'),
+(4, 'Landon', 4, '2024-03-06 09:08:09');
 
 INSERT INTO `tutors` (`id`, `name`, `email`, `password`, `created_at`) VALUES
 (1, 'Emdadul', 'haquee1@montclair.edu', '$argon2i$v=19$m=65536,t=4,p=1$dnMvazVHZEoyWnE0NDJMSA$C0SDo+22raaug38gEi4gcE2p1ZxFS9BqfaDik1NVuew', '2024-02-04 05:27:05');
