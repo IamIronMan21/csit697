@@ -129,9 +129,9 @@ $courses = $stmt->fetchAll();
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
           <th class="font-semibold w-[4%] pl-1">#</th>
-          <th class="font-semibold text-left w-[42%] pl-8">Name</th>
-          <th class="font-semibold text-left w-[21%]">Quizzes</th>
-          <th class="font-semibold text-left w-[21%]">Date Created</th>
+          <th class="font-semibold text-left w-[51%] pl-8">Name</th>
+          <th class="font-semibold text-left w-[18%]">Quizzes</th>
+          <th class="font-semibold text-left w-[15%]">Date Created</th>
           <th class="font-semibold w-[6%]"></th>
           <th class="font-semibold w-[6%]"></th>
         </thead>
