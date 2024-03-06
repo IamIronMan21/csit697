@@ -110,8 +110,7 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
       <div class="w-1/2">
         <div class="w-4/5 mx-auto">
           <div class="px-4 sm:px-0">
-            <h3 class="text-base text-center font-semibold leading-7 text-gray-900">Quiz Results</h3>
-            <!-- <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Here are your results.</p> -->
+            <?= display_success_message("Your quiz has been submitted. View your results below."); ?>
           </div>
           <div class="mt-6 border-y border-gray-300">
             <dl class="divide-y divide-gray-300">
@@ -120,12 +119,12 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
                 <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><?= $submission["submitter"] ?></dd>
               </div>
               <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                <dt class="text-sm font-medium leading-6 text-gray-900">Quiz</dt>
-                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><?= $quiz ?></dd>
-              </div>
-              <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt class="text-sm font-medium leading-6 text-gray-900">Course</dt>
                 <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><?= $course ?></dd>
+              </div>
+              <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt class="text-sm font-medium leading-6 text-gray-900">Quiz</dt>
+                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><?= $quiz ?></dd>
               </div>
               <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt class="text-sm font-medium leading-6 text-gray-900">Grade</dt>
@@ -135,13 +134,7 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
           </div>
         </div>
 
-        <!-- <div>name: <?= $submission["submitter"] ?></div>
-        <div>Grade: <?= $grade ?></div> -->
-
-        <!-- <p>Note: Open-ended answers will be graded manually.</p> -->
-
-
-        <div class="flex items-center my-6 w-4/5 mx-auto">
+        <div class="flex items-center justify-center my-6 w-4/5 mx-auto">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-slate-500">
             <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
           </svg>
@@ -190,10 +183,20 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
                     <div class="flex items-center gap-x-3 my-2">
                       <?php if ($row["response"] == $choice) : ?>
                         <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" checked>
+                        <label for="<?= $h . "_" . $index ?>" class="block text-sm leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                        <?php if ($row["answer"] == $choice) : ?>
+                          <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                            Correct
+                          </span>
+                        <?php else : ?>
+                          <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/20">
+                            Incorrect
+                          </span>
+                        <?php endif ?>
                       <?php else : ?>
                         <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" disabled>
+                        <label for="<?= $h . "_" . $index ?>" class="block text-sm leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
                       <?php endif; ?>
-                      <label for="<?= $h . "_" . $index ?>" class="block text-sm font-medium leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
                     </div>
                   <?php endforeach ?>
 
@@ -202,20 +205,38 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
                   <div class="flex items-center gap-x-3 my-2">
                     <?php if ($row["response"] == "True") : ?>
                       <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
+                      <label id="<?= $h ?>" class="block text-sm leading-6 text-gray-900">True</label>
+                      <?php if ($row["answer"] == "True") : ?>
+                        <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                          Correct
+                        </span>
+                      <?php else : ?>
+                        <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/20">
+                          Incorrect
+                        </span>
+                      <?php endif ?>
                     <?php else : ?>
-                      <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                      <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="True" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" disabled>
+                      <label id="<?= $h ?>" class="block text-sm leading-6 text-gray-900">True</label>
                     <?php endif; ?>
-
-                    <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">True</label>
                   </div>
                   <div class="flex items-center gap-x-3 my-2">
-
                     <?php if ($row["response"] == "False") : ?>
                       <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" checked>
+                      <label id="<?= $h ?>" class="block text-sm leading-6 text-gray-900">False</label>
+                      <?php if ($row["answer"] == "False") : ?>
+                        <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                          Correct
+                        </span>
+                      <?php else : ?>
+                        <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/20">
+                          Incorrect
+                        </span>
+                      <?php endif ?>
                     <?php else : ?>
-                      <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                      <input id="<?= $h ?>" name="<?= $h ?>" type="radio" value="False" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" disabled>
+                      <label id="<?= $h ?>" class="block text-sm leading-6 text-gray-900">False</label>
                     <?php endif; ?>
-                    <label id="<?= $h ?>" class="block text-sm font-medium leading-6 text-gray-900">False</label>
                   </div>
 
                 <?php elseif ($row["type"] == "OE") : ?>
