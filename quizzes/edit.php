@@ -589,8 +589,8 @@ $rows = $stmt->fetchAll();
           </div>
           <div class="mt-6 flex items-center justify-end gap-x-6">
             <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-            <button type="submit" name="new-mc-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-              Submit
+            <button type="submit" name="new-mc-question" class="rounded-md bg-indigo-600 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              Add
             </button>
           </div>
         </form>
@@ -624,8 +624,8 @@ $rows = $stmt->fetchAll();
           </div>
           <div class="mt-6 flex items-center justify-end gap-x-6">
             <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-            <button type="submit" name="new-tf-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-              Submit
+            <button type="submit" name="new-tf-question" class="rounded-md bg-indigo-600 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              Add
             </button>
           </div>
         </form>
@@ -640,18 +640,22 @@ $rows = $stmt->fetchAll();
                 <div class="mt-2">
                   <input name="question" type="text" required placeholder="Open-ended question" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
-                <div class="mt-4">
-                  <div class="text-slate-500 text-sm mb-4">
-                    Note: Open-ended answers will be manually graded by you.
-                  </div>
+                <div class="mt-4 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-slate-500">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                  </svg>
+                  <p class="text-slate-500 text-[14px] pl-1.5 select-none">
+                    Open-ended responses have to be graded manually.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
+
           <div class="mt-6 flex items-center justify-end gap-x-6">
             <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-            <button type="submit" name="new-oe-question" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-              Submit
+            <button type="submit" name="new-oe-question" class="rounded-md bg-indigo-600 px-6 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              Add
             </button>
           </div>
         </form>
