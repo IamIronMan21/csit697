@@ -185,7 +185,7 @@ $grade = round(($total_score / $num_questions) * 100, 2);
                         <p class="text-sm">Score: <?= $row["score"]; ?></p>
                       </div>
                       <?php if ($row["type"] == "OE") : ?>
-                        <div class="w-fit ml-2">
+                        <div class="w-fit ml-1">
                           <button type="button" value="<?= $row["response_id"] . "-" . $row["score"]; ?>" class="edit-button cursor-pointer rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                             Edit
                           </button>
@@ -221,6 +221,11 @@ $grade = round(($total_score / $num_questions) * 100, 2);
                         <?php else : ?>
                           <input id="<?= $h . "_" . $index ?>" name="<?= $h ?>" type="radio" value="<?= $choice ?>" disabled>
                           <label for="<?= $h . "_" . $index ?>" class="block text-sm leading-6 text-gray-900"><?= htmlspecialchars($choice) ?></label>
+                          <?php if ($choice == $row["answer"] && $row["response"] != $row["answer"]) : ?>
+                            <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                              Answer
+                            </span>
+                          <?php endif; ?>
                         <?php endif; ?>
                       </div>
                     <?php endforeach ?>
