@@ -99,7 +99,7 @@ $rows = $stmt->fetchAll();
 
       <div class="w-1/2">
         <form method="post">
-          <div class="w-4/5 mx-auto rounded-md border-slate-400 mb-5 pb-2 bg-white">
+          <div class="w-4/5 mx-auto rounded-md border-slate-400 mb-3 pb-2 bg-white">
             <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
             <div class="mt-2">
               <input name="submitter" placeholder="" type="text" required class="block w-1/2 rounded-md border-0 py-1.5 px-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -114,7 +114,7 @@ $rows = $stmt->fetchAll();
             </div>
           </div>
 
-          <hr class="w-4/5 my-6 mx-auto border-slate-300">
+          <hr class="w-4/5 mt-2 mb-6 mx-auto border-slate-300">
 
           <div class="w-4/5 border- rounde-md mx-auto border-slate-400 shado-sm mb-6 px-4 py-2 bg-white">
             <div class="w-full flex justify-center items-center mb-1">
