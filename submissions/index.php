@@ -19,6 +19,8 @@ WHERE
   c.tutor_id = ?
   AND c.id = q.course_id
   AND q.id = s.quiz_id
+ORDER BY
+  s.created_at;
 ";
 $stmt  = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
 $submissions = $stmt->fetchAll();
