@@ -418,63 +418,85 @@ $rows = $stmt->fetchAll();
           </div>
 
           <!-- Edit question modal -->
-          <dialog class="edit-modal w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[405px]">
-            <form method="post" class="mt-5 mb-14">
+          <dialog class="edit-modal w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[500px]">
+            <div class="tab w-full flex select-none">
+              <button class="w-full pt-3.5 py-3 px-2 border-b">&nbsp;</button>
+              <button class="w-full pt-3.5 py-3 px-2 border-b">&nbsp;</button>
+              <button class="w-full pt-3.5 py-3 px-2 border-b">&nbsp;</button>
+            </div>
+            <hr class="mb-2">
+            <form method="post" class="px-8 mx-auto pt-2 h-[415px] flex flex-col">
+              <div class="border-b border-gray-900/10 pb-6 grow">
+                <div class="grid grid-cols-1 gap-x-6 gap-y-8">
+                  <div class="w-full">
 
-              <div class="space-y-12">
-                <div class="border-b border-gray-900/10 pb-12">
-                  <h2 class="text-base font-semibold leading-7 text-gray-900">Edit Question</h2>
-                  <p class="mt-1 text-sm leading-6 text-gray-600">...</p>
+                    <label class="block text-sm font-medium leading-6 text-gray-900">Edit Question #<?= $index + 1 ?></label>
+                    <div class="mt-2">
+                      <input name="question-<?= $row["id"]; ?>" type="text" required class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $row["question"] ?>">
+                    </div>
 
-                  <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    <div class="sm:col-span-4">
-                      <label class="block text-sm font-medium leading-6 text-gray-900">Question</label>
-                      <div class="mt-2">
-                        <input name="question-<?= $row["id"]; ?>" type="text" required class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $row["question"] ?>">
+                    <input type="hidden" name="question-<?= $row["id"] ?>-type" value="<?= $row["type"] ?>">
+
+
+                    <?php if ($row["type"] == "OE") : ?>
+                      <div class="mt-4 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-slate-500">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                        </svg>
+                        <p class="text-slate-500 text-[14px] pl-1.5 select-none">
+                          Open-ended responses have to be graded manually.
+                        </p>
                       </div>
-                    </div>
-                  </div>
+                    <?php endif; ?>
 
-                  <input type="hidden" name="question-<?= $row["id"] ?>-type" value="<?= $row["type"] ?>">
+                    <?php if ($row["type"] == "TF") : ?>
+                      <div class="mt-4">
+                        <div class="text-slate-500 text-sm mb-4">
+                          Select the correct answer
+                        </div>
 
-                  <?php if ($row["type"] == "TF") : ?>
-                    <!-- True/False Options -->
-                    <div class="flex items-center gap-x-3">
-                      <input id="edit-true-option" name="question-<?= $row["id"] ?>-edit-true-false-option" type="radio" value="True" required <?= ($row["answer"] == "True") ? "checked" : "" ?>>
-                      <label for="edit-true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
-                    </div>
-                    <div class="flex items-center gap-x-3">
-                      <input id="edit-false-option" name="question-<?= $row["id"] ?>-edit-true-false-option" type="radio" value="False" required <?= ($row["answer"] == "False") ? "checked" : "" ?>>
-                      <label for="edit-false-option" class="block text-sm font-medium leading-6 text-gray-900">False</label>
-                    </div>
-                  <?php endif; ?>
+                        <!-- True/False Options -->
+                        <div class="flex items-center gap-x-3 my-2">
+                          <input id="edit-true-option" name="question-<?= $row["id"] ?>-edit-true-false-option" type="radio" value="True" required <?= ($row["answer"] == "True") ? "checked" : "" ?> class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                          <label for="edit-true-option" class="block text-sm font-medium leading-6 text-gray-900">True</label>
+                        </div>
+                        <div class="flex items-center gap-x-3">
+                          <input id="edit-false-option" name="question-<?= $row["id"] ?>-edit-true-false-option" type="radio" value="False" required <?= ($row["answer"] == "False") ? "checked" : "" ?> class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                          <label for="edit-false-option" class="block text-sm font-medium leading-6 text-gray-900">False</label>
+                        </div>
+                      </div>
+                    <?php endif; ?>
 
-                  <?php if ($row["type"] == "MC") : ?>
-                    <?php
+                    <?php if ($row["type"] == "MC") : ?>
+                      <?php
+                      $choices = explode("|", $row["choices"]);
+                      ?>
+                      <div class="mt-4">
+                        <div class="text-slate-500 text-sm mb-4">
+                          Enter choices and select the correct answer
+                        </div>
 
-                    $choices = explode("|", $row["choices"]);
-                    ?>
-                    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8">
-                      <div>
                         <input type="hidden" name="question-<?= $row["id"] ?>-answer" value="<?= $row["answer"] ?>">
-                        <div class="flex">
-                          <span>1</span>
-                          <input class="border block w-1/2" type="text" name="question-<?= $row["id"]; ?>-choice-0" placeholder="choice 1" required value="<?= $choices[0]; ?>">
+                        <div class="space-y-3">
+                          <div class="flex items-center">
+                            <span class="w-1/5 text-sm text-right pr-4">Choice 1</span>
+                            <input type="text" name="question-<?= $row["id"]; ?>-choice-0" placeholder="" required value="<?= $choices[0]; ?>" class="block px-2 w-full rounded-md border-0 py-0.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                          </div>
+                          <div class="flex items-center">
+                            <span class="w-1/5 text-sm text-right pr-4">Choice 2</span>
+                            <input type="text" name="question-<?= $row["id"]; ?>-choice-1" placeholder="" required value="<?= $choices[1]; ?>" class="block px-2 w-full rounded-md border-0 py-0.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                          </div>
+                          <div class="flex items-center">
+                            <span class="w-1/5 text-sm text-right pr-4">Choice 3</span>
+                            <input type="text" name="question-<?= $row["id"]; ?>-choice-2" placeholder="" required value="<?= $choices[2]; ?>" class="block px-2 w-full rounded-md border-0 py-0.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                          </div>
+                          <div class="flex items-center">
+                            <span class="w-1/5 text-sm text-right pr-4">Choice 4</span>
+                            <input type="text" name="question-<?= $row["id"]; ?>-choice-3" placeholder="" required value="<?= $choices[3]; ?>" class="block px-2 w-full rounded-md border-0 py-0.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                          </div>
                         </div>
-                        <div class="flex">
-                          <span>2</span>
-                          <input class="border block w-1/2" type="text" name="question-<?= $row["id"]; ?>-choice-1" placeholder="choice 2" required value="<?= $choices[1]; ?>">
-                        </div>
-                        <div class="flex">
-                          <span>3</span>
-                          <input class="border block w-1/2" type="text" name="question-<?= $row["id"]; ?>-choice-2" required value="<?= $choices[2]; ?>">
-                        </div>
-                        <div class="flex">
-                          <span>4</span>
-                          <input class="border block w-1/2" type="text" name="question-<?= $row["id"]; ?>-choice-3" placeholder="choice 4" required value="<?= $choices[3]; ?>">
-                        </div>
-                        <div class="flex">
-                          <span>correct answer</span>
+                        <div class="flex items-center mt-3.5">
+                          <span class="w-1/5 text-sm text-right pr-4">Answer</span>
                           <?php
                           $correct_choice_value = null;
                           foreach ($choices as $k => $choice) {
@@ -483,18 +505,18 @@ $rows = $stmt->fetchAll();
                             }
                           }
                           ?>
-                          <input type="number" class="border" name="question-<?= $row["id"] ?>-new-correct-choice-number" min="1" max="4" placeholder="1-4" required value="<?= $correct_choice_value ?>">
+                          <input type="number" name="question-<?= $row["id"] ?>-new-correct-choice-number" min="1" max="4" placeholder="Select the choice number (between 1 to 4)" required value="<?= $correct_choice_value ?>" class="block px-2 w-full rounded-md border-0 py-0.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         </div>
                       </div>
-                    </div>
-                  <?php endif; ?>
+                    <?php endif; ?>
+                  </div>
                 </div>
               </div>
-
               <div class="mt-6 flex items-center justify-end gap-x-6">
                 <button type="button" class="js-close text-sm font-semibold leading-6 text-gray-900" id="" value="<?= $index ?>">Cancel</button>
-                <button type="submit" name="edit-question-submit-button" value="<?= $row["id"] ?>" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                <button type="submit" name="edit-question-submit-button" value="<?= $row["id"] ?>" class="rounded-md bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
               </div>
+
             </form>
           </dialog>
         <?php endforeach; ?>
