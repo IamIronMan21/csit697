@@ -1,12 +1,59 @@
 <?php
-
 require "../utils.php";
-
 session_start();
 
+// Check if the form for updating profile information is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["profile-save-button"])) {
+    // Retrieve the updated name and email from the form
+    $updatedName = $_POST["name"];
+    $updatedEmail = $_POST["email"];
+
+    // Update the tutor's profile in the database
+    $sql = "UPDATE tutors SET name = ?, email = ? WHERE id = ?";
+    $params = [$updatedName, $updatedEmail, $_SESSION["tutor_id"]];
+
+    // Add error handling
+    try {
+        prepare_and_execute($sql, $params);
+    } catch (Exception $e) {
+        echo "Error updating profile: " . $e->getMessage();
+    }
+}
+
+// Check if the form for updating the password is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["password-save-button"])) {
+    // Retrieve the updated password from the form
+    $newPassword = $_POST["new-password"];
+
+    // Check for empty password (add other validation as needed)
+    if (!empty($newPassword)) {
+        // Hash the new password
+        $updatedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+        // Update the tutor's password in the database
+        $sql = "UPDATE tutors SET password = ? WHERE id = ?";
+        $params = [$updatedPassword, $_SESSION["tutor_id"]];
+
+        // Add error handling
+        try {
+            prepare_and_execute($sql, $params);
+        } catch (Exception $e) {
+            echo "Error updating password: " . $e->getMessage();
+        }
+    } else {
+        echo "New password cannot be empty.";
+    }
+}
+
+// Fetch tutor data
 $sql = "SELECT * FROM tutors WHERE id = ?";
 $stmt = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
 $tutor = $stmt->fetch();
+
+// Check if $tutor is set before accessing its properties
+$nameValue = isset($tutor["name"]) ? $tutor["name"] : "";
+$emailValue = isset($tutor["email"]) ? $tutor["email"] : "";
+?>
 
 ?>
 
@@ -71,14 +118,14 @@ $tutor = $stmt->fetch();
               <div class="col-span-3">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                 <div class="mt-2">
-                  <input type="text" name="name" autocomplete="given-name" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value=<?= $tutor["name"] ?>>
+                  <input type="text" name="name" autocomplete="given-name" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $nameValue ?>">
                 </div>
               </div>
               <!-- Email  -->
               <div class="col-span-3">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Email</label>
                 <div class="mt-2">
-                  <input type="text" name="email" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value=<?= $tutor["email"] ?>>
+                  <input type="text" name="email" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $emailValue ?>">
                 </div>
               </div>
             </div>
