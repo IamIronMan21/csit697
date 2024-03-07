@@ -114,6 +114,37 @@
     </div>
   </div>
 
+  <div class="my-24 px-">
+    <div class="flex w-full">
+      <div class="w-2/5">
+        <h2 class="font-bold text-3xl">Frequently asked questions</h2>
+        <p class="mt-4 text-slate-500">Can’t find the answer you’re looking for? Reach out to our <a href="">support team</a>.</p>
+      </div>
+      <div class="w-3/5">
+        <div>
+          <div class="mb-8">
+            <dt class="font-semibold">...</dt>
+            <dd class="mt-2 text-gray-600 leading-7">
+              ...
+            </dd>
+          </div>
+          <div class="mb-8">
+            <dt class="font-semibold">...</dt>
+            <dd class="mt-2 text-gray-600 leading-7">
+              ...
+            </dd>
+          </div>
+          <div class="mb-8">
+            <dt class="font-semibold">...</dt>
+            <dd class="mt-2 text-gray-600 leading-7">
+              ...
+            </dd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>
