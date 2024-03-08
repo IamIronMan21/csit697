@@ -19,7 +19,7 @@ if (isset($_POST["submit-button"])) {
     header("Location: ./login.php");
     exit;
   } else {
-    $error_message = "That email is already taken. Please choose another one.";
+    $error_message = "Email is already taken. Please try again.";
   }
 }
 
@@ -47,14 +47,7 @@ if (isset($_POST["submit-button"])) {
     <p class="text-center text font- text-slate-700 mb-4">Sign up for a tutor account</p>
 
     <?php if (isset($error_message)) : ?>
-      <div class="text-left bg-red-50 rounded-lg py-2 px-3 border border-red-600 mb-4 pb-3.5">
-        <h1 class="text-red-800 font-medium mb-0.5">
-          Error
-        </h1>
-        <p class="text-red-700 text-sm">
-          <?= $error_message ?>
-        </p>
-      </div>
+      <?php display_error_message($error_message) ?>
     <?php endif; ?>
 
     <form method="post" class="mb-4">
