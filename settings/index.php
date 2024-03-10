@@ -2,10 +2,7 @@
 require "../utils.php";
 session_start();
 
-// Initialize error messages and field values
 $errors = [];
-$nameValue = "";
-$emailValue = "";
 
 // Check if the form for updating profile information is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["profile-save-button"])) {
@@ -13,30 +10,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["profile-save-button"])
     $updatedName = $_POST["name"];
     $updatedEmail = $_POST["email"];
 
-    // Check for empty fields
-    if (empty($updatedName)) {
-        $errors["name"] = "Name cannot be empty.";
-    } else {
-        $nameValue = $updatedName;
-    }
+    // Update the tutor's profile in the database
+    $sql = "UPDATE tutors SET name = ?, email = ? WHERE id = ?";
+    $params = [$updatedName, $updatedEmail, $_SESSION["tutor_id"]];
 
-    if (empty($updatedEmail)) {
-        $errors["email"] = "Email cannot be empty.";
-    } else {
-        $emailValue = $updatedEmail;
-    }
-
-    // If there are no errors, update the tutor's profile in the database
-    if (empty($errors)) {
-        $sql = "UPDATE tutors SET name = ?, email = ? WHERE id = ?";
-        $params = [$updatedName, $updatedEmail, $_SESSION["tutor_id"]];
-
-        // Add error handling
-        try {
-            prepare_and_execute($sql, $params);
-        } catch (Exception $e) {
-            $errors["profile"] = "Error updating profile: " . $e->getMessage();
-        }
+    // Add error handling
+    try {
+        prepare_and_execute($sql, $params);
+    } catch (Exception $e) {
+        $errors['profile'] = "Error updating profile: " . $e->getMessage();
     }
 }
 
@@ -44,24 +26,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["profile-save-button"])
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["password-save-button"])) {
     // Retrieve the updated password from the form
     $newPassword = $_POST["new-password"];
+    $confirmNewPassword = $_POST["confirm-new-password"];
 
     // Check for empty password (add other validation as needed)
-    if (empty($newPassword)) {
-        $errors["password"] = "New password cannot be empty.";
-    } else {
-        // Hash the new password
-        $updatedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+    if (!empty($newPassword)) {
+        // Check if the new password and confirm password match
+        if ($newPassword !== $confirmNewPassword) {
+            $errors['password'] = "New password and confirm password do not match.";
+        } else {
+            // Hash the new password
+            $updatedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
-        // Update the tutor's password in the database
-        $sql = "UPDATE tutors SET password = ? WHERE id = ?";
-        $params = [$updatedPassword, $_SESSION["tutor_id"]];
+            // Update the tutor's password in the database
+            $sql = "UPDATE tutors SET password = ? WHERE id = ?";
+            $params = [$updatedPassword, $_SESSION["tutor_id"]];
 
-        // Add error handling
-        try {
-            prepare_and_execute($sql, $params);
-        } catch (Exception $e) {
-            $errors["password"] = "Error updating password: " . $e->getMessage();
+            // Add error handling
+            try {
+                prepare_and_execute($sql, $params);
+            } catch (Exception $e) {
+                $errors['password'] = "Error updating password: " . $e->getMessage();
+            }
         }
+    } else {
+        $errors['password'] = "New password cannot be empty.";
     }
 }
 
@@ -71,8 +59,8 @@ $stmt = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
 $tutor = $stmt->fetch();
 
 // Check if $tutor is set before accessing its properties
-$nameValue = isset($tutor["name"]) ? $tutor["name"] : $nameValue;
-$emailValue = isset($tutor["email"]) ? $tutor["email"] : $emailValue;
+$nameValue = isset($tutor["name"]) ? $tutor["name"] : "";
+$emailValue = isset($tutor["email"]) ? $tutor["email"] : "";
 ?>
 
 <!DOCTYPE html>
