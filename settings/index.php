@@ -145,17 +145,15 @@ $emailValue = isset($tutor["email"]) ? $tutor["email"] : "";
               <div class="col-span-3">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                 <div class="mt-2">
-                  <input type="text" name="name" autocomplete="given-name" class="block px-2.5 w-full rounded-md border-<?= isset($errors['name']) ? '2 text-red-500' : '0' ?> py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $nameValue ?>">
+                  <input type="text" name="name" value="<?= $tutor["name"] ?>" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
-                <?= isset($errors['name']) ? '<p class="text-red-500 text-sm mt-1">' . $errors['name'] . '</p>' : '' ?>
               </div>
               <!-- Email  -->
               <div class="col-span-3">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Email</label>
                 <div class="mt-2">
-                  <input type="text" name="email" class="block px-2.5 w-full rounded-md border-<?= isset($errors['email']) ? '2 text-red-500' : '0' ?> py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $emailValue ?>">
+                  <input type="text" name="email" value="<?= $tutor["email"] ?>" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
-                <?= isset($errors['email']) ? '<p class="text-red-500 text-sm mt-1">' . $errors['email'] . '</p>' : '' ?>
               </div>
             </div>
             <div class="mt-6 flex items-center justify-end gap-x-6">
@@ -174,7 +172,7 @@ $emailValue = isset($tutor["email"]) ? $tutor["email"] : "";
               <div class="col-span-3">
                 <label class="block text-sm font-medium leading-6 text-gray-900">New Password</label>
                 <div class="mt-2">
-                  <input type="password" required name="new-password" class="block w-full px-2.5 rounded-md border-<?= isset($errors['password']) ? '2 text-red-500' : '0' ?> py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="••••••••">
+                  <input type="password" required name="new-password" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="••••••••">
                 </div>
                 <?= isset($errors['password']) ? '<p class="text-red-500 text-sm mt-1">' . $errors['password'] . '</p>' : '' ?>
               </div>
@@ -182,7 +180,7 @@ $emailValue = isset($tutor["email"]) ? $tutor["email"] : "";
               <div class="col-span-3">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Confirm New Password</label>
                 <div class="mt-2">
-                  <input type="password" required name="confirm-new-password" class="block w-full px-2.5 rounded-md border-<?= isset($errors['password']) ? '2 text-red-500' : '0' ?> py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="••••••••">
+                  <input type="password" required name="confirm-new-password" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="••••••••">
                 </div>
               </div>
             </div>
