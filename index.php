@@ -69,7 +69,7 @@
     </div>
   </div>
 
-  <div class="overflow-hidden bg-white py-20">
+  <div class="overflow-hidden bg-white py-16">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
         <div class="lg:pr-8 lg:pt-4">
@@ -95,7 +95,7 @@
                   </svg>
                   Seamless customization.
                 </dt>
-                <dd class="inline">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.</dd>
+                <dd class="inline">Adapt your quizzes to align with your desired level of simplicity or sophistication.</dd>
               </div>
               <div class="relative pl-9">
                 <dt class="inline font-semibold text-gray-900">
@@ -116,36 +116,36 @@
 
   <hr>
 
-  <div class="my-24 px-">
+  <div class="my-16 px-8 max-w-7xl mx-auto">
     <div class="flex w-full">
       <div class="w-2/5">
-        <h2 class="font-bold text-3xl">Frequently asked questions</h2>
-        <p class="mt-4 text-slate-500">Can't find the answer you're looking for? Reach out to our <a href="" class="text-indigo-600">support team</a>.</p>
+        <h2 class="font-bold text-3xl tracking-tight">Frequently asked questions</h2>
+        <p class="mt-4 text-slate-500">Can't find the answer you're looking for? Reach out to our <a href="mailto:haquee1@montclair.edu" class="text-indigo-600 font-semibold">support team</a>.</p>
       </div>
-      <div class="w-3/5">
+      <div class="w-3/5 px-6">
         <div>
           <div class="mb-8">
-            <dt class="font-semibold">How do I share a quiz to a student for them to take?</dt>
+            <dt class="font-semibold">How do I share a quiz with a student?</dt>
             <dd class="mt-2 text-gray-600 leading-7">
-              ...
+              To share a quiz, provide the six-digit code to the student, who can then use it to access and take the quiz.
             </dd>
           </div>
           <div class="mb-8">
-            <dt class="font-semibold">Am I able to edit my quizzes?</dt>
+            <dt class="font-semibold">Can I edit my quizzes?</dt>
             <dd class="mt-2 text-gray-600 leading-7">
-              Yes. However, quizzes can only be edited if there is no submissions made on it. Once a quiz has a submission, it can no longer be edited.
+              Yes, quizzes can be edited as long as no submissions have been made. Once a quiz has submissions, editing is no longer possible.
             </dd>
           </div>
           <div class="mb-8">
-            <dt class="font-semibold">If I can't edit a quiz with a submission, what then can I do?</dt>
+            <dt class="font-semibold">What if I need to edit a quiz with submissions?</dt>
             <dd class="mt-2 text-gray-600 leading-7">
-              Quizify has a feature that lets you clone a quiz. Cloning a quiz creates a brand new quiz with the same questions of the cloned quiz and can be edited since it's new.
+              Quizify offers a cloning feature enabling you to duplicate quizzes. The replicated quiz retains the same questions and can be edited independently of the original.
             </dd>
           </div>
           <div class="mb-8">
-            <dt class="font-semibold">What happens if I delete a quiz or even a course?</dt>
+            <dt class="font-semibold">What happens if I delete a quiz or course?</dt>
             <dd class="mt-2 text-gray-600 leading-7">
-              Deleting a quiz will delete that quiz itself and any data associated to its questions and its submissions. Deleting a course will delete the course itself and every associated quiz.
+              Deleting a quiz removes the quiz, its questions, and submissions. Deleting a course removes the entire course and all associated quizzes.
             </dd>
           </div>
         </div>
