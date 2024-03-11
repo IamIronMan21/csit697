@@ -158,6 +158,14 @@ if (isset($_POST["rename-save-button"])) {
     exit;
   }
 
+  $sql = "SELECT 1 FROM courses c, quizzes q WHERE c.id = ? AND q.name = ? LIMIT 1";
+  $stmt = prepare_and_execute($sql, [$course_id, $_POST["new-quiz-name"]]);
+  if ($stmt->rowCount() == 1) {
+    $_SESSION["error_message"] = "Another quiz in this course uses that name. Please try again.";
+    header("Location: ./edit.php?quiz_id=$quiz_id");
+    exit;
+  }
+
   $sql = "UPDATE quizzes SET name = ? WHERE id = ? LIMIT 1";
   prepare_and_execute($sql, [$_POST["new-quiz-name"], $quiz_id]);
   $_SESSION["success_message"] = "Quiz has been renamed.";
@@ -166,6 +174,14 @@ if (isset($_POST["rename-save-button"])) {
 }
 
 if (isset($_POST["new-clone-name"])) {
+  $sql = "SELECT 1 FROM courses c, quizzes q WHERE c.id = ? AND q.name = ? LIMIT 1";
+  $stmt = prepare_and_execute($sql, [$course_id, $_POST["new-clone-name"]]);
+  if ($stmt->rowCount() == 1) {
+    $_SESSION["error_message"] = "Another quiz in this course uses that name. Please try again.";
+    header("Location: ./edit.php?quiz_id=$quiz_id");
+    exit;
+  }
+
   $sql = "INSERT INTO quizzes (name, code, course_id) VALUES (?, ?, ?)";
   $stmt = $dbh->prepare($sql);
   $stmt->execute([$_POST["new-clone-name"], generate_quiz_code(), $course_id]);
