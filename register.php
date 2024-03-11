@@ -5,7 +5,6 @@ require "./utils.php";
 session_start();
 
 if (isset($_POST["submit-button"])) {
-
   $name = $_POST["name"];
   $email = $_POST["email"];
   $password = password_hash($_POST["password"], PASSWORD_ARGON2I);
@@ -13,14 +12,17 @@ if (isset($_POST["submit-button"])) {
   $sql = "SELECT 1 FROM tutors WHERE email = ? LIMIT 1";
   $stmt = prepare_and_execute($sql, [$email]);
 
-  if ($stmt->rowCount() == 0) {
-    $sql = "INSERT INTO tutors (name, email, password) VALUES (?, ?, ?)";
-    prepare_and_execute($sql, [$name, $email, $password]);
-    header("Location: ./login.php");
+  if ($stmt->rowCount() == 1) {
+    $_SESSION["error_message"] = "Email is already taken. Please choose another.";
+    header("Location: ./register.php");
     exit;
-  } else {
-    $error_message = "Email is already taken. Please try again.";
   }
+
+  $sql = "INSERT INTO tutors (name, email, password) VALUES (?, ?, ?)";
+  prepare_and_execute($sql, [$name, $email, $password]);
+
+  header("Location: ./login.php");
+  exit;
 }
 
 ?>
@@ -46,9 +48,12 @@ if (isset($_POST["submit-button"])) {
     <h1 class="font-['Literata'] text-2xl mt-3 mb-2 text-center">Quizify</h1>
     <p class="text-center text font- text-slate-700 mb-4">Sign up for a tutor account</p>
 
-    <?php if (isset($error_message)) : ?>
-      <?php display_error_message($error_message) ?>
-    <?php endif; ?>
+    <?php
+    if (isset($_SESSION["error_message"])) {
+      display_error_message($_SESSION["error_message"]);
+      unset($_SESSION["error_message"]);
+    }
+    ?>
 
     <form method="post" class="mb-4">
       <div class="mt-3">

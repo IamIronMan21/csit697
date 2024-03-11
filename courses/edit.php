@@ -12,7 +12,7 @@ if (isset($_POST["save-button"])) {
   $sql = "SELECT 1 FROM courses WHERE name = ? LIMIT 1";
   $stmt = prepare_and_execute($sql, [$new_course_name]);
   if ($stmt->rowCount() == 1) {
-    $_SESSION["error_message"] = "Sorry! Course name entered already exists.";
+    $_SESSION["error_message"] = "Course name already exists. Please choose a unique name.";
     header("Location: ./edit.php?course_id=$course_id");
     exit;
   }
