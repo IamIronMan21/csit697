@@ -38,9 +38,9 @@ if (isset($_POST["submit-button"])) {
 </head>
 
 <body class="bg-gray-800">
-  <div class="w-[447.5px] mx-auto bg-white pt-5 pb-4 px-8 border border-slate-300 rounded-lg text-center mt-7">
+  <div class="w-[447.5px] mx-auto bg-white pt-5 pb-8 px-8 border border-slate-300 rounded-lg text-center mt-7">
     <h1 class="font-['Literata'] text-2xl mt-3 mb-2 text-center">Quizify</h1>
-    <p class="text-center text font- text-slate-700 mb-4">Welcome! Enter a quiz code to start.</p>
+    <p class="text-center text font- text-slate-700 mb-4">Enter a code to start taking a quiz.</p>
 
     <?php if (isset($error_message)) : ?>
       <div class="flex items-center bg-red-50 rounded-lg py-3 px-3 border border-red-600 mb-4">
@@ -53,7 +53,7 @@ if (isset($_POST["submit-button"])) {
       </div>
     <?php endif; ?>
 
-    <form method="post" class="mt-3 mb-4">
+    <form method="post" class="my-6">
       <div class="flex items-center justify-between">
         <label for="" class="block text-sm font-medium leading-6 text-gray-900"></label>
       </div>
