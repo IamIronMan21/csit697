@@ -1,8 +1,13 @@
 <?php
-
 require "../utils.php";
 
 session_start();
+
+// Check if submission_id is set and not empty
+if (isset($_POST['submission_id']) && !empty($_POST['submission_id'])) {
+    // Call the delete_submission function to delete the submission and its related responses
+    delete_submission($_POST['submission_id']);
+}
 
 $sql = "
 SELECT
@@ -112,16 +117,18 @@ $submissions = $stmt->fetchAll();
               </td>
               <td>
                 <a href="<?= "./edit.php?submission_id=" . $submission["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
-              </td>
+                </td>
               <td>
-                <a href="#" class="text-indigo-600 underline hover:text-indigo-500">Delete</a>
+                <form action="" method="POST" onsubmit="return confirm('Are you sure you want to delete this submission?')">
+                  <input type="hidden" name="submission_id" value="<?= $submission["id"] ?>">
+                  <button type="submit" class="text-indigo-600 underline hover:text-indigo-500">Delete</button>
+                </form>
               </td>
             </tr>
           <?php endforeach; ?>
         </tbody>
       </table>
     </div>
-
   </div>
 
   <script>
@@ -177,3 +184,4 @@ $submissions = $stmt->fetchAll();
 </body>
 
 </html>
+
