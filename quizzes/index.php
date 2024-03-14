@@ -1,25 +1,18 @@
 <?php
-
+// Add the require statement for the utils.php file and start the session
 require "../utils.php";
-
 session_start();
 
+// Connect to the database
 $dbh = connect_to_database();
 
-if (isset($_POST["new-quiz"])) {
-  $sql = "SELECT id FROM courses WHERE name = ?";
-  $stmt = $dbh->prepare($sql);
-  $stmt->execute(([$_POST["course-name"]]));
-
-  $row = $stmt->fetch();
-  $course_id = $row["id"];
-
-  $sql = "INSERT INTO quizzes (name, code, course_id) VALUES (?, ?, ?)";
-  $stmt = $dbh->prepare($sql);
-  $success = $stmt->execute([$_POST["quiz-name"], generate_quiz_code(), $course_id]);
-
-  header("Location: .");
-  exit;
+// Check if the delete link for a quiz is clicked
+if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['quiz_id'])) {
+    // Call the delete_quiz function to delete the quiz
+    delete_quiz($_GET['quiz_id']);
+    // Redirect back to the quizzes page after deletion
+    header("Location: .");
+    exit;
 }
 
 $sql = <<<EOD
@@ -149,7 +142,7 @@ $courses = $stmt->fetchAll();
                 </a>
               </td>
               <td>
-                <a href="#" class="text-indigo-600 underline hover:text-indigo-500">Delete</a>
+                <a href="?action=delete&quiz_id=<?= $row["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Delete</a>
               </td>
             </tr>
           <?php endforeach; ?>
