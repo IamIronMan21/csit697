@@ -6,13 +6,34 @@ session_start();
 // Connect to the database
 $dbh = connect_to_database();
 
-// Check if the delete link for a quiz is clicked
-if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['quiz_id'])) {
-    // Call the delete_quiz function to delete the quiz
-    delete_quiz($_GET['quiz_id']);
-    // Redirect back to the quizzes page after deletion
+if (isset($_POST["new-quiz"])) {
+  $sql = "SELECT c.id FROM tutors t, courses c WHERE t.id = ? AND c.name = ? LIMIT 1";
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute(([$_SESSION["tutor_id"], $_POST["course-name"]]));
+
+  if ($stmt->rowCount() == 0) {
+    $_SESSION["error_message"] = "Sorry! That course does not exist. Please try again.";
     header("Location: .");
     exit;
+  }
+
+  $row = $stmt->fetch();
+  $course_id = $row["id"];
+
+  $sql = "SELECT 1 FROM courses c, quizzes q WHERE c.id = ? AND q.name = ? LIMIT 1";
+  $stmt = prepare_and_execute($sql, [$course_id, $_POST["quiz-name"]]);
+  if ($stmt->rowCount() == 1) {
+    $_SESSION["error_message"] = "Sorry! That course already has a quiz with that name. Please try again.";
+    header("Location: .");
+    exit;
+  }
+
+  $sql = "INSERT INTO quizzes (name, code, course_id) VALUES (?, ?, ?)";
+  $stmt = $dbh->prepare($sql);
+  $success = $stmt->execute([$_POST["quiz-name"], generate_quiz_code(), $course_id]);
+
+  header("Location: .");
+  exit;
 }
 
 $sql = <<<EOD

@@ -7,8 +7,18 @@ session_start();
 $course_id = $_GET["course_id"];
 
 if (isset($_POST["save-button"])) {
+  $new_course_name = $_POST["new-name"];
+
+  $sql = "SELECT 1 FROM courses WHERE name = ? LIMIT 1";
+  $stmt = prepare_and_execute($sql, [$new_course_name]);
+  if ($stmt->rowCount() == 1) {
+    $_SESSION["error_message"] = "Course name already exists. Please choose a unique name.";
+    header("Location: ./edit.php?course_id=$course_id");
+    exit;
+  }
+
   $sql = "UPDATE courses SET name = ? WHERE id = ?";
-  prepare_and_execute($sql, [$_POST["new-name"], $_GET["course_id"]]);
+  prepare_and_execute($sql, [$new_course_name, $_GET["course_id"]]);
 
   $_SESSION["success_message"] = "New course name has been saved.";
   header("Location: ./edit.php?course_id=$course_id");
