@@ -101,31 +101,28 @@ function delete_question($question_id)
 
 function delete_submission($submission_id)
 {
-    // First, delete the responses associated with the submission
-    $sql_delete_responses = "DELETE FROM responses WHERE submission_id = ?";
-    prepare_and_execute($sql_delete_responses, [$submission_id]);
+  $sql = "DELETE FROM responses WHERE submission_id = ?";
+  prepare_and_execute($sql, [$submission_id]);
 
-    // Then, delete the submission itself
-    $sql_delete_submission = "DELETE FROM submissions WHERE id = ?";
-    prepare_and_execute($sql_delete_submission, [$submission_id]);
+  $sql = "DELETE FROM submissions WHERE id = ?";
+  prepare_and_execute($sql, [$submission_id]);
 }
-
 
 function delete_quiz($quiz_id)
 {
-    // Delete choices associated with questions in the quiz
-    $sql_delete_choices = "DELETE FROM choices WHERE question_id IN (SELECT id FROM questions WHERE quiz_id = ?)";
-    prepare_and_execute($sql_delete_choices, [$quiz_id]);
+  // Delete choices associated with questions in the quiz
+  $sql_delete_choices = "DELETE FROM choices WHERE question_id IN (SELECT id FROM questions WHERE quiz_id = ?)";
+  prepare_and_execute($sql_delete_choices, [$quiz_id]);
 
-    // Delete answers associated with questions in the quiz
-    $sql_delete_answers = "DELETE FROM answers WHERE question_id IN (SELECT id FROM questions WHERE quiz_id = ?)";
-    prepare_and_execute($sql_delete_answers, [$quiz_id]);
+  // Delete answers associated with questions in the quiz
+  $sql_delete_answers = "DELETE FROM answers WHERE question_id IN (SELECT id FROM questions WHERE quiz_id = ?)";
+  prepare_and_execute($sql_delete_answers, [$quiz_id]);
 
-    // Delete questions associated with the quiz
-    $sql_delete_questions = "DELETE FROM questions WHERE quiz_id = ?";
-    prepare_and_execute($sql_delete_questions, [$quiz_id]);
+  // Delete questions associated with the quiz
+  $sql_delete_questions = "DELETE FROM questions WHERE quiz_id = ?";
+  prepare_and_execute($sql_delete_questions, [$quiz_id]);
 
-    // Then, delete the quiz itself
-    $sql_delete_quiz = "DELETE FROM quizzes WHERE id = ?";
-    prepare_and_execute($sql_delete_quiz, [$quiz_id]);
+  // Then, delete the quiz itself
+  $sql_delete_quiz = "DELETE FROM quizzes WHERE id = ?";
+  prepare_and_execute($sql_delete_quiz, [$quiz_id]);
 }
