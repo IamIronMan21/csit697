@@ -322,7 +322,7 @@ $rows = $stmt->fetchAll();
         </div>
       </div>
 
-      <div class="w-1/2">
+      <div class="w-1/2 mb-14">
         <div class="w-4/5 mx-auto">
           <?php
           if (isset($_SESSION["error_message"])) {

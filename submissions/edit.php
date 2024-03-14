@@ -159,7 +159,7 @@ $grade = round(($total_score / $num_questions) * 100, 2);
           </div>
 
 
-          <form method="">
+          <form method="" class="mb-14">
 
             <?php foreach ($rows as $index => $row) : ?>
               <?php
