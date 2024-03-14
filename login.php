@@ -21,7 +21,7 @@ if (isset($_POST["submit-button"])) {
     exit;
   } else {
     $_SESSION["error_message"] = "Invalid email or password. Please try again.";
-    header("Location: ./courses/index.php");
+    header("Location: ./login.php");
     exit;
   }
 }
