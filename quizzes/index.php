@@ -3,6 +3,14 @@
 require "../utils.php";
 session_start();
 
+if (isset($_POST["quiz_id"])) {
+  delete_quiz($_POST['quiz_id']);
+  $_SESSION["success_message"] = "Quiz has been deleted.";
+  header("Location: ./index.php");
+  exit;
+}
+
+
 // Connect to the database
 $dbh = connect_to_database();
 
@@ -163,7 +171,11 @@ $courses = $stmt->fetchAll();
                 </a>
               </td>
               <td>
-                <a href="?action=delete&quiz_id=<?= $row["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Delete</a>
+                <!-- <a href="?action=delete&quiz_id=<?= $row["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Delete</a> -->
+                <form method="post">
+                  <input type="hidden" name="quiz_id" value="<?= $row["id"] ?>">
+                  <button type="submit" class="text-indigo-600 underline hover:text-indigo-500">Delete</button>
+                </form>
               </td>
             </tr>
           <?php endforeach; ?>
