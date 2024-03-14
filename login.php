@@ -14,12 +14,15 @@ if (isset($_POST["submit-button"])) {
 
   $tutor = $stmt->fetch();
 
+
   if ($tutor && password_verify($password, $tutor["password"])) {
     $_SESSION["tutor_id"] = $tutor["id"];
     header("Location: ./courses/index.php");
     exit;
   } else {
-    $error_message = "Invalid email or password. Please try again.";
+    $_SESSION["error_message"] = "Invalid email or password. Please try again.";
+    header("Location: ./courses/index.php");
+    exit;
   }
 }
 
@@ -46,9 +49,12 @@ if (isset($_POST["submit-button"])) {
     <h1 class="font-['Literata'] text-2xl mt-3 mb-2 text-center">Quizify</h1>
     <p class="text-center text font- text-slate-700 mb-4">Sign in to your tutor account</p>
 
-    <?php if (isset($error_message)) : ?>
-      <?php display_error_message($error_message) ?>
-    <?php endif; ?>
+    <?php
+    if (isset($_SESSION["error_message"])) {
+      display_error_message($_SESSION["error_message"]);
+      unset($_SESSION["error_message"]);
+    }
+    ?>
 
     <form method="post" class="mb-4">
 
