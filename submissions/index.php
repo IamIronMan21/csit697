@@ -12,8 +12,8 @@ if (isset($_POST['submission_id']) && !empty($_POST['submission_id'])) {
 $sql = "
 SELECT
   s.id,
-  c.name AS course_name,
-  q.name AS quiz_name,
+  q.name AS course_name,
+  c.name AS quiz_name,
   s.submitter,
   s.created_at
 FROM
@@ -99,8 +99,8 @@ $submissions = $stmt->fetchAll();
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
           <th class="font-semibold w-[4%] pl-1">#</th>
           <th class="font-semibold text-left w-[30%] pl-8">Submitter</th>
-          <th class="font-semibold text-left w-[21%]">Quiz</th>
-          <th class="font-semibold text-left w-[18%]">Course</th>
+          <th class="font-semibold text-left w-[21%]">Course</th>
+          <th class="font-semibold text-left w-[18%]">Quiz</th>
           <th class="font-semibold text-left w-[15%]">Date Submitted</th>
           <th class="font-semibold w-[6%]"></th>
           <th class="font-semibold w-[6%]"></th>
@@ -110,8 +110,8 @@ $submissions = $stmt->fetchAll();
             <tr class="submission h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>" value="<?= $submission["submitter"] ?>">
               <td class="index text-center font-light text-slate-500 pl-1"><?= $index + 1 ?></td>
               <td class="pl-8"><?= $submission["submitter"] ?></td>
-              <td><?= $submission["course_name"] ?></td>
               <td><?= $submission["quiz_name"] ?></td>
+              <td><?= $submission["course_name"] ?></td>
               <td class="text-slate-500">
                 <?= (new DateTime($submission["created_at"]))->format('m/d/Y') ?>
               </td>
