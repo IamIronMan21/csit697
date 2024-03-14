@@ -41,6 +41,13 @@ GROUP BY
 $stmt = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
 $courses = $stmt->fetchAll();
 
+if (isset($_POST["delete-course"])) {
+  $course_id = $_POST["delete-course"];
+  delete_course($course_id);
+  $_SESSION["success_message"] = "Course has been deleted.";
+  header("Location: .");
+  exit;
+}
 ?>
 
 <!doctype html>
@@ -150,7 +157,7 @@ $courses = $stmt->fetchAll();
                 <a href="./edit.php?course_id=<?= $course["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
               </td>
               <td>
-                <a href="#" class="text-indigo-600 underline hover:text-indigo-500">Delete</a>
+              <a href="#" class="text-indigo-600 underline hover:text-indigo-500" onclick="deleteCourse(<?= $course['id'] ?>)">Delete</a>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -246,6 +253,24 @@ $courses = $stmt->fetchAll();
         e.preventDefault();
         dialog.close();
       });
+    </script>
+    <script>
+        // Function to confirm the deletion of a course
+        function deleteCourse(courseId) {
+            if (confirm('Are you sure you want to delete this course?')) {
+                // Redirect to the same page with the course ID to be deleted sent via POST
+                const form = document.createElement('form');
+                form.method = 'post';
+                form.action = '.';
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'delete-course';
+                input.value = courseId;
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
     </script>
 </body>
 
