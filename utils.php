@@ -49,6 +49,27 @@ function has_submissions_for_quiz($quiz_id)
   return $stmt->rowCount() == 1;
 }
 
+
+function delete_quiz($quiz_id)
+{
+    $sql = "DELETE FROM quizzes WHERE id = ?";
+    prepare_and_execute($sql, [$quiz_id]);
+}
+
+function delete_submission($submission_id)
+{
+    // First, delete the responses associated with the submission
+    $sql_delete_responses = "DELETE FROM responses WHERE submission_id = ?";
+    prepare_and_execute($sql_delete_responses, [$submission_id]);
+
+    // Then, delete the submission itself
+    $sql_delete_submission = "DELETE FROM submissions WHERE id = ?";
+    prepare_and_execute($sql_delete_submission, [$submission_id]);
+}
+
+
+
+
 function display_success_message($message)
 {
   echo <<<EOD
@@ -94,4 +115,10 @@ function delete_question($question_id)
     $sql = "DELETE FROM answers WHERE question_id = ?";
     prepare_and_execute($sql, [$question_id]);
   }
+}
+
+function delete_course($course_id)
+{
+    $sql = "DELETE FROM courses WHERE id = ?";
+    prepare_and_execute($sql, [$course_id]);
 }
