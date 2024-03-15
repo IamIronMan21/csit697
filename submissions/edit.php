@@ -10,6 +10,7 @@ if (isset($_POST["edit-button"])) {
   $sql = "UPDATE responses SET score = ? WHERE id = ?";
   prepare_and_execute($sql, [$_POST["score-input"], $_POST["response-id"]]);
 
+  $_SESSION["success_message"] = "Score has been updated successfully.";
   header("Location: ./edit.php?submission_id=" . $submission_id);
   exit;
 }
@@ -136,6 +137,13 @@ $grade = round(($total_score / $num_questions) * 100, 2);
       </div>
       <div class="w-1/2">
         <div class="w-4/5 mx-auto">
+
+          <?php
+          if (isset($_SESSION["success_message"])) {
+            display_success_message($_SESSION["success_message"]);
+            unset($_SESSION["success_message"]);
+          }
+          ?>
 
           <div class="mb-8 border-y border-gray-300">
             <dl class="divide-y divide-gray-300">
