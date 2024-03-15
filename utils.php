@@ -49,8 +49,6 @@ function has_submissions_for_quiz($quiz_id)
   return $stmt->rowCount() == 1;
 }
 
-
-
 function display_success_message($message)
 {
   echo <<<EOD
@@ -98,7 +96,6 @@ function delete_question($question_id)
   }
 }
 
-
 function delete_submission($submission_id)
 {
   $sql = "DELETE FROM responses WHERE submission_id = ?";
@@ -123,7 +120,6 @@ function delete_quiz($quiz_id)
   foreach ($stmt->fetchAll() as $row) {
     delete_submission($row["id"]);
   }
-
 
   $sql = "DELETE FROM quizzes WHERE id = ?";
   prepare_and_execute($sql, [$quiz_id]);

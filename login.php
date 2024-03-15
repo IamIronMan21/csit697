@@ -21,7 +21,7 @@ if (isset($_POST["submit-button"])) {
     exit;
   } else {
     $_SESSION["error_message"] = "Invalid email or password. Please try again.";
-    header("Location: ./courses/index.php");
+    header("Location: ./login.php");
     exit;
   }
 }
@@ -44,7 +44,7 @@ if (isset($_POST["submit-button"])) {
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-800">
+<body class="font-['Inter'] bg-gray-800">
   <div class="w-[447.5px] mx-auto bg-white pt-5 pb-4 px-8 border border-slate-300 rounded-lg text-center mt-7">
     <h1 class="font-['Literata'] text-2xl mt-3 mb-2 text-center">Quizify</h1>
     <p class="text-center text font- text-slate-700 mb-4">Sign in to your tutor account</p>

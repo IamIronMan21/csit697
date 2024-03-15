@@ -147,6 +147,7 @@ if (isset($_POST["edit-question-submit-button"])) {
     prepare_and_execute($sql, [$_POST["question-$id-choice-$choice_number"], $id]);
   }
 
+  $_SESSION["success_message"] = "Question has been updated successfully.";
   header("Location: ./edit.php?quiz_id=$quiz_id");
   exit;
 }
