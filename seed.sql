@@ -1,3 +1,12 @@
+TRUNCATE `answers`;
+TRUNCATE `choices`;
+TRUNCATE `courses`;
+TRUNCATE `questions`;
+TRUNCATE `quizzes`;
+TRUNCATE `responses`;
+TRUNCATE `submissions`;
+TRUNCATE `tutors`;
+
 INSERT INTO `answers` (`id`, `content`, `question_id`, `created_at`) VALUES
 (1, 'Convection currents in the mantle', 1, '2024-03-04 06:18:20'),
 (2, 'Divergent boundary', 2, '2024-03-04 06:20:55'),
