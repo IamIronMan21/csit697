@@ -43,12 +43,13 @@ $courses = $stmt->fetchAll();
 
 if (isset($_POST["delete-course"])) {
   $course_id = $_POST["delete-course"];
-  delete_course($course_id);
+  delete_course($course_id); // Call the delete_course function here
   $_SESSION["success_message"] = "Course has been deleted.";
   header("Location: .");
   exit;
 }
 ?>
+
 
 <!doctype html>
 <html lang="en" class="overscroll-none">
