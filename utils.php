@@ -127,7 +127,6 @@ function delete_quiz($quiz_id)
 
 function delete_course($course_id)
 {
-  // Delete quizzes associated with the course
   $sql = "SELECT id FROM quizzes WHERE course_id = ?";
   $stmt = prepare_and_execute($sql, [$course_id]);
 
@@ -140,3 +139,34 @@ function delete_course($course_id)
   prepare_and_execute($sql, [$course_id]);
 }
 
+function delete_tutor($tutor_id)
+{
+    // Delete all courses associated with the tutor
+    $sql = "SELECT id FROM courses WHERE tutor_id = ?";
+    $stmt = prepare_and_execute($sql, [$tutor_id]);
+
+    foreach ($stmt->fetchAll() as $row) {
+        delete_course($row["id"]);
+    }
+
+    // Delete tutor-specific data
+    $sql = "DELETE FROM tutors WHERE id = ?";
+    prepare_and_execute($sql, [$tutor_id]);
+}
+
+function delete_tutor_and_associated_data($tutor_id)
+{
+    // Delete all associated data for the tutor
+    // This includes courses, quizzes, questions, answers, choices, submissions, and responses
+    // You can extend this function as needed to delete more associated data
+    $sql = "SELECT id FROM courses WHERE tutor_id = ?";
+    $stmt = prepare_and_execute($sql, [$tutor_id]);
+
+    foreach ($stmt->fetchAll() as $row) {
+        delete_course($row["id"]);
+    }
+
+    // After deleting all associated data, delete the tutor
+    $sql = "DELETE FROM tutors WHERE id = ?";
+    prepare_and_execute($sql, [$tutor_id]);
+}
