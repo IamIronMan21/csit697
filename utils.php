@@ -128,3 +128,19 @@ function delete_quiz($quiz_id)
   $sql = "DELETE FROM quizzes WHERE id = ?";
   prepare_and_execute($sql, [$quiz_id]);
 }
+
+function delete_course($course_id)
+{
+  // Delete quizzes associated with the course
+  $sql = "SELECT id FROM quizzes WHERE course_id = ?";
+  $stmt = prepare_and_execute($sql, [$course_id]);
+
+  foreach ($stmt->fetchAll() as $row) {
+    delete_quiz($row["id"]);
+  }
+
+  // Delete the course itself
+  $sql = "DELETE FROM courses WHERE id = ?";
+  prepare_and_execute($sql, [$course_id]);
+}
+
