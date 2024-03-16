@@ -6,8 +6,6 @@ session_start();
 
 $submission_id = $_SESSION["submission_id"];
 
-// echo $submission_id;
-
 $sql = "
 SELECT
   c.name AS course,
@@ -58,10 +56,6 @@ foreach ($rows as $row) {
 $num_questions = $stmt->rowCount();
 $grade = round(($num_correct / $num_questions) * 100, 2);
 
-// echo "<pre style='font-size: 9px;'>";
-// print_r($rows);
-// echo "</pre>";
-
 ?>
 
 <!doctype html>
@@ -81,7 +75,6 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
 </head>
 
 <body class="min-h-screen font-['Inter']">
-
   <header class="bg-gray-800">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center text-center">
@@ -97,16 +90,17 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
     <div class="flex w-full">
       <div class="w-1/4">
         <div class="border-slate-400 flex justify-end sticky top-[16px]">
-          <a href="../start.php" id="" class="flex w-1/3 items-center justify-center rounded-md bg-white px-3 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+          <a href="../index.php" id="" class="flex w-1/3 items-center justify-center rounded-md bg-white px-3 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
             <div class="text-center ml-2">
-              Return
+              Exit
             </div>
           </a>
         </div>
       </div>
+
       <div class="w-1/2">
         <div class="w-4/5 mx-auto">
           <div class="px-4 sm:px-0">
@@ -250,14 +244,12 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
 
         </form>
       </div>
+
       <div class="w-1/4">
-
+        <!-- whitespace -->
       </div>
-
     </div>
-
   </div>
-
 </body>
 
 </html>
