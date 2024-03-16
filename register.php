@@ -44,9 +44,9 @@ if (isset($_POST["submit-button"])) {
 </head>
 
 <body class="font-['Inter'] bg-gray-800">
-  <div class="w-[447.5px] mx-auto bg-white pt-5 pb-4 px-8 border border-slate-300 rounded-lg text-center mt-7">
-    <h1 class="font-['Literata'] text-2xl mt-3 mb-2 text-center">Quizify</h1>
-    <p class="text-center text font- text-slate-700 mb-4">Sign up for a tutor account</p>
+  <div class="w-[447.5px] mx-auto bg-white pt-5 pb-4 px-8 rounded-lg text-center mt-6">
+    <h1 class="font-['Literata'] text-2xl mt-2.5 mb-2 text-center">Quizify</h1>
+    <p class="text-center text-slate-500 mb-3">Sign up for a tutor account</p>
 
     <?php
     if (isset($_SESSION["error_message"])) {
@@ -55,7 +55,7 @@ if (isset($_POST["submit-button"])) {
     }
     ?>
 
-    <form method="post" class="mb-4">
+    <form method="post" class="mb-3">
       <div class="mt-3">
         <div class="flex items-center justify-between">
           <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
@@ -88,23 +88,23 @@ if (isset($_POST["submit-button"])) {
       <div class="my-8 flex items-center">
         <input type="submit" name="submit-button" value="Submit" class="rounded-md w-full bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
       </div>
+    </form>
 
-      <hr class="w-4/5 mx-auto">
+    <hr class="w-4/5 mx-auto border-slate-300">
 
-      <div class="text-center">
-        <div class="my-5 text-slate-500">
-          Already have an account? <a href="./login.php" class="text-indigo-600 hover:text-indigo-500">Sign in</a>
-        </div>
-        <a href="./index.php" id="" class="flex w-1/4 items-center mx-auto justify-center rounded-md bg-white px- py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+    <div class="text-center">
+      <div class="my-5 text-slate-500">
+        Already have an account? <a href="./login.php" class="text-indigo-600 hover:text-indigo-500">Sign in</a>
+      </div>
+      <!-- <a href="./index.php" id="" class="flex w-1/4 items-center mx-auto justify-center rounded-md bg-white px- py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
           </svg>
           <div class="text-center ml-2">
             Exit
           </div>
-        </a>
-      </div>
-    </form>
+        </a> -->
+    </div>
   </div>
 </body>
 
