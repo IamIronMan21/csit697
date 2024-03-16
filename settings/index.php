@@ -8,23 +8,23 @@ $errors = [];
 
 // Check if the function is already defined
 if (!function_exists('delete_tutor_and_associated_data')) {
-    // Function to delete tutor and associated data
-    function delete_tutor_and_associated_data($tutor_id)
-    {
-        // Delete all associated data for the tutor
-        // This includes courses, quizzes, questions, answers, choices, submissions, and responses
-        // You can extend this function as needed to delete more associated data
-        $sql = "SELECT id FROM courses WHERE tutor_id = ?";
-        $stmt = prepare_and_execute($sql, [$tutor_id]);
+  // Function to delete tutor and associated data
+  function delete_tutor_and_associated_data($tutor_id)
+  {
+    // Delete all associated data for the tutor
+    // This includes courses, quizzes, questions, answers, choices, submissions, and responses
+    // You can extend this function as needed to delete more associated data
+    $sql = "SELECT id FROM courses WHERE tutor_id = ?";
+    $stmt = prepare_and_execute($sql, [$tutor_id]);
 
-        foreach ($stmt->fetchAll() as $row) {
-            delete_course($row["id"]);
-        }
-
-        // After deleting all associated data, delete the tutor
-        $sql = "DELETE FROM tutors WHERE id = ?";
-        prepare_and_execute($sql, [$tutor_id]);
+    foreach ($stmt->fetchAll() as $row) {
+      delete_course($row["id"]);
     }
+
+    // After deleting all associated data, delete the tutor
+    $sql = "DELETE FROM tutors WHERE id = ?";
+    prepare_and_execute($sql, [$tutor_id]);
+  }
 }
 
 // Fetch tutor data
@@ -33,56 +33,42 @@ $stmt = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
 $tutor = $stmt->fetch();
 
 if (isset($_POST["profile-save-button"])) {
-    // Code for saving profile details
-    $name = trim($_POST["name"]);
-    $email = trim($_POST["email"]);
+  $name = $_POST["name"];
+  $email = $_POST["email"];
 
-    // Validate name and email
-    if (empty($name)) {
-        $errors['name'] = "Name is required";
-    }
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = "Valid email is required";
-    }
-
-    // Update name and email in the database if there are no errors
-    if (empty($errors)) {
-        $sql = "UPDATE tutors SET name = ?, email = ? WHERE id = ?";
-        prepare_and_execute($sql, [$name, $email, $_SESSION["tutor_id"]]);
-        $_SESSION["success_message"] = "Profile updated successfully";
-        // Redirect to prevent form resubmission
-        header("Location: .");
-        exit;
-    }
-} elseif (isset($_POST["password-save-button"])) {
-    // Code for saving password
-    $newPassword = $_POST["new-password"];
-    $confirmPassword = $_POST["confirm-new-password"];
-
-    // Validate if new password and confirm password match
-    if ($newPassword !== $confirmPassword) {
-        $errors['password'] = "Passwords does NOT match";
-    } else {
-        // Update password in the database
-        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        $sql = "UPDATE tutors SET password = ? WHERE id = ?";
-        prepare_and_execute($sql, [$hashedPassword, $_SESSION["tutor_id"]]);
-        $_SESSION["success_message"] = "Password updated successfully";
-        // Redirect to prevent form resubmission
-        header("Location: .");
-        exit;
-    }
-} elseif (isset($_POST["delete-account-button"])) {
-    // Code for deleting account
-    delete_tutor_and_associated_data($_SESSION["tutor_id"]);
-    // Redirect to logout or any other page after deletion
-    header("Location: ../index.php");
-    exit;
+  // Update name and email in the database if there are no errors
+  $sql = "UPDATE tutors SET name = ?, email = ? WHERE id = ?";
+  prepare_and_execute($sql, [$name, $email, $_SESSION["tutor_id"]]);
+  $_SESSION["success_message"] = "Profile updated successfully";
+  // Redirect to prevent form resubmission
+  header("Location: .");
+  exit;
 }
 
-// Check if $tutor is set before accessing its properties
-$nameValue = isset($tutor["name"]) ? $tutor["name"] : "";
-$emailValue = isset($tutor["email"]) ? $tutor["email"] : "";
+if (isset($_POST["password-save-button"])) {
+  $newPassword = $_POST["new-password"];
+  $confirmPassword = $_POST["confirm-new-password"];
+
+  // Validate if new password and confirm password match
+  if ($newPassword !== $confirmPassword) {
+    $errors['password'] = "Passwords does NOT match";
+  } else {
+    // Update password in the database
+    $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+    $sql = "UPDATE tutors SET password = ? WHERE id = ?";
+    prepare_and_execute($sql, [$hashedPassword, $_SESSION["tutor_id"]]);
+    $_SESSION["success_message"] = "Password updated successfully";
+    // Redirect to prevent form resubmission
+    header("Location: .");
+    exit;
+  }
+}
+
+if (isset($_POST["delete-account-button"])) {
+  delete_tutor_and_associated_data($_SESSION["tutor_id"]);
+  header("Location: ../index.php");
+  exit;
+}
 
 ?>
 
@@ -208,14 +194,14 @@ $emailValue = isset($tutor["email"]) ? $tutor["email"] : "";
         <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-base font-semibold leading-7 text-gray-900">Account Removal</h2>
           <p class="mt-1 text-sm leading-6 text-gray-600">Deleting your account is permanent. All of your data will be lost and cannot be restored.</p>
-          
+
           <form method="post">
-                <div class="mt-10">
-                    <button type="submit" name="delete-account-button" class="w-[150px] rounded-md bg-red-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">Delete Account</button>
-                </div>
-            </form>
+            <div class="mt-10">
+              <button type="submit" name="delete-account-button" class="w-[150px] rounded-md bg-red-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">Delete Account</button>
+            </div>
+          </form>
         </div>
-    </div>
+      </div>
 </body>
 
 </html>
