@@ -84,6 +84,9 @@ function delete_question($question_id)
   }
 }
 
+/**
+ * Removes a submission and its associated responses.
+ */
 function delete_submission($submission_id)
 {
   $sql = "DELETE FROM responses WHERE submission_id = ?";
@@ -93,6 +96,9 @@ function delete_submission($submission_id)
   prepare_and_execute($sql, [$submission_id]);
 }
 
+/**
+ * Removes a quiz and its associated questions and submissions.
+ */
 function delete_quiz($quiz_id)
 {
   $sql = "SELECT id FROM questions WHERE quiz_id = ?";
@@ -113,6 +119,9 @@ function delete_quiz($quiz_id)
   prepare_and_execute($sql, [$quiz_id]);
 }
 
+/**
+ * Removes a course and its associated quizzes.
+ */
 function delete_course($course_id)
 {
   $sql = "SELECT id FROM quizzes WHERE course_id = ?";
@@ -122,14 +131,15 @@ function delete_course($course_id)
     delete_quiz($row["id"]);
   }
 
-  // delete the course itself
   $sql = "DELETE FROM courses WHERE id = ?";
   prepare_and_execute($sql, [$course_id]);
 }
 
+/**
+ * Removes a tutor and its associated courses.
+ */
 function delete_tutor($tutor_id)
 {
-  // Delete all courses associated with the tutor
   $sql = "SELECT id FROM courses WHERE tutor_id = ?";
   $stmt = prepare_and_execute($sql, [$tutor_id]);
 
@@ -137,16 +147,12 @@ function delete_tutor($tutor_id)
     delete_course($row["id"]);
   }
 
-  // Delete tutor-specific data
   $sql = "DELETE FROM tutors WHERE id = ?";
   prepare_and_execute($sql, [$tutor_id]);
 }
 
 function delete_tutor_and_associated_data($tutor_id)
 {
-  // Delete all associated data for the tutor
-  // This includes courses, quizzes, questions, answers, choices, submissions, and responses
-  // You can extend this function as needed to delete more associated data
   $sql = "SELECT id FROM courses WHERE tutor_id = ?";
   $stmt = prepare_and_execute($sql, [$tutor_id]);
 
@@ -154,7 +160,6 @@ function delete_tutor_and_associated_data($tutor_id)
     delete_course($row["id"]);
   }
 
-  // After deleting all associated data, delete the tutor
   $sql = "DELETE FROM tutors WHERE id = ?";
   prepare_and_execute($sql, [$tutor_id]);
 }
