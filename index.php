@@ -33,9 +33,10 @@
             Advance your tutoring with our platform that empowers educators to easily design quizzes.
           </p>
           <div class="mt-10 flex items-center justify-center gap-x-6">
-            <a href="./start.php" class="rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-              Get started
+            <a href="./start.php" class="rounded-md bg-indigo-600 w-[150px] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              Start a quiz
             </a>
+            <a href="./login.php" class="text-sm font-semibold leading-6 text-white">Log in as tutor <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
