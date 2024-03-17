@@ -137,7 +137,7 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
           </p>
         </div>
 
-        <form method="" class="mx-auto">
+        <form method="" class="mx-auto mb-14">
 
           <?php foreach ($rows as $index => $row) : ?>
             <?php
