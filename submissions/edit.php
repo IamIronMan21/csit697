@@ -203,9 +203,6 @@ $grade = round(($total_score / $num_questions) * 100, 2);
                   </div>
                 </div>
 
-                <!-- <div class="flex items-center">
-                  <legend class="grow text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
-                </div> -->
                 <p class="my-4 text-sm leading-6 text-slate-500"><?= $row["question"] ?></p>
                 <div class="my-4">
                   <?php $h = "question_" . $row["id"]; ?>

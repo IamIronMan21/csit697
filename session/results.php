@@ -153,18 +153,15 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
             }
             ?>
             <div class="border shadow-sm mx-auto w-4/5 rounded-md mb-6 px-4 py-3.5 bordr-slate-400 bg-white <?= $border_color ?>">
-              <!-- <div class="border rounded-lg my-10 px-4 py-2 border-2 <?= $border_color ?>"> -->
               <div class="flex items-center h-[28px]">
                 <div class="grow ">
                   <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
                 </div>
                 <div class="mr-3">
-                  <!-- <button type="button" value="<?= $index ?>" class="edit-question-button rounded-md py-1 px-2 w-[65px] text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Edit</button> -->
+                  <!-- intentionally blank -->
                 </div>
                 <div>
-                  <!-- <form method="post">
-                <button type="submit" name="delete-question-button" value="<?= $row["id"] ?>" class="w-[65px] rounded-md text-sm font-semibold bg-red-600 text-white py-1 px-2 hover:bg-red-500">Delete</button>
-              </form> -->
+                  <!-- intentionally blank -->
                 </div>
               </div>
               <p class="my-4 text-sm leading-6 text-slate-500"><?= $row["question"] ?></p>

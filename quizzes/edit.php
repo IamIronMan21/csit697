@@ -518,7 +518,6 @@ $rows = $stmt->fetchAll();
         <?php endforeach; ?>
       </div>
 
-      <!--  -->
       <div class="w-1/4 border-slate-400">
         <div class="space-y-3.5 flex flex-col justify-start sticky top-[16px]">
 
