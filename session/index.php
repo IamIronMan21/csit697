@@ -135,12 +135,10 @@ $rows = $stmt->fetchAll();
                   <legend class="text-sm font-semibold leading-6 text-gray-900">Question #<?= $index + 1; ?></legend>
                 </div>
                 <div class="mr-3">
-                  <!-- <button type="button" value="<?= $index ?>" class="edit-question-button rounded-md py-1 px-2 w-[65px] text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Edit</button> -->
+                  <!-- intentionally blank -->
                 </div>
                 <div>
-                  <!-- <form method="post">
-                <button type="submit" name="delete-question-button" value="<?= $row["id"] ?>" class="w-[65px] rounded-md text-sm font-semibold bg-red-600 text-white py-1 px-2 hover:bg-red-500">Delete</button>
-              </form> -->
+                  <!-- intentionally blank -->
                 </div>
               </div>
               <p class="my-4 text-sm leading-6 text-slate-500"><?= $row["question"] ?></p>
@@ -220,9 +218,9 @@ $rows = $stmt->fetchAll();
   </dialog>
 
   <script>
-    const stopwatchElement = document.getElementById('stopwatch');
+    const stopwatchElement = document.getElementById("stopwatch");
+    let elapsedTime = 0;
 
-    // Function to format the time as HH:MM:SS
     function formatTime(seconds) {
       const hours = Math.floor(seconds / 3600);
       const minutes = Math.floor((seconds % 3600) / 60);
@@ -230,21 +228,10 @@ $rows = $stmt->fetchAll();
       return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
     }
 
-    // Function to update the stopwatch
-    function updateStopwatch() {
+    setInterval(() => {
       elapsedTime++;
       stopwatchElement.textContent = formatTime(elapsedTime);
-    }
-
-    // Initialize variables
-    let elapsedTime = 0;
-
-    // Start the stopwatch automatically when the page loads
-    const intervalId = setInterval(updateStopwatch, 1000);
-  </script>
-
-  <script>
-
+    }, 1000);
   </script>
 </body>
 
