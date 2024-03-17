@@ -11,8 +11,6 @@ if (isset($_POST["quiz_id"])) {
   exit;
 }
 
-
-// Connect to the database
 $dbh = connect_to_database();
 
 if (isset($_POST["new-quiz"])) {
@@ -29,7 +27,7 @@ if (isset($_POST["new-quiz"])) {
   $row = $stmt->fetch();
   $course_id = $row["id"];
 
-  $sql = "SELECT 1 FROM courses c, quizzes q WHERE c.id = ? AND q.name = ? LIMIT 1";
+  $sql = "SELECT 1 FROM courses c, quizzes q WHERE q.course_id = c.id AND c.id = ? AND q.name = ? LIMIT 1";
   $stmt = prepare_and_execute($sql, [$course_id, $_POST["quiz-name"]]);
   if ($stmt->rowCount() == 1) {
     $_SESSION["error_message"] = "Sorry! That course already has a quiz with that name. Please try again.";
