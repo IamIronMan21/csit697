@@ -1,3 +1,28 @@
+<?php
+
+require "./utils.php";
+
+session_start();
+
+if (isset($_POST["submit-button"])) {
+  $quiz_code = $_POST["quiz-code"];
+
+  $sql = "SELECT id FROM quizzes WHERE code = ? LIMIT 1";
+  $stmt = prepare_and_execute($sql, [$quiz_code]);
+
+  if ($stmt->rowCount() == 0) {
+    $_SESSION["error_message"] = "Invalid quiz code. Please try again.";
+    header("Location: ./index.php");
+    exit;
+  }
+
+  $_SESSION["quiz_id"] = $stmt->fetchColumn();
+  header("Location: ./session/index.php");
+  exit;
+}
+
+?>
+
 <!doctype html>
 <html lang="en" class="overscroll-none">
 
@@ -33,9 +58,9 @@
             Advance your tutoring with our platform that empowers educators to easily design quizzes.
           </p>
           <div class="mt-10 flex items-center justify-center gap-x-6">
-            <a href="./start.php" class="rounded-md bg-indigo-600 w-[150px] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <button id="show-dialog" class="rounded-md bg-indigo-600 w-[150px] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
               Start a quiz
-            </a>
+            </button>
             <a href="./login.php" class="text-sm font-semibold leading-6 text-white">Log in as tutor <span aria-hidden="true">→</span></a>
           </div>
         </div>
@@ -126,6 +151,60 @@
       </div>
     </div>
   </div>
+
+  <dialog class="w-1/3 rounded-xl backdrop:backdrop-brightness-[65%]" id="dialog">
+    <form method="post" class="px-8 mx-auto pt-6 pb-8">
+      <div class="space-y-10">
+        <div class="border-b border-gray-900/10 pb-12">
+          <h2 class="text-base font-semibold leading-7 text-gray-900">Start a quiz</h2>
+          <?php if (isset($_SESSION["error_message"])) : ?>
+            <p class="mt-1 text-sm leading-6 text-red-600">Invalid quiz code. Please try again.</p>
+          <?php else : ?>
+            <p class="mt-1 text-sm leading-6 text-gray-600">Enter a quiz code to begin a quiz session.</p>
+          <?php endif; ?>
+          <?php
+
+          ?>
+
+          <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="sm:col-span-4">
+              <!-- <label class="block text-sm font-medium leading-6 text-gray-900">Name</label> -->
+              <div class="mt-2">
+                <input name="quiz-code" placeholder="Quiz code" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 flex items-center justify-end gap-x-6">
+        <button type="button" class="text-sm font-semibold leading-6 text-gray-900" id="js-close">Cancel</button>
+        <button type="submit" name="submit-button" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Enter</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const showBtn = document.getElementById("show-dialog");
+    const dialog = document.getElementById("dialog");
+    const jsCloseBtn = dialog.querySelector("#js-close");
+
+    showBtn.addEventListener("click", () => {
+      dialog.showModal();
+    });
+
+    jsCloseBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      dialog.close();
+    });
+  </script>
+
+  <?php if (isset($_SESSION["error_message"])) : ?>
+    <script>
+      showBtn.click();
+    </script>
+    <?php unset($_SESSION["error_message"]); ?>
+  <?php endif; ?>
 
 </body>
 
