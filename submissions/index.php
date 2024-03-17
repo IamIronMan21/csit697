@@ -149,15 +149,6 @@ $submissions = $stmt->fetchAll();
 
       for (const c of submissions) {
         const name = c.getAttribute("value");
-        if (!name.includes(searchInput.value)) {
-          c.style.display = "none";
-        } else {
-          c.style.display = "";
-        }
-      }
-
-      for (const c of submissions) {
-        const name = c.getAttribute("value");
         if (!(name.toLowerCase()).includes((searchInput.value.toLowerCase()))) {
           c.style.display = "none";
         } else {
