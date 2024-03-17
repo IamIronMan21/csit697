@@ -21,7 +21,14 @@ INSERT INTO `answers` (`id`, `content`, `question_id`, `created_at`) VALUES
 (11, 'Bauxite', 13, '2024-03-06 08:59:28'),
 (12, 'Graphite', 14, '2024-03-06 09:00:25'),
 (13, 'True', 15, '2024-03-06 09:01:11'),
-(14, 'Calcite', 16, '2024-03-06 09:03:11');
+(14, 'Calcite', 16, '2024-03-06 09:03:11'),
+(15, 'Mars', 17, '2024-03-17 17:42:44'),
+(16, 'Jupiter', 18, '2024-03-17 17:43:13'),
+(17, 'Pluto', 19, '2024-03-17 17:43:44'),
+(18, 'False', 20, '2024-03-17 17:46:00'),
+(19, 'True', 21, '2024-03-17 17:46:51'),
+(20, 'Leading', 22, '2024-03-17 17:50:13'),
+(21, 'Kerning', 23, '2024-03-17 17:50:34');
 
 INSERT INTO `choices` (`id`, `content`, `question_id`, `created_at`) VALUES
 (1, 'Magnetic forces', 1, '2024-03-04 06:18:20'),
@@ -63,13 +70,33 @@ INSERT INTO `choices` (`id`, `content`, `question_id`, `created_at`) VALUES
 (37, 'Quartz', 16, '2024-03-06 09:03:11'),
 (38, 'Halite', 16, '2024-03-06 09:03:11'),
 (39, 'Calcite', 16, '2024-03-06 09:03:11'),
-(40, 'Magnetite', 16, '2024-03-06 09:03:11');
+(40, 'Magnetite', 16, '2024-03-06 09:03:11'),
+(41, 'Venus', 17, '2024-03-17 17:42:44'),
+(42, 'Jupiter', 17, '2024-03-17 17:42:44'),
+(43, 'Mars', 17, '2024-03-17 17:42:44'),
+(44, 'Saturn', 17, '2024-03-17 17:42:44'),
+(45, 'Earth', 18, '2024-03-17 17:43:13'),
+(46, 'Saturn', 18, '2024-03-17 17:43:13'),
+(47, 'Uranus', 18, '2024-03-17 17:43:13'),
+(48, 'Jupiter', 18, '2024-03-17 17:43:13'),
+(49, 'Eris', 19, '2024-03-17 17:43:44'),
+(50, 'Haumea', 19, '2024-03-17 17:43:44'),
+(51, 'Makemake', 19, '2024-03-17 17:43:44'),
+(52, 'Pluto', 19, '2024-03-17 17:43:44'),
+(53, 'Kerning', 22, '2024-03-17 17:50:13'),
+(54, 'Leading', 22, '2024-03-17 17:50:13'),
+(55, 'Tracking', 22, '2024-03-17 17:50:13'),
+(56, 'Alignment', 22, '2024-03-17 17:50:13'),
+(57, 'Kerning', 23, '2024-03-17 17:50:34'),
+(58, 'Ligature', 23, '2024-03-17 17:50:34'),
+(59, 'Serif', 23, '2024-03-17 17:50:34'),
+(60, 'Baseline', 23, '2024-03-17 17:50:34');
 
 INSERT INTO `courses` (`id`, `name`, `tutor_id`, `created_at`) VALUES
-(1, 'Foundations of Geology', 1, '2024-03-01 06:15:57'),
-(2, 'Introduction to Computing', 1, '2024-03-02 15:34:52'),
-(3, 'Graphic Design I', 1, '2024-03-03 16:07:07'),
-(4, 'Basic Astronomy', 1, '2024-03-03 22:17:12');
+(1, 'Foundations of Geology', 1, '2024-02-20 06:15:57'),
+(2, 'Introduction to Computing', 1, '2024-02-25 15:34:52'),
+(3, 'Graphic Design I', 1, '2024-03-01 16:07:07'),
+(4, 'Basic Astronomy', 1, '2024-03-02 22:17:12');
 
 INSERT INTO `questions` (`id`, `type`, `content`, `quiz_id`, `created_at`) VALUES
 (1, 'MC', 'What is the primary driving force behind plate tectonics?', 1, '2024-03-04 06:18:20'),
@@ -87,15 +114,22 @@ INSERT INTO `questions` (`id`, `type`, `content`, `quiz_id`, `created_at`) VALUE
 (13, 'MC', 'Which mineral is a significant source of aluminum?', 4, '2024-03-06 08:59:28'),
 (14, 'MC', 'What mineral is commonly found in both pencil \"lead\" and lubricants?', 4, '2024-03-06 09:00:25'),
 (15, 'TF', 'The mineral diamond is composed of carbon atoms arranged in a crystal lattice structure.', 4, '2024-03-06 09:01:11'),
-(16, 'MC', 'Which mineral is commonly associated with the formation of stalactites and stalagmites in caves?', 4, '2024-03-06 09:03:11');
+(16, 'MC', 'Which mineral is commonly associated with the formation of stalactites and stalagmites in caves?', 4, '2024-03-06 09:03:11'),
+(17, 'MC', 'Which planet is known as the \"Red Planet\"?', 6, '2024-03-17 17:42:44'),
+(18, 'MC', 'Which planet has the most moons?', 6, '2024-03-17 17:43:13'),
+(19, 'MC', 'Which dwarf planet in our solar system was formerly considered the ninth planet until its reclassification in 2006?', 6, '2024-03-17 17:43:44'),
+(20, 'TF', 'The asteroid belt lies between Jupiter and Saturn.', 6, '2024-03-17 17:46:00'),
+(21, 'TF', 'Io is the only known celestial body in the solar system other than Earth where volcanic activity has been observed.', 6, '2024-03-17 17:46:51'),
+(22, 'MC', 'What is the term used to describe the space between lines of text in typography?', 3, '2024-03-17 17:50:13'),
+(23, 'MC', 'Which term describes the process of adjusting the spacing between pairs of letters in typography to improve visual appeal and readability?', 3, '2024-03-17 17:50:34');
 
 INSERT INTO `quizzes` (`id`, `name`, `code`, `course_id`, `created_at`) VALUES
-(1, 'Plate Tectonics', '96866', 1, '2024-03-01 06:17:44'),
-(2, 'Binary Numbers', '24128', 2, '2024-03-04 19:21:44'),
-(3, 'Typography', '27516', 3, '2024-03-04 16:29:19'),
-(4, 'Minerals', '12528', 1, '2024-03-04 16:29:35'),
-(5, 'Color Theory', '42887', 3, '2024-03-06 10:12:05'),
-(6, 'Our Solar System', '83596', 4, '2024-03-06 10:12:15');
+(1, 'Plate Tectonics', '96866', 1, '2024-02-22 06:17:44'),
+(2, 'Binary Numbers', '24128', 2, '2024-03-01 19:21:44'),
+(3, 'Typography', '27516', 3, '2024-03-02 16:29:19'),
+(4, 'Minerals', '12528', 1, '2024-03-10 16:29:35'),
+(5, 'Color Theory', '42887', 3, '2024-03-12 10:12:05'),
+(6, 'Our Solar System', '83596', 4, '2024-03-13 10:12:15');
 
 INSERT INTO `responses` (`id`, `content`, `score`, `submission_id`, `question_id`, `created_at`) VALUES
 (1, 'Convection currents in the mantle', 1, 1, 1, '2024-03-04 06:30:02'),
@@ -116,13 +150,18 @@ INSERT INTO `responses` (`id`, `content`, `score`, `submission_id`, `question_id
 (16, 'Magnetite', 0, 4, 13, '2024-03-06 09:08:09'),
 (17, 'Graphite', 1, 4, 14, '2024-03-06 09:08:09'),
 (18, 'True', 1, 4, 15, '2024-03-06 09:08:09'),
-(19, 'Calcite', 1, 4, 16, '2024-03-06 09:08:09');
+(19, 'Calcite', 1, 4, 16, '2024-03-06 09:08:09'),
+(20, 'Serif fonts have tails at the ends of its characters while sans-serif fonts do not.', 0.5, 5, 10, '2024-03-17 17:54:44'),
+(21, 'False', 1, 5, 11, '2024-03-17 17:54:44'),
+(22, 'Tracking', 0, 5, 22, '2024-03-17 17:54:44'),
+(23, 'Kerning', 1, 5, 23, '2024-03-17 17:54:44');
 
 INSERT INTO `submissions` (`id`, `submitter`, `quiz_id`, `created_at`) VALUES
-(1, 'Finnian', 1, '2024-03-04 06:30:02'),
-(2, 'Caden', 1, '2024-03-04 19:16:49'),
-(3, 'Harry', 2, '2024-03-04 16:36:36'),
-(4, 'Landon', 4, '2024-03-06 09:08:09');
+(1, 'Finnian', 1, '2024-02-23 06:30:02'),
+(2, 'Caden', 1, '2024-03-05 19:16:49'),
+(3, 'Harry', 2, '2024-03-09 16:36:36'),
+(4, 'Landon', 4, '2024-03-10 09:08:09'),
+(5, 'Finnian', 3, '2024-03-17 17:54:44');
 
 INSERT INTO `tutors` (`id`, `name`, `email`, `password`, `created_at`) VALUES
 (1, 'Emdadul', 'haquee1@montclair.edu', '$argon2i$v=19$m=65536,t=4,p=1$dnMvazVHZEoyWnE0NDJMSA$C0SDo+22raaug38gEi4gcE2p1ZxFS9BqfaDik1NVuew', '2024-02-04 05:27:05');
