@@ -67,10 +67,6 @@ foreach ($rows as $row) {
 $num_questions = $stmt->rowCount();
 $grade = round(($total_score / $num_questions) * 100, 2);
 
-// echo "<pre style='font-size: 9px;'>";
-// print_r($rows);
-// echo "</pre>";
-
 ?>
 
 <!doctype html>

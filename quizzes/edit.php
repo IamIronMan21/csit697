@@ -558,9 +558,9 @@ $rows = $stmt->fetchAll();
 
     <dialog class="w-2/5 rounded-xl backdrop:backdrop-brightness-[65%] h-[500px]" id="dialog">
       <div class="tab w-full flex select-none">
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b border-indigo-600 hover:border-indigo-500 text-indigo-700" value="multiple-choice-tab" onclick="openCity('multiple-choice-tab')">Multiple Choice</button>
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b hover:border-indigo-500" value="true-false-tab" onclick="openCity('true-false-tab')">True or False</button>
-        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b hover:border-indigo-500" value="open-ended-tab" onclick="openCity('open-ended-tab')">Open-Ended</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b border-indigo-600 hover:border-indigo-500 text-indigo-700" value="multiple-choice-tab" onclick="openTab('multiple-choice-tab')">Multiple Choice</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b hover:border-indigo-500" value="true-false-tab" onclick="openTab('true-false-tab')">True or False</button>
+        <button class="w-full tablinks pt-3.5 py-3 px-2 hover:text-indigo-500 border-b hover:border-indigo-500" value="open-ended-tab" onclick="openTab('open-ended-tab')">Open-Ended</button>
       </div>
       <hr class="mb-2">
 
@@ -736,7 +736,7 @@ $rows = $stmt->fetchAll();
     let tabcontent = document.getElementsByClassName("tabcontent");
     let tablinks = document.getElementsByClassName("tablinks");
 
-    function openCity(cityName) {
+    function openTab(cityName) {
       for (let i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
         tablinks[i].classList.remove("text-indigo-700")
@@ -749,10 +749,7 @@ $rows = $stmt->fetchAll();
           link.classList.add("border-indigo-600")
         }
       }
-      // document.getElementById(cityName).classList.add = "active";
     }
-
-    // openCity('multiple-choice-tab');
   </script>
 
   <script>

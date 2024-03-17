@@ -1,10 +1,11 @@
 <?php
-// Add the require statement for the utils.php file and start the session
+
 require "../utils.php";
+
 session_start();
 
 if (isset($_POST["quiz_id"])) {
-  delete_quiz($_POST['quiz_id']);
+  delete_quiz($_POST["quiz_id"]);
   $_SESSION["success_message"] = "Quiz has been deleted.";
   header("Location: ./index.php");
   exit;

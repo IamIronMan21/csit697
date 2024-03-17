@@ -18,7 +18,6 @@ if (isset($_POST["profile-save-button"])) {
   $sql = "UPDATE tutors SET name = ?, email = ? WHERE id = ?";
   prepare_and_execute($sql, [$name, $email, $_SESSION["tutor_id"]]);
   $_SESSION["success_message"] = "Profile updated successfully";
-  // Redirect to prevent form resubmission
   header("Location: .");
   exit;
 }
@@ -29,7 +28,9 @@ if (isset($_POST["password-save-button"])) {
 
   // Validate if new password and confirm password match
   if ($newPassword !== $confirmPassword) {
-    $errors['password'] = "Passwords does NOT match";
+    $_SESSION["error_message"] = "New password and confirm passwords do not match. Please try again.";
+    header("Location: .");
+    exit;
   } else {
     // Update password in the database
     $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -50,7 +51,7 @@ if (isset($_POST["delete-account-button"])) {
 
 ?>
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="overscroll-none">
 
 <head>
@@ -96,14 +97,12 @@ if (isset($_POST["delete-account-button"])) {
   <div class="mx-auto max-w-7xl bg-white border-slate-500 min-h-screen px-12 pt-4">
 
     <div class="w-3/5 mx-auto">
-
       <?php
       if (isset($_SESSION["error_message"])) {
         display_error_message($_SESSION["error_message"]);
         unset($_SESSION["error_message"]);
       }
       ?>
-
       <?php
       if (isset($_SESSION["success_message"])) {
         display_success_message($_SESSION["success_message"]);
@@ -153,7 +152,6 @@ if (isset($_POST["delete-account-button"])) {
                 <div class="mt-2">
                   <input type="password" required name="new-password" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="••••••••">
                 </div>
-                <?= isset($errors['password']) ? '<p class="text-red-500 text-sm mt-1">' . $errors['password'] . '</p>' : '' ?>
               </div>
               <!-- Confirm New Password -->
               <div class="col-span-3">
