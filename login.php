@@ -83,18 +83,9 @@ if (isset($_POST["submit-button"])) {
       <hr class="w-4/5 mx-auto border-slate-300">
 
       <div class="text-center">
-
         <div class="my-5 text-slate-500">
           Don't have an account? <a href="./register.php" class="text-indigo-600 hover:text-indigo-500">Sign up</a>
         </div>
-        <!-- <a href="./index.php" id="" class="flex w-1/4 items-center mx-auto justify-center rounded-md bg-white px- py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-          </svg>
-          <div class="text-center ml-2">
-            Exit
-          </div>
-        </a> -->
       </div>
     </form>
 
