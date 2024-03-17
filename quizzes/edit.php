@@ -8,7 +8,6 @@ $dbh = connect_to_database();
 
 $quiz_id = $_GET["quiz_id"];
 
-
 $sql = "SELECT * FROM quizzes WHERE id = ? LIMIT 1";
 $stmt = prepare_and_execute($sql, [$quiz_id]);
 $quiz = $stmt->fetch();
@@ -76,8 +75,8 @@ if (isset($_POST["new-tf-question"])) {
   $stmt->execute([$_POST["true-false-option"], $question_id]);
 
   $_SESSION["success_message"] = "Added new question.";
-  // header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
-  // exit;
+  header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
+  exit;
 }
 
 if (isset($_POST["new-oe-question"])) {
@@ -92,8 +91,8 @@ if (isset($_POST["new-oe-question"])) {
   $stmt->execute(["OE", $_POST["question"], $quiz_id]);
 
   $_SESSION["success_message"] = "Added new question.";
-  // header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
-  // exit;
+  header("Location: ./edit.php?quiz_id={$_GET["quiz_id"]}");
+  exit;
 }
 
 if (isset($_POST["edit-question-submit-button"])) {
@@ -133,11 +132,6 @@ if (isset($_POST["edit-question-submit-button"])) {
 
     foreach ($choices as $index => $choice) {
       $new_choice = $_POST["question-$id-choice-$index"];
-
-      // if ($choice["content"] == $answer) {
-      //   $sql = "UPDATE answers SET content = ? WHERE question_id = ?";
-      //   prepare_and_execute($sql, [$new_choice, $id]);
-      // }
 
       $sql = "UPDATE choices SET content = ? WHERE id = ?";
       prepare_and_execute($sql, [$new_choice, $choice["id"]]);
@@ -417,21 +411,6 @@ $rows = $stmt->fetchAll();
                 </div>
               <?php endif; ?>
             </div>
-
-            <!-- <div class="mt-6 space-y-6">
-              <div class="flex items-center gap-x-3">
-                <input id="push-everything" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label for="push-everything" class="block text-sm font-medium leading-6 text-gray-900">Everything</label>
-              </div>
-              <div class="flex items-center gap-x-3">
-                <input id="push-email" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label for="push-email" class="block text-sm font-medium leading-6 text-gray-900">Same as email</label>
-              </div>
-              <div class="flex items-center gap-x-3">
-                <input id="push-nothing" name="push-notifications" type="radio" class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600">
-                <label for="push-nothing" class="block text-sm font-medium leading-6 text-gray-900">No push notifications</label>
-              </div>
-            </div> -->
           </div>
 
           <!-- Edit question modal -->
