@@ -6,28 +6,6 @@ session_start();
 
 $errors = [];
 
-// Check if the function is already defined
-if (!function_exists('delete_tutor_and_associated_data')) {
-  // Function to delete tutor and associated data
-  function delete_tutor_and_associated_data($tutor_id)
-  {
-    // Delete all associated data for the tutor
-    // This includes courses, quizzes, questions, answers, choices, submissions, and responses
-    // You can extend this function as needed to delete more associated data
-    $sql = "SELECT id FROM courses WHERE tutor_id = ?";
-    $stmt = prepare_and_execute($sql, [$tutor_id]);
-
-    foreach ($stmt->fetchAll() as $row) {
-      delete_course($row["id"]);
-    }
-
-    // After deleting all associated data, delete the tutor
-    $sql = "DELETE FROM tutors WHERE id = ?";
-    prepare_and_execute($sql, [$tutor_id]);
-  }
-}
-
-// Fetch tutor data
 $sql = "SELECT * FROM tutors WHERE id = ?";
 $stmt = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
 $tutor = $stmt->fetch();
@@ -65,7 +43,7 @@ if (isset($_POST["password-save-button"])) {
 }
 
 if (isset($_POST["delete-account-button"])) {
-  delete_tutor_and_associated_data($_SESSION["tutor_id"]);
+  delete_tutor($_SESSION["tutor_id"]);
   header("Location: ../index.php");
   exit;
 }
