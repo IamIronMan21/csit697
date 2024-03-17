@@ -182,14 +182,6 @@ $rows = $stmt->fetchAll();
         </form>
       </div>
       <div class="w-1/4">
-        <!-- <div class="flex justify-start  top-[16px]">
-            <div class="w-2/5 items-center justify-center rounded-md bg-white px-3 py-3 shadow-sm ring-1 ring-inset ring-gray-300 select-none">
-              <div class="text-sm text-slate-500">Name</div>
-              <div class="block">
-                <p class="text-gray-900">John</p>
-              </div>
-            </div>
-          </div> -->
         <div class="flex justify-start sticky top-[16px]">
           <div class="w-1/2 items-center justify-center rounded-md bg-white px-3 py-3 shadow-sm ring-1 ring-inset ring-gray-300 select-none">
             <div class="text-sm text-slate-500">Time elapsed</div>
