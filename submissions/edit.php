@@ -173,7 +173,7 @@ $grade = round(($total_score / $num_questions) * 100, 2);
               <?php
               $border_color = "";
               if ($row["type"] == "OE") {
-                $border_color = "border-gray-300";
+                $border_color = "border-slate-400";
               } else {
                 if ($row["response"] ==  $row["answer"]) {
                   $border_color = "border-green-500";
