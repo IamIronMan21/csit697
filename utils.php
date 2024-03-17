@@ -151,19 +151,6 @@ function delete_tutor($tutor_id)
   prepare_and_execute($sql, [$tutor_id]);
 }
 
-function delete_tutor_and_associated_data($tutor_id)
-{
-  $sql = "SELECT id FROM courses WHERE tutor_id = ?";
-  $stmt = prepare_and_execute($sql, [$tutor_id]);
-
-  foreach ($stmt->fetchAll() as $row) {
-    delete_course($row["id"]);
-  }
-
-  $sql = "DELETE FROM tutors WHERE id = ?";
-  prepare_and_execute($sql, [$tutor_id]);
-}
-
 function display_success_message($message)
 {
   echo <<<EOD
