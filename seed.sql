@@ -28,7 +28,8 @@ INSERT INTO `answers` (`id`, `content`, `question_id`, `created_at`) VALUES
 (18, 'False', 20, '2024-03-17 17:46:00'),
 (19, 'True', 21, '2024-03-17 17:46:51'),
 (20, 'Leading', 22, '2024-03-17 17:50:13'),
-(21, 'Kerning', 23, '2024-03-17 17:50:34');
+(21, 'Kerning', 23, '2024-03-17 17:50:34'),
+(22, 'Value', 24, '2024-03-17 18:05:43');
 
 INSERT INTO `choices` (`id`, `content`, `question_id`, `created_at`) VALUES
 (1, 'Magnetic forces', 1, '2024-03-04 06:18:20'),
@@ -90,7 +91,11 @@ INSERT INTO `choices` (`id`, `content`, `question_id`, `created_at`) VALUES
 (57, 'Kerning', 23, '2024-03-17 17:50:34'),
 (58, 'Ligature', 23, '2024-03-17 17:50:34'),
 (59, 'Serif', 23, '2024-03-17 17:50:34'),
-(60, 'Baseline', 23, '2024-03-17 17:50:34');
+(60, 'Baseline', 23, '2024-03-17 17:50:34'),
+(61, 'Hue', 24, '2024-03-17 18:05:43'),
+(62, 'Saturation', 24, '2024-03-17 18:05:43'),
+(63, 'Value', 24, '2024-03-17 18:05:43'),
+(64, 'Tint', 24, '2024-03-17 18:05:43');
 
 INSERT INTO `courses` (`id`, `name`, `tutor_id`, `created_at`) VALUES
 (1, 'Foundations of Geology', 1, '2024-02-20 06:15:57'),
@@ -121,7 +126,8 @@ INSERT INTO `questions` (`id`, `type`, `content`, `quiz_id`, `created_at`) VALUE
 (20, 'TF', 'The asteroid belt lies between Jupiter and Saturn.', 6, '2024-03-17 17:46:00'),
 (21, 'TF', 'Io is the only known celestial body in the solar system other than Earth where volcanic activity has been observed.', 6, '2024-03-17 17:46:51'),
 (22, 'MC', 'What is the term used to describe the space between lines of text in typography?', 3, '2024-03-17 17:50:13'),
-(23, 'MC', 'Which term describes the process of adjusting the spacing between pairs of letters in typography to improve visual appeal and readability?', 3, '2024-03-17 17:50:34');
+(23, 'MC', 'Which term describes the process of adjusting the spacing between pairs of letters in typography to improve visual appeal and readability?', 3, '2024-03-17 17:50:34'),
+(24, 'MC', 'Which term in color theory describes the brightness or dullness of a color, often affected by adding black, white, or gray?', 5, '2024-03-17 18:05:43');
 
 INSERT INTO `quizzes` (`id`, `name`, `code`, `course_id`, `created_at`) VALUES
 (1, 'Plate Tectonics', '96866', 1, '2024-02-22 06:17:44'),
