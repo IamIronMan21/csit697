@@ -171,7 +171,6 @@ $courses = $stmt->fetchAll();
                 </a>
               </td>
               <td>
-                <!-- <a href="?action=delete&quiz_id=<?= $row["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Delete</a> -->
                 <form method="post">
                   <input type="hidden" name="quiz_id" value="<?= $row["id"] ?>">
                   <button type="submit" class="text-indigo-600 underline hover:text-indigo-500">Delete</button>
@@ -228,15 +227,6 @@ $courses = $stmt->fetchAll();
 
       searchInput.addEventListener("input", (e) => {
         e.preventDefault();
-
-        for (const c of quizzes) {
-          const name = c.getAttribute("value");
-          if (!name.includes(searchInput.value)) {
-            c.style.display = "none";
-          } else {
-            c.style.display = "";
-          }
-        }
 
         for (const c of quizzes) {
           const name = c.getAttribute("value");
