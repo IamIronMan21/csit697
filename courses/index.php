@@ -201,15 +201,6 @@ if (isset($_POST["course_id"])) {
       searchInput.addEventListener("input", (e) => {
         e.preventDefault();
 
-        // for (const c of courses) {
-        //   const name = c.getAttribute("value");
-        //   if (!name.includes(searchInput.value)) {
-        //     c.style.display = "none";
-        //   } else {
-        //     c.style.display = "";
-        //   }
-        // }
-
         for (const c of courses) {
           const name = c.getAttribute("value");
           if (!(name.toLowerCase()).includes((searchInput.value.toLowerCase()))) {
