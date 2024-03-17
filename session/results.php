@@ -235,7 +235,7 @@ $grade = round(($num_correct / $num_questions) * 100, 2);
 
                 <?php elseif ($row["type"] == "OE") : ?>
                   <div class="flex items-center gap-x-3 my-2">
-                    <textarea id="<?= $h ?>" name="<?= $h ?>" rows="3" class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"><?= $row["response"]; ?></textarea>
+                    <textarea id="<?= $h ?>" name="<?= $h ?>" rows="3" disabled class="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"><?= $row["response"]; ?></textarea>
                   </div>
                 <?php endif; ?>
               </div>
