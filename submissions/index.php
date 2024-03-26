@@ -127,7 +127,7 @@ $submissions = $stmt->fetchAll();
                 <a href="<?= "./edit.php?submission_id=" . $submission["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
               </td>
               <td>
-                <form method="post">
+                <form method="post" onsubmit="return confirm('Are you sure you want to delete this submission?');">
                   <input type="hidden" name="submission_id" value="<?= $submission["id"] ?>">
                   <button type="submit" class="text-indigo-600 underline hover:text-indigo-500">Delete</button>
                 </form>

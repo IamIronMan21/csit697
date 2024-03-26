@@ -170,7 +170,7 @@ $courses = $stmt->fetchAll();
                 </a>
               </td>
               <td>
-                <form method="post">
+                <form method="post" onsubmit="return confirm('Are you sure you want to delete this quiz?');">
                   <input type="hidden" name="quiz_id" value="<?= $row["id"] ?>">
                   <button type="submit" class="text-indigo-600 underline hover:text-indigo-500">Delete</button>
                 </form>

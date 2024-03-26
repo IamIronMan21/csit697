@@ -171,7 +171,7 @@ if (isset($_POST["delete-account-button"])) {
           <h2 class="text-base font-semibold leading-7 text-gray-900">Account Removal</h2>
           <p class="mt-1 text-sm leading-6 text-gray-600">Deleting your account is permanent. All of your data will be lost and cannot be restored.</p>
 
-          <form method="post">
+          <form method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
             <div class="mt-10">
               <button type="submit" name="delete-account-button" class="w-[150px] rounded-md bg-red-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">Delete Account</button>
             </div>

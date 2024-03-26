@@ -158,7 +158,7 @@ if (isset($_POST["course_id"])) {
                 <a href="./edit.php?course_id=<?= $course["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
               </td>
               <td>
-                <form method="post">
+                <form method="post" onsubmit="return confirm('Are you sure you want to delete this course?');">
                   <input type="hidden" name="course_id" value="<?= $course["id"] ?>">
                   <button type="submit" class="text-indigo-600 underline hover:text-indigo-500">Delete</button>
                 </form>
