@@ -9,11 +9,11 @@ if (isset($_POST["new-course-button"])) {
   $semester = $_POST["semester"];
   $institution = $_POST["institution"];
 
-  $sql = "SELECT 1 FROM courses WHERE name = ? LIMIT 1";
-  $stmt = prepare_and_execute($sql, [$course_name]);
+  $sql = "SELECT 1 FROM courses WHERE name = ? AND semester = ? AND institution = ? LIMIT 1";
+  $stmt = prepare_and_execute($sql, [$course_name, $semester, $institution]);
 
   if ($stmt->rowCount() == 1) {
-    $_SESSION["error_message"] = "Course entered already exists.";
+    $_SESSION["error_message"] = "A similar course already exists. Please verify your input.";
     header("Location: ./index.php");
     exit;
   }
