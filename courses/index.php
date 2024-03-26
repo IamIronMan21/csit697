@@ -28,8 +28,9 @@ $sql = "
 SELECT
   c.id,
   c.name,
-  c.created_at,
-  COUNT(q.id) as count
+  c.semester,
+  c.institution,
+  c.created_at
 FROM
   courses c
   LEFT JOIN quizzes q ON c.id = q.course_id
@@ -137,8 +138,9 @@ if (isset($_POST["course_id"])) {
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
           <th class="font-semibold w-[4%] pl-1">#</th>
-          <th class="font-semibold text-left w-[51%] pl-8">Name</th>
-          <th class="font-semibold text-left w-[18%]">Quizzes</th>
+          <th class="font-semibold text-left w-[30%] pl-8">Name</th>
+          <th class="font-semibold text-left w-[21%]">Semester</th>
+          <th class="font-semibold text-left w-[18%]">Institution</th>
           <th class="font-semibold text-left w-[15%]">Date Created</th>
           <th class="font-semibold w-[6%]"></th>
           <th class="font-semibold w-[6%]"></th>
@@ -149,7 +151,10 @@ if (isset($_POST["course_id"])) {
               <td class="index text-center font-light text-slate-500 pl-1"><?= $index + 1 ?></td>
               <td class="pl-8 text-[15px]"><?= $course["name"] ?></td>
               <td>
-                <?= $course["count"] ?>
+                <?= $course["semester"] ?>
+              </td>
+              <td>
+                <?= $course["institution"] ?>
               </td>
               <td class="text-slate-500">
                 <?= (new DateTime($course["created_at"]))->format('m/d/Y') ?>
