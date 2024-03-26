@@ -8,9 +8,9 @@ $quiz_id = $_SESSION["quiz_id"];
 
 if (isset($_POST["submit"])) {
   $dbh = connect_to_database();
-  $sql = "INSERT INTO submissions (submitter, quiz_id) VALUES (?, ?)";
+  $sql = "INSERT INTO submissions (submitter, email, quiz_id) VALUES (?, ?, ?)";
   $stmt = $dbh->prepare($sql);
-  $stmt->execute([$_POST["submitter"], $quiz_id]);
+  $stmt->execute([$_POST["submitter"], $_POST["email"], $quiz_id]);
 
   $submission_id = $dbh->lastInsertId();
 
@@ -102,7 +102,7 @@ $rows = $stmt->fetchAll();
           <div class="w-4/5 mx-auto rounded-md border-slate-400 mb-3 pb-2 bg-white">
             <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
             <div class="mt-2">
-              <input name="submitter" placeholder="" type="text" required class="block w-1/2 rounded-md border-0 py-1.5 px-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <input name="submitter" minlength="4" maxlength="40" type="text" required class="block w-1/2 rounded-md border-0 py-1.5 px-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
             <div class="flex items-center mt-4">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-slate-500">
@@ -111,6 +111,12 @@ $rows = $stmt->fetchAll();
               <p class="text-slate-500 text-[14px] pl-1.5 select-none">
                 Use a name that the tutor can recognize as yours.
               </p>
+            </div>
+            <div class="mt-4 mb-2">
+              <label class="block text-sm font-medium leading-6 text-gray-900">Email <span class="font-normal text-slate-400">(optional)</span></label>
+              <div class="mt-2">
+                <input name="email" type="text" class="block w-1/2 rounded-md border-0 py-1.5 px-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              </div>
             </div>
           </div>
 
