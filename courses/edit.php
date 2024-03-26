@@ -11,13 +11,14 @@ if (isset($_POST["save-button"])) {
   $new_semester = $_POST["new-semester"];
   $new_institution = $_POST["new-institution"];
 
-  // $sql = "SELECT 1 FROM courses WHERE name = ? LIMIT 1";
-  // $stmt = prepare_and_execute($sql, [$new_course_name]);
-  // if ($stmt->rowCount() == 1) {
-  //   $_SESSION["error_message"] = "Course name already exists. Please choose a unique name.";
-  //   header("Location: ./edit.php?course_id=$course_id");
-  //   exit;
-  // }
+  $sql = "SELECT 1 FROM courses WHERE name = ? AND semester = ? AND institution = ? LIMIT 1";
+  $stmt = prepare_and_execute($sql, [$new_course_name, $new_semester, $new_institution]);
+
+  if ($stmt->rowCount() == 1) {
+    $_SESSION["error_message"] = "A similar course already exists. Please verify your input.";
+    header("Location: ./edit.php?course_id=$course_id");
+    exit;
+  }
 
   $sql = "UPDATE courses SET name = ?, semester = ?, institution = ? WHERE id = ?";
   prepare_and_execute($sql, [$new_course_name, $new_semester, $new_institution, $_GET["course_id"]]);
