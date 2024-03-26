@@ -19,6 +19,8 @@ CREATE TABLE `choices` (
 CREATE TABLE `courses` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `semester` varchar(255) NOT NULL,
+  `institution` varchar(255) NOT NULL,
   `tutor_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
