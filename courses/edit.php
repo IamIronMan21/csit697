@@ -8,19 +8,21 @@ $course_id = $_GET["course_id"];
 
 if (isset($_POST["save-button"])) {
   $new_course_name = $_POST["new-name"];
+  $new_semester = $_POST["new-semester"];
+  $new_institution = $_POST["new-institution"];
 
-  $sql = "SELECT 1 FROM courses WHERE name = ? LIMIT 1";
-  $stmt = prepare_and_execute($sql, [$new_course_name]);
-  if ($stmt->rowCount() == 1) {
-    $_SESSION["error_message"] = "Course name already exists. Please choose a unique name.";
-    header("Location: ./edit.php?course_id=$course_id");
-    exit;
-  }
+  // $sql = "SELECT 1 FROM courses WHERE name = ? LIMIT 1";
+  // $stmt = prepare_and_execute($sql, [$new_course_name]);
+  // if ($stmt->rowCount() == 1) {
+  //   $_SESSION["error_message"] = "Course name already exists. Please choose a unique name.";
+  //   header("Location: ./edit.php?course_id=$course_id");
+  //   exit;
+  // }
 
-  $sql = "UPDATE courses SET name = ? WHERE id = ?";
-  prepare_and_execute($sql, [$new_course_name, $_GET["course_id"]]);
+  $sql = "UPDATE courses SET name = ?, semester = ?, institution = ? WHERE id = ?";
+  prepare_and_execute($sql, [$new_course_name, $new_semester, $new_institution, $_GET["course_id"]]);
 
-  $_SESSION["success_message"] = "New course name has been saved.";
+  $_SESSION["success_message"] = "Success! Your changes have been saved.";
   header("Location: ./edit.php?course_id=$course_id");
   exit;
 }
@@ -103,11 +105,23 @@ $course = $stmt->fetch();
             <h2 class="text-base font-semibold leading-7 text-gray-900">Edit Course</h2>
             <p class="mt-1 text-sm leading-6 text-gray-600">Update the information of an existing course.</p>
 
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
               <div class="sm:col-span-4">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                 <div class="mt-2">
                   <input name="new-name" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $course["name"] ?>">
+                </div>
+              </div>
+              <div class="sm:col-span-4">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Semester</label>
+                <div class="mt-2">
+                  <input name="new-semester" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $course["semester"] ?>">
+                </div>
+              </div>
+              <div class="sm:col-span-4">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Institution</label>
+                <div class="mt-2">
+                  <input name="new-institution" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value="<?= $course["institution"] ?>">
                 </div>
               </div>
             </div>
