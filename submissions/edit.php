@@ -147,6 +147,12 @@ $grade = round(($total_score / $num_questions) * 100, 2);
                 <dt class="text-sm font-medium leading-6 text-gray-900">Submitter</dt>
                 <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><?= $submission["submitter"] ?></dd>
               </div>
+              <?php if ($submission["email"]) : ?>
+                <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt class="text-sm font-medium leading-6 text-gray-900">Email</dt>
+                  <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><?= $submission["email"] ?></dd>
+                </div>
+              <?php endif; ?>
               <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt class="text-sm font-medium leading-6 text-gray-900">Course</dt>
                 <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"><?= $course ?></dd>
