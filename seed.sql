@@ -97,11 +97,11 @@ INSERT INTO `choices` (`id`, `content`, `question_id`, `created_at`) VALUES
 (63, 'Value', 24, '2024-03-17 18:05:43'),
 (64, 'Tint', 24, '2024-03-17 18:05:43');
 
-INSERT INTO `courses` (`id`, `name`, `tutor_id`, `created_at`) VALUES
-(1, 'Foundations of Geology', 1, '2024-02-20 06:15:57'),
-(2, 'Introduction to Computing', 1, '2024-02-25 15:34:52'),
-(3, 'Graphic Design I', 1, '2024-03-01 16:07:07'),
-(4, 'Basic Astronomy', 1, '2024-03-02 22:17:12');
+INSERT INTO `courses` (`id`, `name`, `semester`, `institution`, `tutor_id`, `created_at`) VALUES
+(1, 'Foundations of Geology', 'Summer 2023', 'New York University', 1, '2024-02-20 11:15:57'),
+(2, 'Introduction to Computing', 'Fall 2023', 'Rutgers University', 1, '2024-02-25 20:34:52'),
+(3, 'Graphic Design I', 'Winter 2024', 'NJIT', 1, '2024-03-01 21:07:07'),
+(4, 'Basic Astronomy', 'Spring 2024', 'Princeton University', 1, '2024-03-03 03:17:12');
 
 INSERT INTO `questions` (`id`, `type`, `content`, `quiz_id`, `created_at`) VALUES
 (1, 'MC', 'What is the primary driving force behind plate tectonics?', 1, '2024-03-04 06:18:20'),
