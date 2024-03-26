@@ -6,6 +6,8 @@ session_start();
 
 if (isset($_POST["new-course-button"])) {
   $course_name = $_POST["course-name"];
+  $semester = $_POST["semester"];
+  $institution = $_POST["institution"];
 
   $sql = "SELECT 1 FROM courses WHERE name = ? LIMIT 1";
   $stmt = prepare_and_execute($sql, [$course_name]);
@@ -16,8 +18,8 @@ if (isset($_POST["new-course-button"])) {
     exit;
   }
 
-  $sql = "INSERT INTO courses (name, tutor_id) VALUES (?, ?)";
-  prepare_and_execute($sql, [$course_name, $_SESSION["tutor_id"]]);
+  $sql = "INSERT INTO courses (name, semester, institution, tutor_id) VALUES (?, ?, ?, ?)";
+  prepare_and_execute($sql, [$course_name, $semester, $institution, $_SESSION["tutor_id"]]);
 
   $_SESSION["success_message"] = "Course has been added.";
   header("Location: ./index.php");
@@ -181,11 +183,23 @@ if (isset($_POST["course_id"])) {
             <h2 class="text-base font-semibold leading-7 text-gray-900">New Course</h2>
             <p class="mt-1 text-sm leading-6 text-gray-600">Create a new course here.</p>
 
-            <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div class="mt-8 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
               <div class="sm:col-span-4">
                 <label class="block text-sm font-medium leading-6 text-gray-900">Name</label>
                 <div class="mt-2">
                   <input name="course-name" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                </div>
+              </div>
+              <div class="sm:col-span-4">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Semester</label>
+                <div class="mt-2">
+                  <input name="semester" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+                </div>
+              </div>
+              <div class="sm:col-span-4">
+                <label class="block text-sm font-medium leading-6 text-gray-900">Institution</label>
+                <div class="mt-2">
+                  <input name="institution" type="text" class="block px-2.5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
                 </div>
               </div>
             </div>
