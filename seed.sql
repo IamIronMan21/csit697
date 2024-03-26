@@ -162,12 +162,12 @@ INSERT INTO `responses` (`id`, `content`, `score`, `submission_id`, `question_id
 (22, 'Tracking', 0, 5, 22, '2024-03-17 17:54:44'),
 (23, 'Kerning', 1, 5, 23, '2024-03-17 17:54:44');
 
-INSERT INTO `submissions` (`id`, `submitter`, `quiz_id`, `created_at`) VALUES
-(1, 'Finnian', 1, '2024-02-23 06:30:02'),
-(2, 'Caden', 1, '2024-03-05 19:16:49'),
-(3, 'Harry', 2, '2024-03-09 16:36:36'),
-(4, 'Landon', 4, '2024-03-10 09:08:09'),
-(5, 'Finnian', 3, '2024-03-17 17:54:44');
+INSERT INTO `submissions` (`id`, `submitter`, `email`, `quiz_id`, `created_at`) VALUES
+(1, 'Finnian', 'finnian1234@example.com', 1, '2024-02-23 11:30:02'),
+(2, 'Caden', NULL, 1, '2024-03-06 00:16:49'),
+(3, 'Harry', 'harry5678@example.com', 2, '2024-03-09 21:36:36'),
+(4, 'Landon', 'landon9012@example.com', 4, '2024-03-10 13:08:09'),
+(5, 'Finnian', 'finnian1234@example.com', 3, '2024-03-17 21:54:44');
 
 INSERT INTO `tutors` (`id`, `name`, `email`, `password`, `created_at`) VALUES
 (1, 'Emdadul', 'haquee1@montclair.edu', '$argon2i$v=19$m=65536,t=4,p=1$dnMvazVHZEoyWnE0NDJMSA$C0SDo+22raaug38gEi4gcE2p1ZxFS9BqfaDik1NVuew', '2024-02-04 05:27:05');
