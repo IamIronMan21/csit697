@@ -16,6 +16,7 @@ SELECT
   q.name AS course_name,
   c.name AS quiz_name,
   s.submitter,
+  s.email,
   s.created_at
 FROM
   courses c,
@@ -30,6 +31,22 @@ ORDER BY
 ";
 $stmt  = prepare_and_execute($sql, [$_SESSION["tutor_id"]]);
 $submissions = $stmt->fetchAll();
+
+$array = [];
+foreach ($submissions as $index => $submission) {
+
+  $course = $submission["course_name"];
+  if (empty($array[$course])) {
+    $array[$course] = [];
+  }
+  $array[$course][] = [
+    "id" => $submission["id"],
+    "submitter" => $submission["submitter"],
+    "email" => $submission["email"] ?? "-",
+    "quiz_name" => $submission["quiz_name"],
+    "created_at" => $submission["created_at"]
+  ];
+}
 
 ?>
 
@@ -105,34 +122,42 @@ $submissions = $stmt->fetchAll();
     <div class="w-full h-fit border border-slate-500 shadow-sm rounded-lg mb-10 overflow-hidden">
       <table class="w-full">
         <thead class="border-b border-slate-500 h-[35px] text-[15px]">
-          <th class="font-semibold w-[4%] pl-1">#</th>
-          <th class="font-semibold text-left w-[30%] pl-8">Submitter</th>
-          <th class="font-semibold text-left w-[21%]">Course</th>
+          <th class="font-semibold text-left w-[34%] pl-8">Submitter</th>
+          <th class="font-semibold text-left w-[21%]">Email</th>
           <th class="font-semibold text-left w-[18%]">Quiz</th>
           <th class="font-semibold text-left w-[15%]">Date Submitted</th>
           <th class="font-semibold w-[6%]"></th>
           <th class="font-semibold w-[6%]"></th>
         </thead>
         <tbody class="divide-y divide-slate-300">
-          <?php foreach ($submissions as $index => $submission) : ?>
-            <tr class="submission h-[45px] <?= ($index % 2 == 1) ? "bg-slate-100" : ""; ?>" value="<?= $submission["submitter"] ?>">
-              <td class="index text-center font-light text-slate-500 pl-1"><?= $index + 1 ?></td>
-              <td class="pl-8"><?= $submission["submitter"] ?></td>
-              <td><?= $submission["quiz_name"] ?></td>
-              <td><?= $submission["course_name"] ?></td>
-              <td class="text-slate-500">
-                <?= (new DateTime($submission["created_at"]))->format('m/d/Y') ?>
-              </td>
-              <td>
-                <a href="<?= "./edit.php?submission_id=" . $submission["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
-              </td>
-              <td>
-                <form method="post" onsubmit="return confirm('Are you sure you want to delete this submission?');">
-                  <input type="hidden" name="submission_id" value="<?= $submission["id"] ?>">
-                  <button type="submit" class="text-indigo-600 underline hover:text-indigo-500">Delete</button>
-                </form>
-              </td>
+          <?php foreach ($array as $course => $submissions) : ?>
+            <tr class="h-[30px] w-full bg-slate-100">
+              <td class="pl-8 font-bold text-xs  text-slate-900"><?= $course ?></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
+            <?php foreach ($submissions as $index => $submission) : ?>
+              <tr class="submission h-[45px]" value=" <?= $submission["submitter"] ?>">
+                <td class="pl-8"><?= $submission["submitter"] ?></td>
+                <td><?= $submission["email"] ?></td>
+                <td><?= $submission["quiz_name"] ?></td>
+                <td class="text-slate-500">
+                  <?= (new DateTime($submission["created_at"]))->format('m/d/Y') ?>
+                </td>
+                <td>
+                  <a href="<?= "./edit.php?submission_id=" . $submission["id"] ?>" class="text-indigo-600 underline hover:text-indigo-500">Edit</a>
+                </td>
+                <td>
+                  <form method="post" onsubmit="return confirm('Are you sure you want to delete this submission?');">
+                    <input type="hidden" name="submission_id" value="<?= $submission["id"] ?>">
+                    <button type="submit" class="text-indigo-600 underline hover:text-indigo-500">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <?php endforeach; ?>
           <?php endforeach; ?>
         </tbody>
       </table>
